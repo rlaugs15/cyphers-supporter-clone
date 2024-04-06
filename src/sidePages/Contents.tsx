@@ -7,11 +7,11 @@ function Contents() {
     nav("/");
   };
   return (
-    <div className="bg-white w-96 drop-shadow-md h-full">
-      <header className="text-3xl text-center font-semibold border-b border-slate-300 py-2">
+    <div className="h-full bg-white w-96 drop-shadow-md">
+      <header className="py-2 text-3xl font-semibold text-center border-b border-slate-300">
         CPSP.KR
       </header>
-      <main className=" mx-1 my-2 text-sm h-full overflow-y-auto">
+      <main className="h-full mx-1 my-2 overflow-y-auto text-sm ">
         <div className="font-semibold">메뉴</div>
         <Nav
           onClick={onHomeClick}
@@ -39,15 +39,15 @@ function Contents() {
                 className="w-5 h-5"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             }
             text="전적검색"
           />
-          <aside className=" ml-4">
+          <aside className="ml-4 ">
             <Nav
               svg={
                 <svg
@@ -57,9 +57,9 @@ function Contents() {
                   className="w-5 h-5"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               }
@@ -74,9 +74,9 @@ function Contents() {
                   className="w-5 h-5"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               }
@@ -99,7 +99,7 @@ function Contents() {
             }
             text="캐릭터"
           />
-          <aside className=" ml-4">
+          <aside className="ml-4 ">
             <Nav
               svg={
                 <svg
@@ -130,7 +130,7 @@ function Contents() {
             }
             text="통계"
           />
-          <aside className=" ml-4">
+          <aside className="ml-4 ">
             <Nav
               svg={
                 <svg
@@ -222,15 +222,15 @@ function Contents() {
                 className="w-5 h-5"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M3 2.25a.75.75 0 0 1 .75.75v.54l1.838-.46a9.75 9.75 0 0 1 6.725.738l.108.054A8.25 8.25 0 0 0 18 4.524l3.11-.732a.75.75 0 0 1 .917.81 47.784 47.784 0 0 0 .005 10.337.75.75 0 0 1-.574.812l-3.114.733a9.75 9.75 0 0 1-6.594-.77l-.108-.054a8.25 8.25 0 0 0-5.69-.625l-2.202.55V21a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 3 2.25Z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             }
             text="랭킹 (공식전)"
           />
-          <aside className=" ml-4">
+          <aside className="ml-4 ">
             <Nav
               svg={
                 <svg
@@ -240,9 +240,9 @@ function Contents() {
                   className="w-5 h-5"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M3 2.25a.75.75 0 0 1 .75.75v.54l1.838-.46a9.75 9.75 0 0 1 6.725.738l.108.054A8.25 8.25 0 0 0 18 4.524l3.11-.732a.75.75 0 0 1 .917.81 47.784 47.784 0 0 0 .005 10.337.75.75 0 0 1-.574.812l-3.114.733a9.75 9.75 0 0 1-6.594-.77l-.108-.054a8.25 8.25 0 0 0-5.69-.625l-2.202.55V21a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 3 2.25Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               }
@@ -257,9 +257,9 @@ function Contents() {
                   className="w-5 h-5"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M3 2.25a.75.75 0 0 1 .75.75v.54l1.838-.46a9.75 9.75 0 0 1 6.725.738l.108.054A8.25 8.25 0 0 0 18 4.524l3.11-.732a.75.75 0 0 1 .917.81 47.784 47.784 0 0 0 .005 10.337.75.75 0 0 1-.574.812l-3.114.733a9.75 9.75 0 0 1-6.594-.77l-.108-.054a8.25 8.25 0 0 0-5.69-.625l-2.202.55V21a.75.75 0 0 1-1.5 0V3A.75.75 0 0 1 3 2.25Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               }
@@ -310,9 +310,9 @@ function Contents() {
                 className="w-5 h-5"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M4.125 3C3.089 3 2.25 3.84 2.25 4.875V18a3 3 0 0 0 3 3h15a3 3 0 0 1-3-3V4.875C17.25 3.839 16.41 3 15.375 3H4.125ZM12 9.75a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H12Zm-.75-2.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H12a.75.75 0 0 1-.75-.75ZM6 12.75a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5H6Zm-.75 3.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75ZM6 6.75a.75.75 0 0 0-.75.75v3c0 .414.336.75.75.75h3a.75.75 0 0 0 .75-.75v-3A.75.75 0 0 0 9 6.75H6Z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
                 <path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 0 1-3 0V6.75Z" />
               </svg>
@@ -321,7 +321,7 @@ function Contents() {
           />
         </article>
 
-        <div className="font-semibold mt-5">외부 링크</div>
+        <div className="mt-5 font-semibold">외부 링크</div>
         <article>
           <Nav
             svg={
