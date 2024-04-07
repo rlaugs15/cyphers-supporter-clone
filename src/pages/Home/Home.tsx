@@ -36,7 +36,7 @@ function Home() {
           <button className="px-3 py-1 bg-slate-200 rounded-2xl">관리</button>
         </div>
       </div>
-      <div className="p-3 space-y-3 bg-red-300 drop-shadow-md h-[330px]">
+      <div className="p-3 space-y-3 bg-white drop-shadow-md h-[330px]">
         {match ? <Outlet /> : null}
       </div>
     </div>

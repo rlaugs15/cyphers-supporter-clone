@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { IPlayer, IPlayerInfo, getPlayer, getPlayerInfo } from "../../api";
+import { calculateTier, makeImagePath, winningRate } from "../../libs/utils";
 
 function PlayerBasicInfo() {
   const { nickname } = useParams();
@@ -53,24 +54,55 @@ function PlayerBasicInfo() {
             <article className="grid grid-cols-2">
               <figure className="flex flex-col items-center justify-center">
                 <span>공식전</span>
-                <div className="w-16 h-16 bg-blue-200 rounded-full" />
+                <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full">
+                  <span className="text-sm font-semibold text-white">
+                    {playerInfoData?.ratingPoint
+                      ? calculateTier(Number(playerInfoData?.ratingPoint))
+                      : "Unknown"}
+                  </span>
+                </div>
                 <span>
                   {playerInfoData?.records[0]?.winCount ?? "0"}승
                   {playerInfoData?.records[0]?.loseCount ?? "0"}패
                   {playerInfoData?.records[0]?.stopCount ?? "0"}중단
                 </span>
-                <span>-%</span>
-                <span>Unranked</span>
+                <span>
+                  {playerInfoData?.records[0]?.winCount
+                    ? winningRate(
+                        Number(playerInfoData?.records[0]?.winCount),
+                        Number(playerInfoData?.records[0]?.loseCount),
+                        Number(playerInfoData?.records[0]?.stopCount)
+                      )
+                    : "-"}
+                  %
+                </span>
+                <span>{playerInfoData?.ratingPoint ?? "Unknown"}</span>
               </figure>
               <figure className="flex flex-col items-center justify-center">
                 <span>일반전</span>
-                <div className="w-16 h-16 bg-blue-200 rounded-full" />
+                <div
+                  style={{
+                    backgroundImage: `url(${makeImagePath(
+                      playerInfoData?.represent?.characterId + ""
+                    )})`,
+                  }}
+                  className="w-16 h-16 bg-blue-200 rounded-full"
+                />
                 <span>
                   {playerInfoData?.records[1]?.winCount ?? "0"}승
                   {playerInfoData?.records[1]?.loseCount ?? "0"}패
                   {playerInfoData?.records[1]?.stopCount ?? "0"}중단
                 </span>
-                <span>90.123%</span>
+                <span>
+                  {playerInfoData?.records[1]?.winCount
+                    ? winningRate(
+                        Number(playerInfoData?.records[1]?.winCount),
+                        Number(playerInfoData?.records[1]?.loseCount),
+                        Number(playerInfoData?.records[1]?.stopCount)
+                      )
+                    : "-"}
+                  %
+                </span>
               </figure>
             </article>
           </main>
