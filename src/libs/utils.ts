@@ -2,6 +2,10 @@ export function makeImagePath(characterId: string) {
   return `https://img-api.neople.co.kr/cy/characters/${characterId}?zoom=2`;
 }
 
+export function cls(...classnames: string[]) {
+  return classnames.join(" ");
+}
+
 //스코어 평균 계산
 export function winningRate(
   winCount: number,

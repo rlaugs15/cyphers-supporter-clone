@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { Link, Outlet, useMatch, useParams } from "react-router-dom";
 import { IPlayer, IPlayerInfo, getPlayer, getPlayerInfo } from "../../api";
 import { calculateTier, makeImagePath, winningRate } from "../../libs/utils";
 
@@ -9,13 +9,10 @@ function PlayerBasicInfo() {
     ["playeNickname", nickname],
     () => getPlayer(nickname + "")
   );
-  console.log("nicknameData", nicknameData);
   const { isLoading: playerInfoLoading, data: playerInfoData } =
     useQuery<IPlayerInfo>(["playerInfo", nicknameData], () =>
       getPlayerInfo(nicknameData?.rows[0].playerId + "")
     );
-  console.log("playerInfoData", playerInfoData);
-
   return (
     <>
       {playerInfoLoading ? (
@@ -106,6 +103,31 @@ function PlayerBasicInfo() {
               </figure>
             </article>
           </main>
+          <div className="h-[330px] bg-blue-300">
+            <div className="bg-red-300 ">
+              <div className="grid grid-cols-3">
+                <Link
+                  to="mostcyall"
+                  className="text-center bg-white border-b-2 border-slate-400"
+                >
+                  전체
+                </Link>
+                <Link
+                  to="mostcyrating"
+                  className="text-center bg-yellow-300 border-b-2 border-slate-400"
+                >
+                  공식
+                </Link>
+                <Link
+                  to="mostcynomal"
+                  className="text-center bg-purple-300 border-b-2 border-slate-400"
+                >
+                  일반
+                </Link>
+              </div>
+              <Outlet />
+            </div>
+          </div>
         </>
       )}
     </>
