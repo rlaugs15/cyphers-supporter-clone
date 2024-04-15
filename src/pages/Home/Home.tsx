@@ -1,12 +1,5 @@
 import { useForm } from "react-hook-form";
-import {
-  Link,
-  Outlet,
-  useMatch,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import PlayerBasicInfo from "./PlayerBasicInfo";
+import { Outlet, useNavigate } from "react-router-dom";
 
 interface IForm {
   nickname: string;
@@ -14,7 +7,6 @@ interface IForm {
 
 function Home() {
   const nav = useNavigate();
-  const match = useMatch("/:nickname");
   const { register, handleSubmit } = useForm<IForm>();
   const onPlayerSubmit = ({ nickname }: IForm) => {
     nav(`/${nickname}`);
@@ -44,11 +36,7 @@ function Home() {
         </div>
       </div>
       <div className="p-3 space-y-8 bg-white drop-shadow-md h-[330px]">
-        {match ? (
-          <>
-            <Outlet />
-          </>
-        ) : null}
+        <Outlet />
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+import { MatchRecord } from "../api";
+
 export function makeImagePath(characterId: string) {
   return `https://img-api.neople.co.kr/cy/characters/${characterId}?zoom=2`;
 }
@@ -62,4 +64,99 @@ export function calculateTier(score: number): string {
 
   // 점수가 범위를 벗어난 경우 "Unknown" 반환
   return "Unknown";
+}
+
+//현재 시간과 한 달 전의 시간을 생성
+export class CustomDateFormatter {
+  private now: Date;
+  private oneMonthAgo: Date;
+
+  constructor() {
+    this.now = new Date();
+    this.oneMonthAgo = new Date(this.now);
+    this.oneMonthAgo.setMonth(this.now.getMonth() - 1);
+  }
+
+  private formatTime(date: Date): string {
+    return (
+      date.getFullYear() +
+      ("0" + (date.getMonth() + 1)).slice(-2) +
+      ("0" + date.getDate()).slice(-2) +
+      "T" +
+      ("0" + date.getHours()).slice(-2) +
+      ("0" + date.getMinutes()).slice(-2)
+    );
+  }
+
+  public getCurrentTime(): string {
+    return this.formatTime(this.now);
+  }
+
+  public getOneMonthAgoTime(): string {
+    return this.formatTime(this.oneMonthAgo);
+  }
+}
+
+//가장 많은 중복되는 characterName을 찾는 함수
+export function findMostChamp(records: MatchRecord[]): string {
+  // 각 characterName의 등장 횟수를 세기 위한 객체 생성
+  const countMap: Record<string, number> = {};
+  records.map((record) => {
+    const { characterName } = record.playInfo;
+    countMap[characterName] = (countMap[characterName] || 0) + 1;
+  });
+
+  // 가장 많이 중복된 값의 등장 횟수 찾기
+  const maxCount = Math.max(...Object.values(countMap));
+
+  // 가장 많이 중복된 characterName을 가진 요소들을 새 배열에 넣어 반환
+  const mostCommonCharacterNames: string[] = [];
+  for (const [characterName, count] of Object.entries(countMap)) {
+    if (count === maxCount) {
+      mostCommonCharacterNames.push(characterName);
+    }
+  }
+
+  return mostCommonCharacterNames.join();
+}
+
+//두 번째로 많은 중복되는 characterName을 찾는 함수
+export function findSecondMostChamp(records: MatchRecord[]): string | null {
+  // 각 characterName의 등장 횟수를 세기 위한 객체 생성
+  const countMap: Record<string, number> = {};
+  records.forEach((record) => {
+    const { characterName } = record.playInfo;
+    countMap[characterName] = (countMap[characterName] || 0) + 1;
+  });
+
+  // 가장 많이 중복된 캐릭터를 찾기
+  const maxCount = Math.max(...Object.values(countMap));
+
+  // 가장 많이 중복된 캐릭터를 제외한 나머지 중에서 두 번째로 많이 중복된 캐릭터를 찾기
+  let secondMaxCount = -1; // 두 번째로 많이 중복된 캐릭터의 등장 횟수 초기화
+  let secondMostCommonCharacter: string | null = null;
+
+  for (const [characterName, count] of Object.entries(countMap)) {
+    if (count !== maxCount && count > secondMaxCount) {
+      secondMaxCount = count;
+      secondMostCommonCharacter = characterName;
+    }
+  }
+
+  return secondMostCommonCharacter;
+}
+
+//입력된 킬이나 데스 등의 평균 값
+export function scoreAverage(
+  records: MatchRecord[],
+  count: "killCount" | "deathCount" | "assistCount"
+): number {
+  let newArray: any[] = [];
+  records
+    ?.filter((item) => item?.playInfo?.[count])
+    .map((item) => (newArray = [...newArray, item?.playInfo?.[count]]));
+
+  const totalCount = newArray?.reduce((a, b) => a + b, 0);
+  const averageCount = totalCount / newArray.length;
+  return averageCount;
 }

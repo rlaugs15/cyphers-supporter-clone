@@ -1,9 +1,13 @@
 import { useQuery } from "react-query";
-import { Link, Outlet, useMatch, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { IPlayer, IPlayerInfo, getPlayer, getPlayerInfo } from "../../api";
 import { calculateTier, makeImagePath, winningRate } from "../../libs/utils";
+import { useSetRecoilState } from "recoil";
+import { playerIdAtom } from "../../atoms";
+import { useEffect } from "react";
 
 function PlayerBasicInfo() {
+  const setPlayerId = useSetRecoilState(playerIdAtom);
   const { nickname } = useParams();
   const { isLoading: nicknameLoading, data: nicknameData } = useQuery<IPlayer>(
     ["playeNickname", nickname],
@@ -13,6 +17,11 @@ function PlayerBasicInfo() {
     useQuery<IPlayerInfo>(["playerInfo", nicknameData], () =>
       getPlayerInfo(nicknameData?.rows[0].playerId + "")
     );
+  useEffect(() => {
+    if (playerInfoData?.playerId) {
+      setPlayerId(playerInfoData?.playerId);
+    }
+  }, [setPlayerId, playerInfoData]);
   return (
     <>
       {playerInfoLoading ? (
@@ -104,7 +113,7 @@ function PlayerBasicInfo() {
             </article>
           </main>
           <div className="h-[330px] bg-blue-300">
-            <div className="bg-red-300 ">
+            <div className="h-full bg-red-300">
               <div className="grid grid-cols-3">
                 <Link
                   to="mostcyall"
