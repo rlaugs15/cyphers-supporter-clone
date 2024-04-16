@@ -1,13 +1,26 @@
 import { useQuery } from "react-query";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { IPlayer, IPlayerInfo, getPlayer, getPlayerInfo } from "../../api";
+import {
+  IPlayer,
+  IPlayerInfo,
+  PlayerInfo,
+  getMatching,
+  getPlayer,
+  getPlayerInfo,
+} from "../../api";
 import { calculateTier, makeImagePath, winningRate } from "../../libs/utils";
 import { useSetRecoilState } from "recoil";
-import { playerIdAtom } from "../../atoms";
-import { useEffect } from "react";
+import {
+  allMatchingAtom,
+  allMatshingLoadingAtom,
+  normalMatchingAtom,
+  normalMatshingLoadingAtom,
+  ratingMatchingAtom,
+  ratingMatshingLoadingAtom,
+} from "../../atoms";
+import { useMemo } from "react";
 
 function PlayerBasicInfo() {
-  const setPlayerId = useSetRecoilState(playerIdAtom);
   const { nickname } = useParams();
   const { isLoading: nicknameLoading, data: nicknameData } = useQuery<IPlayer>(
     ["playeNickname", nickname],
@@ -17,11 +30,53 @@ function PlayerBasicInfo() {
     useQuery<IPlayerInfo>(["playerInfo", nicknameData], () =>
       getPlayerInfo(nicknameData?.rows[0].playerId + "")
     );
-  useEffect(() => {
-    if (playerInfoData?.playerId) {
-      setPlayerId(playerInfoData?.playerId);
+  //노말 매칭 데이터, 로딩
+  const { isLoading: normalMatshingLoading, data: normalMatshingData } =
+    useQuery<PlayerInfo>(["normalPlayeId", playerInfoData?.playerId], () =>
+      getMatching(playerInfoData?.playerId + "", true)
+    );
+  const setNormalMatshingData = useSetRecoilState(normalMatchingAtom);
+  const setNormalMatchingLoading = useSetRecoilState(normalMatshingLoadingAtom);
+  setNormalMatshingData(normalMatshingData as PlayerInfo);
+  setNormalMatchingLoading(normalMatshingLoading);
+  //레이팅 매칭 데이터, 로딩
+  const { isLoading: ratingMatshingLoading, data: ratingMatshingData } =
+    useQuery<PlayerInfo>(["ratingPlayeId", playerInfoData?.playerId + ""], () =>
+      getMatching(playerInfoData?.playerId + "")
+    );
+  const setRatingMatshingData = useSetRecoilState(ratingMatchingAtom);
+  const setRatingMatchingLoading = useSetRecoilState(ratingMatshingLoadingAtom);
+  setRatingMatshingData(ratingMatshingData as PlayerInfo);
+  setRatingMatchingLoading(ratingMatshingLoading);
+  //모든 매칭 데이터, 로딩
+  const setAllLoading = useSetRecoilState(allMatshingLoadingAtom);
+  const setAllMatchingData = useSetRecoilState(allMatchingAtom);
+  const combinedData = useMemo(() => {
+    if (
+      !normalMatshingLoading &&
+      !ratingMatshingLoading &&
+      normalMatshingData &&
+      ratingMatshingData
+    ) {
+      const allData = [
+        ...normalMatshingData.matches.rows,
+        ...ratingMatshingData.matches.rows,
+      ];
+      return {
+        ...normalMatshingData,
+        matches: { ...normalMatshingData.matches, rows: allData },
+      };
     }
-  }, [setPlayerId, playerInfoData]);
+    return null;
+  }, [
+    normalMatshingLoading,
+    ratingMatshingLoading,
+    normalMatshingData,
+    ratingMatshingData,
+  ]);
+  const allMatchingLoading = normalMatshingLoading && ratingMatshingLoading;
+  setAllLoading(allMatchingLoading);
+  setAllMatchingData(combinedData);
   return (
     <>
       {playerInfoLoading ? (

@@ -124,7 +124,7 @@ export function findMostChamp(records: MatchRecord[]): string {
 export function findSecondMostChamp(records: MatchRecord[]): string | null {
   // 각 characterName의 등장 횟수를 세기 위한 객체 생성
   const countMap: Record<string, number> = {};
-  records.forEach((record) => {
+  records.map((record) => {
     const { characterName } = record.playInfo;
     countMap[characterName] = (countMap[characterName] || 0) + 1;
   });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MatchRecord } from "../api";
 import {
   cls,
@@ -48,7 +48,7 @@ function MostChamp({ data, loading, findSecond, secondColor }: IMostChamp) {
                   mostChampArray[0]?.playInfo?.characterId
                 )})`,
               }}
-              className="w-16 h-16 bg-blue-200 rounded-full"
+              className="w-16 h-16 bg-black rounded-full"
             />
 
             <figcaption className="flex flex-col">

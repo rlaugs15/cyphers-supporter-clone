@@ -1,5 +1,18 @@
+import { useRecoilValue } from "recoil";
+import { allMatchingAtom, allMatshingLoadingAtom } from "../../../atoms";
+import { PlayerInfo } from "../../../api";
+import MostChampBox from "../../../components/MostChampBox";
+
 function MostCyAll() {
-  return <div>MostCyAll</div>;
+  const combinedData = useRecoilValue(allMatchingAtom);
+  const allLoading = useRecoilValue(allMatshingLoadingAtom);
+  return (
+    <MostChampBox
+      category="전체"
+      matshingData={combinedData as PlayerInfo}
+      matshingLoading={allLoading}
+    />
+  );
 }
 
 export default MostCyAll;
