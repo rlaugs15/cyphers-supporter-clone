@@ -1,5 +1,11 @@
 import { useQuery } from "react-query";
-import { Link, Outlet, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useMatch,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import {
   IPlayer,
   IPlayerInfo,
@@ -8,7 +14,12 @@ import {
   getPlayer,
   getPlayerInfo,
 } from "../../api";
-import { calculateTier, makeImagePath, winningRate } from "../../libs/utils";
+import {
+  calculateTier,
+  cls,
+  makeImagePath,
+  winningRate,
+} from "../../libs/utils";
 import { useSetRecoilState } from "recoil";
 import {
   allMatchingAtom,
@@ -18,10 +29,13 @@ import {
   ratingMatchingAtom,
   ratingMatshingLoadingAtom,
 } from "../../atoms";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 function PlayerBasicInfo() {
   const { nickname } = useParams();
+  const mostcyallMatch = useMatch("/:nickname/mostcyall");
+  const mostcyratingMatch = useMatch("/:nickname/mostcyrating");
+  const mostcynomalMatch = useMatch("/:nickname/mostcynomal");
   const { isLoading: nicknameLoading, data: nicknameData } = useQuery<IPlayer>(
     ["playeNickname", nickname],
     () => getPlayer(nickname + "")
@@ -77,6 +91,11 @@ function PlayerBasicInfo() {
   const allMatchingLoading = normalMatshingLoading && ratingMatshingLoading;
   setAllLoading(allMatchingLoading);
   setAllMatchingData(combinedData);
+  //검색 시 초기 하위 라우트를 mostcyall로 설정
+  const nav = useNavigate();
+  useEffect(() => {
+    nav("mostcyall");
+  }, [nickname]);
   return (
     <>
       {playerInfoLoading ? (
@@ -167,24 +186,33 @@ function PlayerBasicInfo() {
               </figure>
             </article>
           </main>
-          <div className="h-[330px] bg-blue-300">
-            <div className="h-full bg-red-300">
+          <div className="h-[330px] bg-white">
+            <div className="h-full">
               <div className="grid grid-cols-3">
                 <Link
                   to="mostcyall"
-                  className="text-center bg-white border-b-2 border-slate-400"
+                  className={cls(
+                    "text-center border-b-2",
+                    mostcyallMatch ? "border-red-300" : "border-slate-400"
+                  )}
                 >
                   전체
                 </Link>
                 <Link
                   to="mostcyrating"
-                  className="text-center bg-yellow-300 border-b-2 border-slate-400"
+                  className={cls(
+                    "text-center border-b-2",
+                    mostcyratingMatch ? "border-red-300" : "border-slate-400"
+                  )}
                 >
                   공식
                 </Link>
                 <Link
                   to="mostcynomal"
-                  className="text-center bg-purple-300 border-b-2 border-slate-400"
+                  className={cls(
+                    "text-center border-b-2",
+                    mostcynomalMatch ? "border-red-300" : "border-slate-400"
+                  )}
                 >
                   일반
                 </Link>

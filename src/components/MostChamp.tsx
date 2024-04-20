@@ -44,9 +44,11 @@ function MostChamp({ data, loading, findSecond, secondColor }: IMostChamp) {
           <div className="flex space-x-1">
             <div
               style={{
-                backgroundImage: `url(${makeImagePath(
-                  mostChampArray[0]?.playInfo?.characterId
-                )})`,
+                backgroundImage: mostChampArray[0]?.playInfo?.characterId
+                  ? `url(${makeImagePath(
+                      mostChampArray[0]?.playInfo?.characterId
+                    )})`
+                  : undefined,
               }}
               className="w-16 h-16 bg-black rounded-full"
             />

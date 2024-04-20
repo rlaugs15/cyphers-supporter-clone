@@ -53,6 +53,14 @@ export async function getPlayerInfo(playerId: string) {
   return response.data;
 }
 
+export interface partyInfo {
+  result: string;
+  playerId: string;
+  nickname: string;
+  characterId: string;
+  characterName: string;
+}
+
 export interface MatchRecord {
   date: string;
   matchId: string;
@@ -61,10 +69,11 @@ export interface MatchRecord {
     name: string;
   };
   playInfo: {
+    partyDisplay: string;
     result: string;
     random: boolean;
     partyUserCount: number;
-    partyInfo: any[]; // 이 부분은 플레이어 파티 정보에 대한 데이터 구조에 따라서 수정해야 합니다.
+    partyInfo: partyInfo[];
     playTypeName: string;
     characterId: string;
     characterName: string;
@@ -111,6 +120,7 @@ interface MatchDate {
 }
 
 interface Match {
+  map(arg0: (record: any) => any): unknown;
   date: MatchDate;
   gameTypeId: string;
   next: string;

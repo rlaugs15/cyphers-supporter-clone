@@ -1,4 +1,4 @@
-import { MatchRecord } from "../api";
+import { MatchRecord, PlayerInfo, partyInfo } from "../api";
 
 export function makeImagePath(characterId: string) {
   return `https://img-api.neople.co.kr/cy/characters/${characterId}?zoom=2`;
@@ -159,4 +159,19 @@ export function scoreAverage(
   const totalCount = newArray?.reduce((a, b) => a + b, 0);
   const averageCount = totalCount / newArray.length;
   return averageCount;
+}
+
+interface PartySummary {
+  partyMembers: string;
+  playCount: number;
+  winRate: number;
+}
+
+export function analyzeParty(playInfo: partyInfo[]): PartySummary {
+  const playCount = playInfo.length;
+  const winCount = playInfo.filter((info) => info.result === "win").length;
+  const winRate = playCount > 0 ? (winCount / playCount) * 100 : 0;
+  const partyMembers = playInfo.map((info) => info.nickname).join(", ");
+
+  return { partyMembers, playCount, winRate };
 }

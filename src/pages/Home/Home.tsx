@@ -9,10 +9,10 @@ function Home() {
   const nav = useNavigate();
   const { register, handleSubmit } = useForm<IForm>();
   const onPlayerSubmit = ({ nickname }: IForm) => {
-    nav(`/${nickname}`);
+    nav(`/${nickname}/mostcyall`);
   };
   return (
-    <div className="space-y-5 bg-green-300">
+    <div className="space-y-5">
       <div className="p-3 space-y-3 bg-white drop-shadow-md">
         <p className="text-2xl mb-7">플레이어 전적검색</p>
         <form
