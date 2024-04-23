@@ -193,7 +193,9 @@ function PlayerBasicInfo() {
                   to="mostcyall"
                   className={cls(
                     "text-center border-b-2",
-                    mostcyallMatch ? "border-red-300" : "border-slate-400"
+                    mostcyallMatch
+                      ? "border-red-300 text-red-300"
+                      : "border-slate-400"
                   )}
                 >
                   전체
@@ -202,7 +204,9 @@ function PlayerBasicInfo() {
                   to="mostcyrating"
                   className={cls(
                     "text-center border-b-2",
-                    mostcyratingMatch ? "border-red-300" : "border-slate-400"
+                    mostcyratingMatch
+                      ? "border-red-300 text-red-300"
+                      : "border-slate-400"
                   )}
                 >
                   공식
@@ -211,7 +215,9 @@ function PlayerBasicInfo() {
                   to="mostcynomal"
                   className={cls(
                     "text-center border-b-2",
-                    mostcynomalMatch ? "border-red-300" : "border-slate-400"
+                    mostcynomalMatch
+                      ? "border-red-300 text-red-300"
+                      : "border-slate-400"
                   )}
                 >
                   일반

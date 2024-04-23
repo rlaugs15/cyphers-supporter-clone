@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { searchHistory } from "../../atoms";
+import SearchHistory from "./SearchHistory";
 
 interface IForm {
   nickname: string;
@@ -7,10 +10,21 @@ interface IForm {
 
 function Home() {
   const nav = useNavigate();
-  const { register, handleSubmit } = useForm<IForm>();
+  const [search, setSearch] = useRecoilState(searchHistory);
+  const { register, handleSubmit, setValue } = useForm<IForm>();
   const onPlayerSubmit = ({ nickname }: IForm) => {
+    setSearch((prev) => {
+      const existArray = [
+        ...prev,
+        { firstName: nickname.charAt(0), fullName: nickname },
+      ];
+
+      return [...new Set(existArray)];
+    });
     nav(`/${nickname}/mostcyall`);
+    setValue("nickname", "");
   };
+
   return (
     <div className="space-y-5">
       <div className="p-3 space-y-3 bg-white drop-shadow-md">
@@ -28,12 +42,7 @@ function Home() {
           />
           <button className="w-20 h-full text-white bg-black">검색</button>
         </form>
-        <div className="flex justify-end py-3 space-x-2 border-b-2 border-slate-200">
-          <button className="px-3 py-1 bg-slate-200 rounded-2xl">
-            검색기록 삭제
-          </button>
-          <button className="px-3 py-1 bg-slate-200 rounded-2xl">관리</button>
-        </div>
+        <SearchHistory nav={nav} search={search} setSearch={setSearch} />
       </div>
       <div className="p-3 space-y-8 bg-white drop-shadow-md h-[330px]">
         <Outlet />

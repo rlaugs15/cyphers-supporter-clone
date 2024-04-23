@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { PlayerInfo } from "./api";
+import { recoilPersist } from "recoil-persist";
 
 export const playerIdAtom = atom({
   key: "playerId",
@@ -15,8 +16,24 @@ export const matshingLoadingAtom = atom({
   key: "matshingLoading",
   default: false,
 });
-//매칭 시리즈
 
+//검색기록
+export interface ISearchHistory {
+  firstName: string;
+  fullName: string;
+}
+const { persistAtom } = recoilPersist({
+  key: "persist-atom-key",
+  storage: localStorage,
+});
+
+export const searchHistory = atom<ISearchHistory[]>({
+  key: "searchHistory",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+//매칭 시리즈
 export const normalMatchingAtom = atom<PlayerInfo | null>({
   key: "normalMatching",
   default: null,
