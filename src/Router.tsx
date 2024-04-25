@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home/Home/Home";
 import Characters from "./pages/Characters/Characters";
-import PlayerBasicInfo from "./pages/Home/PlayerBasicInfo";
-import MostCyAll from "./pages/Home/MostCypher/MostCyAll";
-import MostCyRating from "./pages/Home/MostCypher/MostCyRating";
-import MostCyNomal from "./pages/Home/MostCypher/MostCyNomal";
+import PlayerBasicInfo from "./pages/Home/Home/PlayerBasicInfo";
+import MostCyAll from "./pages/Home/Home/MostCypher/MostCyAll";
+import MostCyRating from "./pages/Home/Home/MostCypher/MostCyRating";
+import MostCyNomal from "./pages/Home/Home/MostCypher/MostCyNomal";
+import Players from "./pages/Home/Players/Players";
+import PlayersComparison from "./pages/Home/Players/PlayersComparison/PlayersComparison";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +35,16 @@ export const router = createBrowserRouter([
                 element: <MostCyNomal />,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: "players",
+        element: <Players />,
+        children: [
+          {
+            path: "playersinfo",
+            element: <PlayersComparison />,
           },
         ],
       },

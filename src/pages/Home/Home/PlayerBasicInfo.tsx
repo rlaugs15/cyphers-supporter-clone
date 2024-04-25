@@ -13,13 +13,8 @@ import {
   getMatching,
   getPlayer,
   getPlayerInfo,
-} from "../../api";
-import {
-  calculateTier,
-  cls,
-  makeImagePath,
-  winningRate,
-} from "../../libs/utils";
+} from "../../../api";
+import { allMatchData, cls } from "../../../libs/utils";
 import { useSetRecoilState } from "recoil";
 import {
   allMatchingAtom,
@@ -28,8 +23,9 @@ import {
   normalMatshingLoadingAtom,
   ratingMatchingAtom,
   ratingMatshingLoadingAtom,
-} from "../../atoms";
+} from "../../../atoms";
 import { useEffect, useMemo } from "react";
+import PlayerInfoCard from "../../../components/PlayerInfoCard";
 
 function PlayerBasicInfo() {
   const { nickname } = useParams();
@@ -37,7 +33,7 @@ function PlayerBasicInfo() {
   const mostcyratingMatch = useMatch("/:nickname/mostcyrating");
   const mostcynomalMatch = useMatch("/:nickname/mostcynomal");
   const { isLoading: nicknameLoading, data: nicknameData } = useQuery<IPlayer>(
-    ["playeNickname", nickname],
+    ["playerNickname", nickname],
     () => getPlayer(nickname + "")
   );
   const { isLoading: playerInfoLoading, data: playerInfoData } =
@@ -65,29 +61,13 @@ function PlayerBasicInfo() {
   //모든 매칭 데이터, 로딩
   const setAllLoading = useSetRecoilState(allMatshingLoadingAtom);
   const setAllMatchingData = useSetRecoilState(allMatchingAtom);
-  const combinedData = useMemo(() => {
-    if (
-      !normalMatshingLoading &&
-      !ratingMatshingLoading &&
-      normalMatshingData &&
-      ratingMatshingData
-    ) {
-      const allData = [
-        ...normalMatshingData.matches.rows,
-        ...ratingMatshingData.matches.rows,
-      ];
-      return {
-        ...normalMatshingData,
-        matches: { ...normalMatshingData.matches, rows: allData },
-      };
-    }
-    return null;
-  }, [
+
+  const combinedData = allMatchData(
     normalMatshingLoading,
     ratingMatshingLoading,
-    normalMatshingData,
-    ratingMatshingData,
-  ]);
+    normalMatshingData!,
+    ratingMatshingData!
+  );
   const allMatchingLoading = normalMatshingLoading && ratingMatshingLoading;
   setAllLoading(allMatchingLoading);
   setAllMatchingData(combinedData);
@@ -120,71 +100,7 @@ function PlayerBasicInfo() {
             </svg>
           </div>
           <main className=" h-60">
-            <div className="flex flex-col items-center justify-center">
-              <span className="text-2xl font-semibold">
-                {playerInfoData?.nickname ?? "Unknown"}
-              </span>
-              <span className="text-sm">
-                {playerInfoData?.clanName ?? "Unknown"}
-              </span>
-              <span className="mt-2 text-slate-400">
-                {playerInfoData?.grade ?? "0"}
-              </span>
-            </div>
-            <article className="grid grid-cols-2">
-              <figure className="flex flex-col items-center justify-center">
-                <span>공식전</span>
-                <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full">
-                  <span className="text-sm font-semibold text-white">
-                    {playerInfoData?.ratingPoint
-                      ? calculateTier(Number(playerInfoData?.ratingPoint))
-                      : "Unknown"}
-                  </span>
-                </div>
-                <span>
-                  {playerInfoData?.records[0]?.winCount ?? "0"}승
-                  {playerInfoData?.records[0]?.loseCount ?? "0"}패
-                  {playerInfoData?.records[0]?.stopCount ?? "0"}중단
-                </span>
-                <span>
-                  {playerInfoData?.records[0]?.winCount
-                    ? winningRate(
-                        Number(playerInfoData?.records[0]?.winCount),
-                        Number(playerInfoData?.records[0]?.loseCount),
-                        Number(playerInfoData?.records[0]?.stopCount)
-                      )
-                    : "-"}
-                  %
-                </span>
-                <span>{playerInfoData?.ratingPoint ?? "Unknown"}</span>
-              </figure>
-              <figure className="flex flex-col items-center justify-center">
-                <span>일반전</span>
-                <div
-                  style={{
-                    backgroundImage: `url(${makeImagePath(
-                      playerInfoData?.represent?.characterId + ""
-                    )})`,
-                  }}
-                  className="w-16 h-16 bg-blue-200 rounded-full"
-                />
-                <span>
-                  {playerInfoData?.records[1]?.winCount ?? "0"}승
-                  {playerInfoData?.records[1]?.loseCount ?? "0"}패
-                  {playerInfoData?.records[1]?.stopCount ?? "0"}중단
-                </span>
-                <span>
-                  {playerInfoData?.records[1]?.winCount
-                    ? winningRate(
-                        Number(playerInfoData?.records[1]?.winCount),
-                        Number(playerInfoData?.records[1]?.loseCount),
-                        Number(playerInfoData?.records[1]?.stopCount)
-                      )
-                    : "-"}
-                  %
-                </span>
-              </figure>
-            </article>
+            <PlayerInfoCard playerInfoData={playerInfoData!} />
           </main>
           <div className="h-[330px] bg-white">
             <div className="h-full">

@@ -1,6 +1,9 @@
 import { useRecoilValue } from "recoil";
-import { normalMatchingAtom, normalMatshingLoadingAtom } from "../../../atoms";
-import MostChampBox from "../../../components/MostChampBox";
+import {
+  normalMatchingAtom,
+  normalMatshingLoadingAtom,
+} from "../../../../atoms";
+import MostChampBox from "../../../../components/MostChampBox";
 
 function MostCyNomal() {
   const matshingData = useRecoilValue(normalMatchingAtom);

@@ -23,8 +23,8 @@ export function winningRate(
   return winRate.toFixed(2);
 }
 
-//레이팅 점수에 따른 티어 반환
-export function calculateTier(score: number): string {
+//레이팅 점수에 따른 티어 반환 (api에 티어네임이 있어서 삭제)
+/* export function calculateTier(score: number): string {
   // 티어 임계값과 해당하는 티어 정의
   const tierThresholds: [number, number, string][] = [
     [0, 1287, "Bronze 5"],
@@ -64,7 +64,7 @@ export function calculateTier(score: number): string {
 
   // 점수가 범위를 벗어난 경우 "Unknown" 반환
   return "Unknown";
-}
+} */
 
 //현재 시간과 한 달 전의 시간을 생성
 export class CustomDateFormatter {
@@ -174,4 +174,30 @@ export function analyzeParty(playInfo: partyInfo[]): PartySummary {
   const partyMembers = playInfo.map((info) => info.nickname).join(", ");
 
   return { partyMembers, playCount, winRate };
+}
+
+//공식, 일반전의 매칭 데이터를 합치는 함수
+export function allMatchData(
+  normalMatshingLoading: boolean,
+  ratingMatshingLoading: boolean,
+  normalMatshingData: PlayerInfo,
+  ratingMatshingData: PlayerInfo
+) {
+  if (normalMatshingLoading || ratingMatshingLoading) {
+    return null;
+  }
+
+  if (!normalMatshingData || !ratingMatshingData) {
+    return null;
+  }
+
+  const allData = [
+    ...normalMatshingData.matches.rows,
+    ...ratingMatshingData.matches.rows,
+  ];
+
+  return {
+    ...normalMatshingData,
+    matches: { ...normalMatshingData.matches, rows: allData },
+  };
 }

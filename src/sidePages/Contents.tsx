@@ -1,20 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 
 function Contents() {
-  const nav = useNavigate();
-  const onHomeClick = () => {
-    nav("/");
-  };
   return (
-    <div className="h-full bg-white w-96 drop-shadow-md">
+    <div className="h-full bg-white w-96 drop-shadow-md min-w-56">
       <header className="py-2 text-3xl font-semibold text-center border-b border-slate-300">
         CPSP.KR
       </header>
       <main className="h-full mx-1 my-2 overflow-y-auto text-sm ">
         <div className="font-semibold">메뉴</div>
         <Nav
-          onClick={onHomeClick}
+          movePage="/"
           svg={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -31,6 +26,7 @@ function Contents() {
 
         <article>
           <Nav
+            movePage="/"
             svg={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -49,6 +45,7 @@ function Contents() {
           />
           <aside className="ml-4 ">
             <Nav
+              movePage="/players"
               svg={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

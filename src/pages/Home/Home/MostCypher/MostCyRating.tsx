@@ -1,6 +1,9 @@
 import { useRecoilValue } from "recoil";
-import { ratingMatchingAtom, ratingMatshingLoadingAtom } from "../../../atoms";
-import MostChampBox from "../../../components/MostChampBox";
+import {
+  ratingMatchingAtom,
+  ratingMatshingLoadingAtom,
+} from "../../../../atoms";
+import MostChampBox from "../../../../components/MostChampBox";
 
 function MostCyRating() {
   const matshingData = useRecoilValue(ratingMatchingAtom);

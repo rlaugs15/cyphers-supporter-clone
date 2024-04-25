@@ -1,5 +1,5 @@
 import { SetterOrUpdater } from "recoil";
-import { ISearchHistory } from "../../atoms";
+import { ISearchHistory } from "../../../atoms";
 import { NavigateFunction } from "react-router-dom";
 
 interface SearchHistoryProps {

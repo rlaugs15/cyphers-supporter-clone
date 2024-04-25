@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
-import { allMatchingAtom, allMatshingLoadingAtom } from "../../../atoms";
-import { PlayerInfo } from "../../../api";
-import MostChampBox from "../../../components/MostChampBox";
+import { allMatchingAtom, allMatshingLoadingAtom } from "../../../../atoms";
+import { PlayerInfo } from "../../../../api";
+import MostChampBox from "../../../../components/MostChampBox";
 
 function MostCyAll() {
   const combinedData = useRecoilValue(allMatchingAtom);

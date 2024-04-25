@@ -1,17 +1,25 @@
 import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface NavProps {
   svg: ReactNode;
   text: string;
-  onClick?: () => void;
+  movePage: string;
 }
 
-function Nav({ svg, text, onClick }: NavProps) {
+function Nav({ svg, movePage, text }: NavProps) {
+  const nav = useNavigate();
+  const onClickMove = () => {
+    nav(`${movePage}`);
+  };
   return (
-    <div onClick={onClick} className="flex space-x-2 p-2 hover:bg-slate-200">
+    <button
+      onClick={onClickMove}
+      className="flex w-full p-2 space-x-2 hover:bg-slate-200"
+    >
       {svg}
       <span>{text}</span>
-    </div>
+    </button>
   );
 }
 

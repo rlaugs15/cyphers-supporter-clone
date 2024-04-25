@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { searchHistory } from "../../atoms";
+import { searchHistory } from "../../../atoms";
 import SearchHistory from "./SearchHistory";
+import SearchInputBtn from "../../../components/SearchInputBtn";
 
 interface IForm {
   nickname: string;
@@ -33,14 +34,11 @@ function Home() {
           onSubmit={handleSubmit(onPlayerSubmit)}
           className="flex h-10 ring-4 ring-black"
         >
-          <input
-            {...register("nickname", { required: true })}
-            type="text"
-            placeholder="검색할 플레이어의 닉네임을 입력하세요"
+          <SearchInputBtn
+            register={register("nickname", { required: true })}
+            text="검색할 플레이어의 닉네임을 입력하세요"
             required
-            className="w-full h-full p-2"
           />
-          <button className="w-20 h-full text-white bg-black">검색</button>
         </form>
         <SearchHistory nav={nav} search={search} setSearch={setSearch} />
       </div>
