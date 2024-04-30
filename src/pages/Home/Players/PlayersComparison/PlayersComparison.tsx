@@ -65,31 +65,40 @@ function PlayersComparison() {
     player2NormalMatchData!,
     player2RatingMatchData!
   );
-
+  const player1AllMatchLoading =
+    player1NormalMatchLoading && player1RatingMatchLoading;
+  const player2AllMatchLoading =
+    player2NormalMatchLoading && player2RatingMatchLoading;
   return (
     <>
       {player1InfoLoading ? (
-        <div className="flex items-center justify-center bg-white">
-          <span className="text-2xl font-semibold">로딩 중...</span>
+        <div className="flex items-center justify-center w-full h-full bg-white">
+          <span className="text-2xl font-semibold text">로딩 중...</span>
         </div>
       ) : (
         <article className="p-4 bg-white">
           <section className="pb-4 border-b-2">
             <PlayerInfoCard playerInfoData={player1InfoData!} />
           </section>
-          <RecentGameCard playerMatchData={player1AllMatchData!} />
+          <RecentGameCard
+            playerMatchData={player1AllMatchData!}
+            playerAllMatchLoading={player1AllMatchLoading}
+          />
         </article>
       )}
       {player2InfoLoading ? (
-        <div className="flex items-center justify-center">
-          <span className="text-2xl font-semibold">로딩 중...</span>
+        <div className="flex items-center justify-center w-full h-full bg-white">
+          <span className="text-2xl font-semibold ">로딩 중...</span>
         </div>
       ) : (
         <article className="p-4 bg-white">
           <section className="pb-4 border-b-2">
             <PlayerInfoCard playerInfoData={player2InfoData!} />
           </section>
-          <RecentGameCard playerMatchData={player2AllMatchData!} />
+          <RecentGameCard
+            playerMatchData={player2AllMatchData!}
+            playerAllMatchLoading={player2AllMatchLoading}
+          />
         </article>
       )}
     </>

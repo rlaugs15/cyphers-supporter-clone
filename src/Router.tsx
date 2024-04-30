@@ -8,6 +8,7 @@ import MostCyRating from "./pages/Home/Home/MostCypher/MostCyRating";
 import MostCyNomal from "./pages/Home/Home/MostCypher/MostCyNomal";
 import Players from "./pages/Home/Players/Players";
 import PlayersComparison from "./pages/Home/Players/PlayersComparison/PlayersComparison";
+import Matches from "./pages/Home/Players/Matchs/Matches";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
             element: <PlayersComparison />,
           },
         ],
+      },
+      {
+        path: "matches/:matchId",
+        element: <Matches />,
       },
       {
         path: "characters",
