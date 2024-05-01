@@ -35,7 +35,7 @@ function ReportBar({ text, winnerCount, loserCount, countName }: IReportBar) {
       <div className="flex w-full bg-green-300">
         <figure
           style={{ width: winWidthLength[0] }}
-          className="flex p-1 space-x-1 transition bg-blue-300 hover:scale-110"
+          className="flex p-1 space-x-1 transition bg-blue-300 hover:scale-110 min-w-20"
         >
           <span>
             {winCountSum}({winWidthLength[1]})%
@@ -43,7 +43,7 @@ function ReportBar({ text, winnerCount, loserCount, countName }: IReportBar) {
         </figure>
         <figure
           style={{ width: loseWidthLength[0] }}
-          className="flex justify-end p-1 space-x-1 transition bg-red-300 hover:scale-105"
+          className="flex justify-end p-1 space-x-1 transition bg-red-300 hover:scale-105 min-w-20"
         >
           <span>
             {loserCountSum}({loseWidthLength[1]}% )
