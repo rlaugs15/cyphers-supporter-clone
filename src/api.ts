@@ -163,7 +163,7 @@ export async function getMatching(
   return response.data;
 }
 
-interface Item {
+export interface DetailMatchItem {
   itemId: string; // 아이템의 고유 식별자
   itemName: string; // 아이템 이름 (예: "E 섬섬옥수")
   slotCode: string; // 슬롯 코드 (예: "101")
@@ -178,6 +178,12 @@ interface Attribute {
   level: number; // 레벨
   id: string; // 속성의 고유 식별자
   name: string; // 속성 이름 (예: "사격술")
+}
+
+export interface DetailPosition {
+  name: string; // 직책 이름 (예: "원거리딜러")
+  explain: string; // 설명 (예: "치명타 피해량 +12%")
+  attribute: Attribute[]; // 속성 배열
 }
 
 export interface DetailPlayerInfo {
@@ -221,12 +227,8 @@ export interface DetailPlayer {
     name: string;
   };
   playInfo: DetailPlayerInfo;
-  position: {
-    name: string; // 직책 이름 (예: "원거리딜러")
-    explain: string; // 설명 (예: "치명타 피해량 +12%")
-    attribute: Attribute[]; // 속성 배열
-  };
-  items: Item[];
+  position: DetailPosition;
+  items: DetailMatchItem[];
 }
 
 interface Team {
@@ -245,10 +247,24 @@ export interface DetailMatchData {
   players: DetailPlayer[];
 }
 
-//https://api.neople.co.kr/cy/matches/5eea183c92e5f6efc4ef64a45c335908cdb1f8b1802218ad84de1c42b9ad29cc?&apikey=AR5FRcTpheYlQiA8tMc3KMW6S15vzd71
 export async function getDetailMatching(matchId: string) {
   const response = await axios.get(
     `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/matches/${matchId}?apikey=${API_KEY}`
   );
   return response.data;
+}
+
+//포지션 이미지
+export function getPositionImg(attId: string) {
+  return `https://img-api.neople.co.kr/cy/position-attributes/${attId}`;
+}
+
+//캐릭터 이미지
+export function makeImagePath(characterId: string) {
+  return `https://img-api.neople.co.kr/cy/characters/${characterId}?zoom=2`;
+}
+
+//아이템 이미지
+export function getItemImg(itemId: string) {
+  return `https://img-api.neople.co.kr/cy/items/${itemId}`;
 }

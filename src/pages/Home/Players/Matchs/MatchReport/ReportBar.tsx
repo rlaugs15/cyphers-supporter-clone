@@ -1,4 +1,4 @@
-import { DetailPlayer, DetailPlayerInfo } from "../../../../api";
+import { DetailPlayer, DetailPlayerInfo } from "../../../../../api";
 
 interface IReportBar {
   text: string;

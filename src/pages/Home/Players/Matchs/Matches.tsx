@@ -1,8 +1,26 @@
 import { useQuery } from "react-query";
-import { DetailMatchData, getDetailMatching } from "../../../../api";
+import {
+  DetailMatchData,
+  DetailPlayer,
+  getDetailMatching,
+} from "../../../../api";
 import { useParams } from "react-router-dom";
-import MatchsReport from "./MatchsReport";
+import MatchsReport from "./MatchReport/MatchsReport";
 import GameViewDetail from "./GameViewDeatil";
+import MatchPlayInfo from "./MatchPlayInfo.tsx/MatchPlayInfo";
+
+export interface ParyMember {
+  partyId: string;
+  partyMember: string;
+}
+interface IAddParyUser extends DetailPlayer {
+  partyMembers: ParyMember[];
+  matchResult: string;
+}
+interface IFilterTeams {
+  filterWinner: DetailPlayer[];
+  filterLoser: DetailPlayer[];
+}
 
 function Matches() {
   const { matchId } = useParams();
@@ -11,7 +29,122 @@ function Matches() {
     useQuery<DetailMatchData>(["detailNatcing", matchId], () =>
       getDetailMatching(matchId + "")
     );
-  console.log(detailMatchingData);
+  //승자팀과 패자팀으로 분류하는 함수
+  const selectPosiionFilter = (detailMatchingData: DetailMatchData) => {
+    const winners =
+      detailMatchingData?.teams?.find((team) => team.result === "win")
+        ?.players || [];
+    const losers =
+      detailMatchingData?.teams?.find((team) => team.result === "lose")
+        ?.players || [];
+
+    const winnerPlayerId = [...winners];
+    const loserPlayerId = [...losers];
+
+    let filterWinner: DetailPlayer[] = [];
+    let filterLoser: DetailPlayer[] = [];
+
+    for (const winner of winnerPlayerId) {
+      for (const player of detailMatchingData?.players!) {
+        if (winner === player.playerId) {
+          filterWinner = [...filterWinner, player];
+        }
+      }
+    }
+
+    for (const winner of loserPlayerId) {
+      for (const player of detailMatchingData?.players!) {
+        if (winner === player.playerId) {
+          filterLoser = [...filterLoser, player];
+        }
+      }
+    }
+    return {
+      filterWinner,
+      filterLoser,
+    };
+  };
+  const filterTeams = selectPosiionFilter(detailMatchingData!);
+
+  //filterTeams에 파티유저와 승패결과를 추가하는 함수
+  const selectPartyUsers = (filterTeams: IFilterTeams) => {
+    let addPartyWinner: IAddParyUser[] = [];
+    let addPartyLoser: IAddParyUser[] = [];
+
+    let partyUsers: ParyMember[] = [];
+
+    //각각 유저의 id와 닉네임을 새로운 객체에 넣기
+    for (const winner of filterTeams?.filterWinner) {
+      partyUsers = [
+        ...partyUsers,
+        { partyId: winner.playInfo.partyId, partyMember: winner.nickname },
+      ];
+    }
+    for (const loser of filterTeams?.filterLoser) {
+      partyUsers = [
+        ...partyUsers,
+        { partyId: loser.playInfo.partyId, partyMember: loser.nickname },
+      ];
+    }
+
+    //각각 유저의 객체에 파티맴버와 아이디 넣기
+    //솔로의 파티 아이디는 "b762303013093c43599c55f64fdcff53"
+    for (const winner of filterTeams?.filterWinner) {
+      let newPartyUsers: ParyMember[] = []; // 각 winner마다 새로운 배열 초기화
+      for (const partyUser of partyUsers) {
+        if (
+          winner.playInfo.partyId !== "b762303013093c43599c55f64fdcff53" &&
+          winner.nickname !== partyUser.partyMember &&
+          winner.playInfo.partyId === partyUser.partyId
+        ) {
+          newPartyUsers = [
+            ...newPartyUsers,
+            { partyId: partyUser.partyId, partyMember: partyUser.partyMember },
+          ];
+        }
+      }
+      addPartyWinner = [
+        ...addPartyWinner,
+        {
+          ...winner,
+          partyMembers: [...newPartyUsers],
+          matchResult: "win",
+        },
+      ];
+    }
+
+    for (const loser of filterTeams?.filterLoser) {
+      let newPartyUsers: ParyMember[] = []; // 각 loser마다 새로운 배열 초기화
+      for (const partyUser of partyUsers) {
+        if (
+          loser.playInfo.partyId !== "b762303013093c43599c55f64fdcff53" &&
+          loser.nickname !== partyUser.partyMember &&
+          loser.playInfo.partyId === partyUser.partyId
+        ) {
+          newPartyUsers = [
+            ...newPartyUsers,
+            { partyId: partyUser.partyId, partyMember: partyUser.partyMember },
+          ];
+        }
+      }
+      addPartyLoser = [
+        ...addPartyLoser,
+        {
+          ...loser,
+          partyMembers: [...newPartyUsers],
+          matchResult: "lose",
+        },
+      ];
+    }
+
+    return { addPartyWinner, addPartyLoser };
+  };
+
+  const addReultWinners = selectPartyUsers(filterTeams).addPartyWinner;
+  const addReultLosers = selectPartyUsers(filterTeams).addPartyLoser;
+
+  console.log("addReultWinners", addReultWinners);
+  console.log("addReultLosers", addReultLosers);
 
   return (
     <>
@@ -20,116 +153,36 @@ function Matches() {
       ) : (
         <div className="space-y-9">
           <GameViewDetail detailMatchingData={detailMatchingData!} />
-          <MatchsReport detailMatchingData={detailMatchingData!} />
+          <MatchsReport
+            winners={filterTeams?.filterWinner}
+            losers={filterTeams?.filterLoser}
+          />
           <div className="bg-white">
-            <span className="block px-3 py-4">플레이 정보</span>
-            <main className="flex grid-cols-2 bg-green-300">
+            <span className="block px-3 py-4 text-2xl">플레이 정보</span>
+            <main className="flex grid-cols-2">
               <section className="grid w-full grid-cols-1">
-                <article className="bg-blue-200">
-                  <header className="flex items-center justify-between px-3 py-1 bg-blue-400">
-                    <div className="flex flex-col font-semibold text-white">
-                      <span>[2인 파티/선택]</span>
-                      <span>윤이월</span>
-                    </div>
-                    <div className="space-x-2">
-                      <span>탱</span>
-                      <span>버프</span>
-                      <span>버프</span>
-                      <span>버프</span>
-                    </div>
-                  </header>
-                  <main className="p-2 space-y-3">
-                    <section className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <figure className="relative flex p-1 bg-blue-400 rounded-xl">
-                          <div className="w-14 h-14 bg-slate-400 rounded-xl" />
-                          <span className="absolute bg-green-300 bottom-11 right-12">
-                            포
-                          </span>
-                        </figure>
-                        <figcaption className="text-sm text-slate-500">
-                          <span className="flex text-base text-black">
-                            (Lv 51) 트리비아
-                          </span>
-                          <span>
-                            <p className="text-blue-400">(KDA: 27.0)</p>3킬
-                            0데스 24어시
-                          </span>
-                          <span className="flex">
-                            <p className="text-blue-400">(분당 CS: 2.5)</p>CS:
-                            39개
-                          </span>
-                        </figcaption>
-                      </div>
-                      <p className="text-xs text-slate-500">
-                        <div>
-                          <span>힐량:</span> <span>0</span>
-                        </div>
-                        <div>
-                          <span>공격량:</span> <span> 34.0k</span>
-                        </div>
-                        <div>
-                          <span>피해량:</span> <span> 4.0k</span>
-                        </div>
-                        <div>
-                          <span>타워 공격량:</span> <span> 4.0k</span>
-                        </div>
-                        <div>
-                          <span>획득 코인량:</span> <span> 4.0k</span>
-                        </div>
-                        <div>
-                          <span>전투참여:</span> <span> 4.0k</span>
-                        </div>
-                        <div>
-                          <span>시야:</span> <span>448</span>
-                        </div>
-                      </p>
-                    </section>
-                    <section className="flex items-center space-x-1">
-                      <span className="flex items-center justify-center h-6 px-2 space-x-1 text-sm rounded-2xl bg-slate-100">
-                        <p className="flex items-center justify-center w-6 text-xs rounded-full aspect-square bg-slate-300">
-                          <span>파티</span>
-                        </p>
-                        <p>윤이월</p>
-                      </span>
-                      <span className="flex items-center justify-center h-6 px-2 space-x-1 text-sm text-white rounded-2xl bg-slate-600">
-                        <p className="flex items-center justify-center w-6 text-xs bg-black rounded-full aspect-square">
-                          <span>#</span>
-                        </p>
-                        <p>폭딜러</p>
-                      </span>
-                    </section>
-                    <section className="grid grid-cols-8 gap-1 mx-10">
-                      {...Array.from(Array(16).keys()).map((item) => (
-                        <div
-                          key={item}
-                          className="relative flex items-center justify-center h-12 p-1 mb-2 bg-pink-500 aspect-square"
-                        >
-                          <figure className="bg-black h-11 aspect-square" />
-                          <figcaption className="absolute flex items-center justify-center h-4 bg-pink-500 right-9 bottom-8 aspect-square">
-                            <span className="text-sm text-white">S</span>
-                          </figcaption>
-                        </div>
-                      ))}
-                    </section>
-                  </main>
-                </article>
+                {addReultWinners?.map((winner) => (
+                  <MatchPlayInfo
+                    items={winner.items}
+                    matchResult={winner.matchResult}
+                    nickname={winner.nickname}
+                    partyMembers={winner.partyMembers}
+                    playInfo={winner.playInfo}
+                    position={winner.position}
+                  />
+                ))}
               </section>
               <section className="w-full grid-cols-1 bg-red-400">
-                <article className="bg-red-200 ">
-                  <header className="flex justify-between">
-                    <div className="flex flex-col">
-                      <span>[2인 파티/선택]</span>
-                      <span>윤이월</span>
-                    </div>
-                    <div>
-                      <span>탱</span>
-                      <span>버프</span>
-                      <span>버프</span>
-                      <span>버프</span>
-                    </div>
-                  </header>
-                </article>
+                {addReultLosers?.map((loser) => (
+                  <MatchPlayInfo
+                    items={loser.items}
+                    matchResult={loser.matchResult}
+                    nickname={loser.nickname}
+                    partyMembers={loser.partyMembers}
+                    playInfo={loser.playInfo}
+                    position={loser.position}
+                  />
+                ))}
               </section>
             </main>
           </div>

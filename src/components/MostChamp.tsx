@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { MatchRecord } from "../api";
+import { useEffect, useState } from "react";
+import { MatchRecord, makeImagePath } from "../api";
 import {
   cls,
   findMostChamp,
   findSecondMostChamp,
-  makeImagePath,
   scoreAverage,
   winningRate,
 } from "../libs/utils";

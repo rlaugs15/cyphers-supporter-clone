@@ -1,14 +1,10 @@
 import { MatchRecord, PlayerInfo, partyInfo } from "../api";
 
-export function makeImagePath(characterId: string) {
-  return `https://img-api.neople.co.kr/cy/characters/${characterId}?zoom=2`;
-}
-
 export function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 
-//스코어 평균 계산
+//KDA 계산
 export function winningRate(
   winCount: number,
   loseCount: number,
@@ -200,4 +196,17 @@ export function allMatchData(
     ...normalMatshingData,
     matches: { ...normalMatshingData.matches, rows: allData },
   };
+}
+
+//포지션에 따라 해당 포지션의 첫글자와 색깔이 객체로 나오는 프로필
+export function playPosition(position: string) {
+  if (position === "원거리딜러") {
+    return { positionName: "원", positionColor: "bg-purple-500" };
+  } else if (position === "근거리딜러") {
+    return { positionName: "근", positionColor: "bg-red-500" };
+  } else if (position === "탱커") {
+    return { positionName: "탱", positionColor: "bg-blue-500" };
+  } else if (position === "서포터") {
+    return { positionName: "폿", positionColor: "bg-yellow-300" };
+  }
 }

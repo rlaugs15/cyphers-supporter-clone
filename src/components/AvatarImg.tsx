@@ -1,4 +1,4 @@
-import { makeImagePath } from "../libs/utils";
+import { makeImagePath } from "../api";
 
 interface AvatarImgProps {
   id: string;
