@@ -174,7 +174,7 @@ export interface DetailMatchItem {
   equipSlotName: string; // 장비 슬롯 이름 (예: "손(공격)")
 }
 
-interface Attribute {
+export interface Attribute {
   level: number; // 레벨
   id: string; // 속성의 고유 식별자
   name: string; // 속성 이름 (예: "사격술")

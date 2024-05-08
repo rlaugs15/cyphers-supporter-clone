@@ -210,3 +210,22 @@ export function playPosition(position: string) {
     return { positionName: "폿", positionColor: "bg-yellow-300" };
   }
 }
+
+//분당 cs 평균 계산
+export const calculateAverageCS = (
+  sentinelKillCount: number,
+  demolisherKillCount: number,
+  playTime: number
+) => {
+  // 총 CS를 계산합니다.
+  const totalCS = sentinelKillCount + demolisherKillCount;
+
+  // 분 단위로 시간을 변환합니다.
+  const minutes = playTime / 60;
+
+  // 분당 CS를 계산합니다.
+  const csPerMinute = totalCS / minutes;
+
+  // 결과를 반환합니다.
+  return csPerMinute.toFixed(1);
+};

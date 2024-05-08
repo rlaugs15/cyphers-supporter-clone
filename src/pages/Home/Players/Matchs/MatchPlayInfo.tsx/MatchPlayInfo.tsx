@@ -1,13 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import {
   DetailMatchItem,
   DetailPlayerInfo,
   DetailPosition,
-  getPositionImg,
-  makeImagePath,
 } from "../../../../../api";
-import ItemImg from "../../../../../components/ItemImg";
-import { cls, playPosition, winningRate } from "../../../../../libs/utils";
+import {
+  calculateAverageCS,
+  cls,
+  winningRate,
+} from "../../../../../libs/utils";
 import { ParyMember } from "../Matches";
+import AttCards from "../../../../../components/playInfoCard/AttCards";
+import ChampAndPositionCard from "../../../../../components/playInfoCard/ChampAndPositionCard";
+import GameStats from "../../../../../components/playInfoCard/GameStats";
+import PartyMember from "../../../../../components/playInfoCard/PartyMember";
+import ItemCard from "../../../../../components/playInfoCard/ItemCard";
 
 interface MatchPlayInfoProps {
   items: DetailMatchItem[];
@@ -28,34 +35,17 @@ function MatchPlayInfo({
   playInfo,
   position,
 }: MatchPlayInfoProps) {
-  //분당 cs 평균 계산
-  const calculateAverageCS = (
-    sentinelKillCount: number,
-    demolisherKillCount: number,
-    playTime: number
-  ) => {
-    // 총 CS를 계산합니다.
-    const totalCS = sentinelKillCount + demolisherKillCount;
+  const allCs = playInfo?.sentinelKillCount + playInfo?.demolisherKillCount;
 
-    // 분 단위로 시간을 변환합니다.
-    const minutes = playTime / 60;
-
-    // 분당 CS를 계산합니다.
-    const csPerMinute = totalCS / minutes;
-
-    // 결과를 반환합니다.
-    return csPerMinute.toFixed(1);
-  };
-  //데미지 포인트 등을 1000으로 나누는 함수 ex) 12345 -> 12.3
-  const diviByThousand = (num: number) => {
-    return (num / 1000).toFixed(2);
+  const nav = useNavigate();
+  const onSearchClick = (nickname: string) => {
+    nav(`/${nickname}/mostcyall`);
   };
   const csAverage = calculateAverageCS(
     playInfo?.sentinelKillCount,
     playInfo?.demolisherKillCount,
     playInfo?.playTime
   );
-  const allCs = playInfo?.sentinelKillCount + playInfo?.demolisherKillCount;
   return (
     <article
       className={cls(matchResult === "win" ? "bg-blue-200" : "bg-red-200")}
@@ -78,46 +68,28 @@ function MatchPlayInfo({
         </div>
         <div className="flex space-x-2">
           {position?.attribute.map((att) => (
-            <article key={att.id} className="relative group">
-              <figure
-                style={{ backgroundImage: `url(${getPositionImg(att.id)})` }}
-                className="w-10 bg-cover rounded-full aspect-square"
-              />
-              <figcaption className="absolute p-1 text-sm text-white truncate rounded-sm opacity-0 bg-slate-500 group-hover:opacity-100">
-                {att.name}
-              </figcaption>
-            </article>
+            <AttCards id={att.id} name={att.name} />
           ))}
         </div>
       </header>
       <main className="p-2 space-y-3">
         <section className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <figure
+            <ChampAndPositionCard
+              matchResult={matchResult}
+              characterId={playInfo?.characterId}
+              positionName={position?.name}
+            />
+            <figcaption
+              onClick={() => onSearchClick(nickname)}
               className={cls(
-                "relative flex p-1 rounded-xl",
-                matchResult === "win" ? "bg-blue-400" : "bg-red-400"
+                "text-sm text-slate-500 hover:ring hover:ring-offset-2 hover:cursor-pointer p-1 transition",
+                matchResult === "win"
+                  ? "hover:ring-blue-400"
+                  : "hover:ring-red-400"
               )}
             >
-              <div
-                style={{
-                  backgroundImage: `url(${makeImagePath(
-                    playInfo?.characterId
-                  )})`,
-                }}
-                className="w-14 h-14 bg-slate-400 rounded-xl"
-              />
-              <span
-                className={cls(
-                  "absolute bottom-11 right-11 rounded-md px-1 font-semibold",
-                  playPosition(position?.name)?.positionColor + ""
-                )}
-              >
-                {playPosition(position?.name)?.positionName}
-              </span>
-            </figure>
-            <figcaption className="text-sm text-slate-500">
-              <span className="flex text-base text-black">
+              <span className="flex text-base font-semibold text-black">
                 (Lv {playInfo?.level}) {playInfo?.characterName}
               </span>
               <span className="flex">
@@ -149,50 +121,20 @@ function MatchPlayInfo({
               </span>
             </figcaption>
           </div>
-          <p className="text-xs text-slate-500">
-            <div>
-              <span>힐량:</span> <span>{playInfo?.healAmount}</span>
-            </div>
-            <div>
-              <span>공격량:</span>{" "}
-              <span> {diviByThousand(playInfo?.attackPoint)}k</span>
-            </div>
-            <div>
-              <span>피해량:</span>{" "}
-              <span> {diviByThousand(playInfo?.damagePoint)}k</span>
-            </div>
-            <div>
-              <span>타워 공격량:</span>{" "}
-              <span> {diviByThousand(playInfo?.towerAttackPoint)}k</span>
-            </div>
-            <div>
-              <span>획득 코인량:</span>{" "}
-              <span> {diviByThousand(playInfo?.getCoin)}k</span>
-            </div>
-            <div>
-              <span>전투참여:</span> <span>{playInfo?.battlePoint}</span>
-            </div>
-            <div>
-              <span>시야:</span> <span>{playInfo?.sightPoint}</span>
-            </div>
-          </p>
+          <GameStats playInfo={playInfo} />
         </section>
-        <section className="flex items-center space-x-1">
+        <section className="flex items-center space-x-1 h-7">
           {partyMembers?.map((member) => (
-            <span
-              key={member.partyId}
-              className="flex items-center justify-center h-6 px-2 space-x-1 text-sm rounded-2xl bg-slate-100"
-            >
-              <p className="flex items-center justify-center w-6 text-xs rounded-full aspect-square bg-slate-300">
-                <span>파티</span>
-              </p>
-              <p>{member.partyMember}</p>
-            </span>
+            <PartyMember
+              partyId={member.partyId}
+              partyMember={member.partyMember}
+              matchResult={matchResult}
+            />
           ))}
         </section>
         <section className="grid grid-cols-8 gap-1 mx-10">
           {items?.map((item) => (
-            <ItemImg
+            <ItemCard
               itemId={item.itemId}
               itemName={item.itemName}
               rarityName={item.rarityName}

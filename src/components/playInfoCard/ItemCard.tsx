@@ -1,5 +1,5 @@
-import { getItemImg } from "../api";
-import { cls } from "../libs/utils";
+import { getItemImg } from "../../api";
+import { cls } from "../../libs/utils";
 
 interface ItemImgProps {
   itemId: string;
@@ -7,7 +7,7 @@ interface ItemImgProps {
   rarityName: string;
 }
 
-function ItemImg({ itemId, itemName, rarityName }: ItemImgProps) {
+function ItemCard({ itemId, itemName, rarityName }: ItemImgProps) {
   const selectRarityColor = (rarityName: string) => {
     let itemColor = "";
     if (rarityName === "유니크") {
@@ -45,4 +45,4 @@ function ItemImg({ itemId, itemName, rarityName }: ItemImgProps) {
   );
 }
 
-export default ItemImg;
+export default ItemCard;
