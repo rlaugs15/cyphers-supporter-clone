@@ -1,5 +1,7 @@
 import { getItemImg } from "../../api";
-import { cls } from "../../libs/utils";
+import { cls, selectRarityColor } from "../../libs/utils";
+import { useSetRecoilState } from "recoil";
+import { itemDetailScreenAtom, itemIdAtom } from "../../atoms";
 
 interface ItemImgProps {
   itemId: string;
@@ -8,22 +10,16 @@ interface ItemImgProps {
 }
 
 function ItemCard({ itemId, itemName, rarityName }: ItemImgProps) {
-  const selectRarityColor = (rarityName: string) => {
-    let itemColor = "";
-    if (rarityName === "유니크") {
-      itemColor = "bg-pink-500";
-    } else if (rarityName === "레어") {
-      itemColor = "bg-purple-500";
-    } else if (rarityName === "언커먼") {
-      itemColor = "bg-blue-500";
-    } else if (rarityName === "커먼") {
-      itemColor = "bg-white";
-    }
-    return itemColor;
-  };
   const itemFirstName = rarityName.charAt(0);
+  const setItemDetailScreen = useSetRecoilState(itemDetailScreenAtom);
+  const setItemId = useSetRecoilState(itemIdAtom);
+  const onItemDetailClick = () => {
+    setItemDetailScreen(true);
+    setItemId(itemId);
+  };
   return (
     <div
+      onClick={onItemDetailClick}
       className={cls(
         "relative flex items-center justify-center h-12 p-1 mb-2 group aspect-square",
         selectRarityColor(rarityName)

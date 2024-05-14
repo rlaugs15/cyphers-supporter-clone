@@ -229,3 +229,34 @@ export const calculateAverageCS = (
   // 결과를 반환합니다.
   return csPerMinute.toFixed(1);
 };
+
+//아이템의 티어를 받아서 티어의 색깍을 반환
+export function selectRarityColor(
+  rarityName: string,
+  textColor: boolean = false
+) {
+  let itemColor = "";
+  if (!textColor) {
+    if (rarityName === "유니크") {
+      itemColor = "bg-pink-500";
+    } else if (rarityName === "레어") {
+      itemColor = "bg-purple-500";
+    } else if (rarityName === "언커먼") {
+      itemColor = "bg-blue-500";
+    } else if (rarityName === "커먼") {
+      itemColor = "bg-black";
+    }
+  } else if (textColor) {
+    if (rarityName === "유니크") {
+      itemColor = "#D7379B";
+    } else if (rarityName === "레어") {
+      itemColor = "#805AD5";
+    } else if (rarityName === "언커먼") {
+      itemColor = "#3B82F6";
+    } else if (rarityName === "커먼") {
+      itemColor = "#000000";
+    }
+  }
+
+  return itemColor;
+}

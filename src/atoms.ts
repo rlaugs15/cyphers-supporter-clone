@@ -60,3 +60,15 @@ export const allMatshingLoadingAtom = atom({
   key: "allMatshingLoading",
   default: false,
 });
+
+//itemDetail 화면 on, off 전달
+export const itemDetailScreenAtom = atom({
+  key: "itemDetailScreen",
+  default: false,
+});
+
+//아이템 id
+export const itemIdAtom = atom({
+  key: "itemId",
+  default: "",
+});

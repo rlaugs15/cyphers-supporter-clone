@@ -142,10 +142,6 @@ function Matches() {
 
   const addReultWinners = selectPartyUsers(filterTeams).addPartyWinner;
   const addReultLosers = selectPartyUsers(filterTeams).addPartyLoser;
-
-  console.log("addReultWinners", addReultWinners);
-  console.log("addReultLosers", addReultLosers);
-
   return (
     <>
       {detailMatchingLoading ? (

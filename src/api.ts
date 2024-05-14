@@ -254,6 +254,29 @@ export async function getDetailMatching(matchId: string) {
   return response.data;
 }
 
+export interface DetailItem {
+  itemId: string;
+  itemName: string;
+  characterId: string;
+  characterName: string;
+  rarityCode: string;
+  rarityName: string;
+  slotCode: string;
+  slotName: string;
+  seasonCode: string;
+  seasonName: string;
+  explain: string;
+  explainDetail: string;
+}
+
+//아이템 디테일 데이터
+export async function getDetailItem(itemId: string) {
+  const response = await axios.get(
+    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/battleitems/${itemId}?apikey=${API_KEY}`
+  );
+  return response.data;
+}
+
 //포지션 이미지
 export function getPositionImg(attId: string) {
   return `https://img-api.neople.co.kr/cy/position-attributes/${attId}`;

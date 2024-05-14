@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import {
+  DetailItem,
   DetailMatchItem,
   DetailPlayerInfo,
   DetailPosition,
+  getDetailItem,
 } from "../../../../../api";
 import {
   calculateAverageCS,
@@ -15,6 +17,7 @@ import ChampAndPositionCard from "../../../../../components/playInfoCard/ChampAn
 import GameStats from "../../../../../components/playInfoCard/GameStats";
 import PartyMember from "../../../../../components/playInfoCard/PartyMember";
 import ItemCard from "../../../../../components/playInfoCard/ItemCard";
+import { useQuery } from "react-query";
 
 interface MatchPlayInfoProps {
   items: DetailMatchItem[];
