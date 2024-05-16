@@ -1,4 +1,5 @@
 import { PlayerInfo, partyInfo } from "../api";
+import Loading from "./Loading";
 import MostChamp from "./MostChamp";
 
 interface IParty {
@@ -57,9 +58,7 @@ function MostChampBox({
   return (
     <>
       {matshingLoading ? (
-        <div className="flex items-center justify-center w-full h-full">
-          <span className="text-4xl font-semibold">로딩 중...</span>
-        </div>
+        <Loading />
       ) : (
         <main className="grid h-full grid-cols-3">
           <section className="col-span-2 p-2">

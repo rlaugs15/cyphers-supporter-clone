@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import PlayerInfoCard from "../../../../components/PlayerInfoCard";
 import { allMatchData } from "../../../../libs/utils";
 import RecentGameCard from "./RecentGameCard";
+import Loading from "../../../../components/Loading";
 
 function PlayersComparison() {
   const [searchParams] = useSearchParams();
@@ -72,9 +73,7 @@ function PlayersComparison() {
   return (
     <>
       {player1InfoLoading ? (
-        <div className="flex items-center justify-center w-full h-full bg-white">
-          <span className="text-2xl font-semibold text">로딩 중...</span>
-        </div>
+        <Loading textWhite />
       ) : (
         <article className="p-4 bg-white">
           <section className="pb-4 border-b-2">
@@ -87,9 +86,7 @@ function PlayersComparison() {
         </article>
       )}
       {player2InfoLoading ? (
-        <div className="flex items-center justify-center w-full h-full bg-white">
-          <span className="text-2xl font-semibold ">로딩 중...</span>
-        </div>
+        <Loading textWhite />
       ) : (
         <article className="p-4 bg-white">
           <section className="pb-4 border-b-2">

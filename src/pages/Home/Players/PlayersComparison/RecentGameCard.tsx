@@ -3,6 +3,7 @@ import { PlayerInfo } from "../../../../api";
 import AvatarImg from "../../../../components/AvatarImg";
 import { cls, winningRate } from "../../../../libs/utils";
 import PositionImg from "../../../../components/PositionImg";
+import Loading from "../../../../components/Loading";
 
 interface RecentGameCardProps {
   playerAllMatchLoading: boolean;
@@ -17,9 +18,7 @@ function RecentGameCard({
     <section className="space-y-1">
       <div className="py-4 text-xl font-semibold">최근 5게임</div>
       {playerAllMatchLoading ? (
-        <div className="flex items-center justify-center w-full h-full">
-          <span className="text-2xl font-semibold">로딩 중...</span>
-        </div>
+        <Loading />
       ) : (
         <>
           {playerMatchData?.matches?.rows?.slice(0, 6).map((match) => (

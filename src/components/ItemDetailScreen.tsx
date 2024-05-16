@@ -4,6 +4,7 @@ import { DetailItem, getDetailItem, getItemImg } from "../api";
 import { useQuery } from "react-query";
 import React, { useEffect } from "react";
 import { selectRarityColor } from "../libs/utils";
+import Loading from "./Loading";
 
 /* interface ItemDetailScreenProps {
   detailItemingLoading: boolean;
@@ -18,8 +19,6 @@ function ItemDetailScreen() {
     useQuery<DetailItem>(["detailItem", itemId], () =>
       getDetailItem(itemId + "")
     );
-  console.log(detailItemingData);
-  console.log(detailItemingData?.rarityName);
 
   const onDeleteItemScreen = () => {
     setItemDetailScreen(false);
@@ -54,7 +53,6 @@ function ItemDetailScreen() {
   }, []);
 
   const textColor = selectRarityColor(detailItemingData?.rarityName + "", true);
-  console.log(textColor);
 
   return (
     <div
@@ -62,9 +60,7 @@ function ItemDetailScreen() {
       className="fixed top-0 right-0 flex items-center justify-center w-screen h-screen m-0 bg-black bg-opacity-35"
     >
       {detailItemingLoading ? (
-        <span className="text-4xl font-semibold text-white bg-cover">
-          로딩 중...
-        </span>
+        <Loading />
       ) : (
         <article
           onClick={onDeleteCancel}

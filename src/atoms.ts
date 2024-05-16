@@ -72,3 +72,9 @@ export const itemIdAtom = atom({
   key: "itemId",
   default: "",
 });
+
+//캐릭터 id
+export const characterIdAtom = atom({
+  key: "characterId",
+  default: "",
+});

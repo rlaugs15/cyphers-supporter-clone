@@ -277,6 +277,21 @@ export async function getDetailItem(itemId: string) {
   return response.data;
 }
 
+interface Character {
+  characterId: string;
+  characterName: string;
+}
+export interface ICharacters {
+  rows: Character[];
+}
+
+export async function getCharacters() {
+  const response = await axios.get(
+    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/characters?apikey=${API_KEY}`
+  );
+  return response.data;
+}
+
 //포지션 이미지
 export function getPositionImg(attId: string) {
   return `https://img-api.neople.co.kr/cy/position-attributes/${attId}`;

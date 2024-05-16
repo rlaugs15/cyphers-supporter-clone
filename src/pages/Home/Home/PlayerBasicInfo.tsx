@@ -26,6 +26,7 @@ import {
 } from "../../../atoms";
 import { useEffect, useMemo } from "react";
 import PlayerInfoCard from "../../../components/PlayerInfoCard";
+import Loading from "../../../components/Loading";
 
 function PlayerBasicInfo() {
   const { nickname } = useParams();
@@ -79,9 +80,7 @@ function PlayerBasicInfo() {
   return (
     <>
       {playerInfoLoading ? (
-        <div className="flex items-center justify-center w-full h-full">
-          <div className="text-5xl font-semibold">로딩 중...</div>
-        </div>
+        <Loading />
       ) : (
         <>
           <div className="flex items-center justify-between mb-7">

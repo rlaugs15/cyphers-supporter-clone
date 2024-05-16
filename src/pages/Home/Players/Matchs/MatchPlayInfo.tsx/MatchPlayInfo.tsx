@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import {
-  DetailItem,
   DetailMatchItem,
   DetailPlayerInfo,
   DetailPosition,
-  getDetailItem,
 } from "../../../../../api";
 import {
   calculateAverageCS,
@@ -12,12 +10,11 @@ import {
   winningRate,
 } from "../../../../../libs/utils";
 import { ParyMember } from "../Matches";
-import AttCards from "../../../../../components/playInfoCard/AttCards";
 import ChampAndPositionCard from "../../../../../components/playInfoCard/ChampAndPositionCard";
 import GameStats from "../../../../../components/playInfoCard/GameStats";
 import PartyMember from "../../../../../components/playInfoCard/PartyMember";
 import ItemCard from "../../../../../components/playInfoCard/ItemCard";
-import { useQuery } from "react-query";
+import AttCards from "../../../../../components/playInfoCard/AttCardsArray";
 
 interface MatchPlayInfoProps {
   items: DetailMatchItem[];
@@ -71,7 +68,7 @@ function MatchPlayInfo({
         </div>
         <div className="flex space-x-2">
           {position?.attribute.map((att) => (
-            <AttCards id={att.id} name={att.name} />
+            <AttCards key={att.id} id={att.id} name={att.name} />
           ))}
         </div>
       </header>
@@ -129,6 +126,7 @@ function MatchPlayInfo({
         <section className="flex items-center space-x-1 h-7">
           {partyMembers?.map((member) => (
             <PartyMember
+              key={member.partyId}
               partyId={member.partyId}
               partyMember={member.partyMember}
               matchResult={matchResult}
@@ -138,6 +136,7 @@ function MatchPlayInfo({
         <section className="grid grid-cols-8 gap-1 mx-10">
           {items?.map((item) => (
             <ItemCard
+              key={item.itemId}
               itemId={item.itemId}
               itemName={item.itemName}
               rarityName={item.rarityName}

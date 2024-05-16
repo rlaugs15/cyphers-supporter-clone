@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import MatchsReport from "./MatchReport/MatchsReport";
 import GameViewDetail from "./GameViewDeatil";
 import MatchPlayInfo from "./MatchPlayInfo.tsx/MatchPlayInfo";
+import Loading from "../../../../components/Loading";
 
 export interface ParyMember {
   partyId: string;
@@ -145,7 +146,7 @@ function Matches() {
   return (
     <>
       {detailMatchingLoading ? (
-        <span className="text-3xl font-semibold">로딩 중...</span>
+        <Loading />
       ) : (
         <div className="space-y-9">
           <GameViewDetail detailMatchingData={detailMatchingData!} />
@@ -159,6 +160,7 @@ function Matches() {
               <section className="grid w-full grid-cols-1">
                 {addReultWinners?.map((winner) => (
                   <MatchPlayInfo
+                    key={winner.playerId}
                     items={winner.items}
                     matchResult={winner.matchResult}
                     nickname={winner.nickname}
@@ -171,6 +173,7 @@ function Matches() {
               <section className="w-full grid-cols-1 bg-red-400">
                 {addReultLosers?.map((loser) => (
                   <MatchPlayInfo
+                    key={loser.playerId}
                     items={loser.items}
                     matchResult={loser.matchResult}
                     nickname={loser.nickname}

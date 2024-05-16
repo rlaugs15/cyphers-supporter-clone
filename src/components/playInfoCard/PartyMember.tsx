@@ -21,9 +21,9 @@ function PartyMember({ partyId, partyMember, matchResult }: PartyMemberProps) {
         matchResult === "win" ? "hover:ring-blue-400" : "hover:ring-red-400"
       )}
     >
-      <p className="flex items-center justify-center w-6 text-xs rounded-full aspect-square bg-slate-300">
+      <div className="flex items-center justify-center w-6 text-xs rounded-full aspect-square bg-slate-300">
         <span>파티</span>
-      </p>
+      </div>
       <p>{partyMember}</p>
     </span>
   );

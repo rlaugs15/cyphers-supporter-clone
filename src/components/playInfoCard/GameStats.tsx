@@ -11,7 +11,7 @@ function GameStats({ playInfo }: GameStatsProps) {
   };
 
   return (
-    <p className="text-xs text-slate-500">
+    <figcaption className="text-xs text-slate-500">
       <div>
         <span>힐량:</span> <span>{playInfo?.healAmount}</span>
       </div>
@@ -37,7 +37,7 @@ function GameStats({ playInfo }: GameStatsProps) {
       <div>
         <span>시야:</span> <span>{playInfo?.sightPoint}</span>
       </div>
-    </p>
+    </figcaption>
   );
 }
 
