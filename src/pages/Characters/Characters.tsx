@@ -21,15 +21,19 @@ function Characters() {
     ? decodeURIComponent(match.params.characterName + "")
     : null;
 
-  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const { register, handleSubmit, setValue, watch } = useForm<IForm>();
   const onCaracterSubmit = ({ character }: IForm) => {
     setValue("character", "");
-    console.log(character);
   };
   const nav = useNavigate();
   const onCharacterInfoClick = (characterName: string) => {
     nav(`${characterName}`);
   };
+  //캐릭터 실시간 검색
+  const characterRealTime = watch("character");
+  const charactersRealTimeData = charactersData?.rows?.filter((character) =>
+    character.characterName.includes(characterRealTime)
+  );
   return (
     <div className="space-y-5">
       <div className="p-3 space-y-3 bg-white drop-shadow-md">
@@ -64,7 +68,7 @@ function Characters() {
           <Loading />
         ) : (
           <main className="grid grid-cols-12 gap-1">
-            {charactersData?.rows.map((character) => (
+            {charactersRealTimeData?.map((character) => (
               <button
                 onClick={() => onCharacterInfoClick(character.characterName)}
                 className={cls(
