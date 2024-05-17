@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { Outlet, useMatch, useNavigate } from "react-router-dom";
-import { ICharacters, getCharacters, makeImagePath } from "../../api";
+import { Outlet } from "react-router-dom";
+import { ICharacters, getCharacters } from "../../api";
 import { useQuery } from "react-query";
 import Loading from "../../components/Loading";
-import { cls } from "../../libs/utils";
+import CharacterCard from "./CharacterCard";
 
 interface IForm {
   character: string;
@@ -16,19 +16,11 @@ function Characters() {
     });
   console.log(charactersData);
 
-  const match = useMatch("/characters/:characterName");
-  const characterName = match
-    ? decodeURIComponent(match.params.characterName + "")
-    : null;
-
   const { register, handleSubmit, setValue, watch } = useForm<IForm>();
   const onCaracterSubmit = ({ character }: IForm) => {
     setValue("character", "");
   };
-  const nav = useNavigate();
-  const onCharacterInfoClick = (characterName: string) => {
-    nav(`${characterName}`);
-  };
+
   //캐릭터 실시간 검색
   const characterRealTime = watch("character");
   const charactersRealTimeData = charactersData?.rows?.filter((character) =>
@@ -69,34 +61,10 @@ function Characters() {
         ) : (
           <main className="grid grid-cols-12 gap-1">
             {charactersRealTimeData?.map((character) => (
-              <button
-                onClick={() => onCharacterInfoClick(character.characterName)}
-                className={cls(
-                  "focus:bg-red-600 focus:p-1 group",
-                  character.characterName === characterName
-                    ? "bg-red-600 p-1"
-                    : ""
-                )}
-              >
-                <figure
-                  key={character.characterId}
-                  style={{
-                    backgroundImage: `url(${makeImagePath(
-                      character.characterId
-                    )})`,
-                  }}
-                  className={cls(
-                    "flex items-end w-auto bg-black bg-cover aspect-square grayscale-[80%] group-focus:grayscale-0",
-                    character.characterName === characterName
-                      ? "grayscale-0"
-                      : ""
-                  )}
-                >
-                  <figcaption className="w-full text-sm text-white bg-black text-start opacity-60">
-                    {character.characterName}
-                  </figcaption>
-                </figure>
-              </button>
+              <CharacterCard
+                characterId={character?.characterId}
+                characterName={character?.characterName}
+              />
             ))}
           </main>
         )}
