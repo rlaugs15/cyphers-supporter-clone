@@ -78,3 +78,22 @@ export const characterIdAtom = atom({
   key: "characterId",
   default: "",
 });
+
+//캐릭터 총 인구수
+export const characterLenthAtom = atom({
+  key: "characterLenth",
+  default: 0,
+});
+
+//뽑아내야할 데이터
+export interface IWinAndPickStat {
+  characterId: string;
+  characterName: string;
+  winRate?: number;
+  pickRate?: number;
+}
+
+export const charWindAndPickAtom = atom<IWinAndPickStat[]>({
+  key: "charWindAndPick",
+  default: [],
+});

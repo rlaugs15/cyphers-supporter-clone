@@ -4,6 +4,24 @@ export function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 
+export const baseBoxStyle = "p-3 bg-white drop-shadow-md";
+
+//mater 태그의 바 색을 검정으로
+export const meterStylesBlack = `
+    meter::-webkit-meter-optimum-value {
+      background: #000;
+    }
+    meter::-webkit-meter-suboptimum-value {
+      background: #000;
+    }
+    meter::-webkit-meter-even-less-good-value {
+      background: #000;
+    }
+    meter::-moz-meter-bar {
+      background: #000;
+    }
+  `;
+
 //KDA 계산
 export function winningRate(
   winCount: number,
@@ -259,4 +277,23 @@ export function selectRarityColor(
   }
 
   return itemColor;
+}
+
+//숫자가 들어있는 배열의 평균 값 구하기
+export function calculateAverage(numbers: number[]) {
+  if (!Array.isArray(numbers) || numbers.length === 0) {
+    throw new Error("잘못된 입력: 숫자 배열을 제공하십시오.");
+  }
+
+  const sum = numbers.reduce((accumulator, currentValue) => {
+    if (typeof currentValue !== "number") {
+      throw new Error("잘못된 입력: 배열에는 숫자만 포함되어야 합니다.");
+    }
+    return accumulator + currentValue;
+  }, 0);
+
+  const average = sum / numbers.length;
+
+  // 소수점 4자리까지 반올림
+  return Math.round(average * 10000) / 10000;
 }

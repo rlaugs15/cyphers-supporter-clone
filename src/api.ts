@@ -284,10 +284,49 @@ interface Character {
 export interface ICharacters {
   rows: Character[];
 }
-
+//캐릭터 정보 조회
 export async function getCharacters() {
   const response = await axios.get(
     `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/characters?apikey=${API_KEY}`
+  );
+  return response.data;
+}
+
+export interface CharacterRanker {
+  rank: number;
+  beforeRank: number;
+  playerId: string;
+  nickname: string;
+  grade: number;
+  winCount: number;
+  loseCount: number;
+  winRate: number;
+  clanName: string;
+}
+
+export interface CharacterRanking {
+  rows: CharacterRanker[];
+}
+
+//승리수: winCount, 승률: winRate, 킬: killCount, 도움: assistCount, 경험치:exp
+type IRankingType =
+  | "winCount"
+  | "winRate"
+  | "killCount"
+  | "assistCount"
+  | "exp";
+//캐릭터 랭킹 조회
+export async function getCharacterRanking(
+  characterId: string,
+  rankingType: IRankingType,
+  playerId?: string,
+  offset: string = "0",
+  limit: string = "1000" //범위는 10~1000 이어야 한다.
+) {
+  const response = await axios.get(
+    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/ranking/characters/${characterId}/${rankingType}?${
+      playerId ? `playerId=${playerId}&` : ""
+    }&offset=${offset}&limit=${limit}&apikey=${API_KEY}`
   );
   return response.data;
 }

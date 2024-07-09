@@ -4,6 +4,10 @@ import { ICharacters, getCharacters } from "../../api";
 import { useQuery } from "react-query";
 import Loading from "../../components/Loading";
 import CharacterCard from "./CharacterCard";
+import { useSetRecoilState } from "recoil";
+import { characterLenthAtom } from "../../atoms";
+import CharWindAndPick from "./CharWinAndPick";
+import { useEffect } from "react";
 
 interface IForm {
   character: string;
@@ -14,7 +18,13 @@ function Characters() {
     useQuery<ICharacters>(["characters"], () => getCharacters(), {
       staleTime: 1000 * 60 * 20,
     });
-  console.log(charactersData);
+
+  const characterLenth = useSetRecoilState(characterLenthAtom);
+  useEffect(() => {
+    if (charactersData?.rows) {
+      characterLenth(charactersData?.rows.length);
+    }
+  }, [charactersData]);
 
   const { register, handleSubmit, setValue, watch } = useForm<IForm>();
   const onCaracterSubmit = ({ character }: IForm) => {
@@ -26,8 +36,17 @@ function Characters() {
   const charactersRealTimeData = charactersData?.rows?.filter((character) =>
     character.characterName.includes(characterRealTime)
   );
+
   return (
     <div className="space-y-5">
+      {!charactersLoading &&
+        charactersData?.rows.map((character) => (
+          <CharWindAndPick
+            key={character.characterId}
+            characterId={character.characterId}
+            characterName={character.characterName}
+          />
+        ))}
       <div className="p-3 space-y-3 bg-white drop-shadow-md">
         <span className="text-2xl mb-7">캐릭터를 선택하세요.</span>
         <nav className="flex justify-end">
@@ -62,6 +81,7 @@ function Characters() {
           <main className="grid grid-cols-12 gap-1">
             {charactersRealTimeData?.map((character) => (
               <CharacterCard
+                key={character?.characterId}
                 characterId={character?.characterId}
                 characterName={character?.characterName}
               />

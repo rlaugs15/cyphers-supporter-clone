@@ -16,7 +16,11 @@ function CharacterCard({ characterId, characterName }: CharacterCardProps) {
   //캐릭터 이미지 클릭 시 Outlet으로 url 이동
   const nav = useNavigate();
   const onCharacterInfoClick = (characterName: string) => {
-    nav(`${characterName}`);
+    nav(`${characterName}`, {
+      state: {
+        characterId,
+      },
+    });
   };
   return (
     <button

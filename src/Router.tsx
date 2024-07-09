@@ -9,7 +9,6 @@ import MostCyNomal from "./pages/Home/Home/MostCypher/MostCyNomal";
 import Players from "./pages/Home/Players/Players";
 import PlayersComparison from "./pages/Home/Players/PlayersComparison/PlayersComparison";
 import Matches from "./pages/Home/Players/Matchs/Matches";
-import ItemDetailScreen from "./components/ItemDetailScreen";
 import CharacterInfo from "./pages/Characters/CharacterInfo/CharacterInfo";
 
 export const router = createBrowserRouter([
