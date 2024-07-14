@@ -3,7 +3,7 @@ import { PlayerInfo } from "../../../../api";
 import AvatarImg from "../../../../components/AvatarImg";
 import { cls, winningRate } from "../../../../libs/utils";
 import PositionImg from "../../../../components/PositionImg";
-import Loading from "../../../../components/Loading";
+import Skeleton from "react-loading-skeleton";
 
 interface RecentGameCardProps {
   playerAllMatchLoading: boolean;
@@ -17,11 +17,24 @@ function RecentGameCard({
   return (
     <section className="space-y-1">
       <div className="py-4 text-xl font-semibold">최근 5게임</div>
-      {playerAllMatchLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {playerMatchData?.matches?.rows?.slice(0, 6).map((match) => (
+      <>
+        {playerAllMatchLoading &&
+          [...Array.from(Array(5).keys())].map((item) => (
+            <div
+              key={item}
+              className="flex items-center justify-start w-full space-x-3 bg-slate-300"
+            >
+              <Skeleton width={64} height={64} circle />
+              <Skeleton width={32} height={32} circle />
+              <Skeleton width={24} height={24} circle />
+              <figcaption className="flex flex-col">
+                <Skeleton width={100} />
+                <Skeleton width={80} />
+              </figcaption>
+            </div>
+          ))}
+        {!playerAllMatchLoading &&
+          playerMatchData?.matches?.rows?.slice(0, 6).map((match) => (
             <Link
               to={`/matches/${match?.matchId}`}
               className={cls(
@@ -49,8 +62,7 @@ function RecentGameCard({
               </figcaption>
             </Link>
           ))}
-        </>
-      )}
+      </>
     </section>
   );
 }

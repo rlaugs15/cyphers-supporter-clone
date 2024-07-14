@@ -2,12 +2,10 @@ import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
 import { CharacterRanking, getCharacterRanking } from "../../../api";
 import { baseBoxStyle, meterStylesBlack } from "../../../libs/utils";
-import Loading from "../../../components/Loading";
-import { useRecoilValue } from "recoil";
-import { characterLenthAtom, charWindAndPickAtom } from "../../../atoms";
 import PositionStats from "./PositionStats";
 import ItemCard from "../../../components/playInfoCard/ItemCard";
-import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import WinAndPickSection from "./WinAndPick/WinAndPickSection";
 
 function CharacterInfo() {
   const { characterName } = useParams();
@@ -15,57 +13,21 @@ function CharacterInfo() {
   const {
     state: { characterId },
   } = useLocation();
-  //픽 순위 출력
-  const [pickNum, setPickNum] = useState(0);
-  const [WinNum, setWinNum] = useState(0);
-  const charWindAndPick = useRecoilValue(charWindAndPickAtom);
 
-  const characterLenth = useRecoilValue(characterLenthAtom);
   const { isLoading: characterRankLoading, data: characterRankData } =
     useQuery<CharacterRanking>(["characterRanking", characterId], () =>
       getCharacterRanking(characterId + "", "winRate")
     );
 
-  //캐릭터를 플레이 한 유저들을 승률 평균 계산
-  const calcWinRate = (characterRankData: CharacterRanking) => {
-    let winRates: number[] = [];
-
-    for (const characterRanker of characterRankData?.rows) {
-      winRates = [...winRates, characterRanker?.winRate];
-    }
-
-    // 배열의 합을 구하기
-    const total = winRates.reduce((a, b) => a + b, 0);
-
-    // 평균을 구하기
-    const average = total / winRates.length;
-
-    return average.toFixed(2);
-  };
-
-  //승률 생성
-  useEffect(() => {
-    let newCharWindAndPick = [...charWindAndPick];
-    const winRankIndex = newCharWindAndPick
-      .sort((a, b) => Number(a.winRate) - Number(b.winRate))
-      .findIndex((item) => item.characterName === characterName);
-    setWinNum(winRankIndex);
-  }, [charWindAndPick, setWinNum, characterName]);
-
-  //픽률 생성
-  useEffect(() => {
-    let newCharWindAndPick = [...charWindAndPick];
-    const pickRankIndex = newCharWindAndPick
-      .sort((a, b) => Number(a.pickRate) - Number(b.pickRate))
-      .findIndex((item) => item.characterName === characterName);
-    setPickNum(pickRankIndex);
-  }, [charWindAndPick, setPickNum, characterName]);
-
   return (
     <>
       <style>{meterStylesBlack}</style>
       <header className="flex justify-between w-full p-3 text-2xl bg-white drop-shadow-md">
-        <span>{characterName}의 정보</span>
+        {characterName ? (
+          <span>{characterName}의 정보</span>
+        ) : (
+          <Skeleton width={160} />
+        )}
         <figure className="flex items-center space-x-2">
           <button className="relative p-3 transition rounded-full hover:bg-slate-200 group">
             <svg
@@ -113,72 +75,34 @@ function CharacterInfo() {
           </button>
         </figure>
       </header>
-      {characterRankLoading ? (
-        <div className="py-3 bg-white">
-          <Loading />
-        </div>
-      ) : (
-        <>
-          <section>
-            <header className="p-3 bg-white">
-              <div className="flex justify-start">
-                <span className="text-2xl">승률/픽률 통계</span>
-              </div>
-            </header>
-            <section className={`grid grid-cols-2 gap-9 ${baseBoxStyle}`}>
-              <div className="flex flex-col">
-                <span>
-                  승률: {WinNum + 1}위 ({WinNum + 1}/{characterLenth})
-                </span>
-                <meter
-                  min="0"
-                  max="100"
-                  value={calcWinRate(characterRankData!)}
-                  className="w-full h-6"
-                />
-                <p className="flex justify-end">
-                  <span>{calcWinRate(characterRankData!)}%</span>
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <span>
-                  픽률 {pickNum + 1}위 ({pickNum + 1}/{characterLenth})
-                </span>
-                <meter
-                  min="0"
-                  max="100"
-                  value={pickNum + 1}
-                  className="w-full h-6"
-                />
-                <p className="flex justify-end">
-                  <span>{pickNum + 1}%</span>
-                </p>
-              </div>
-            </section>
-          </section>
-          <PositionStats />
-          {/*아이템파트*/}
-          <div className={`${baseBoxStyle}`}>
-            <header className="flex justify-start p-3 bg-white">
-              <div className="flex justify-start">
-                <span className="text-2xl">추천 아이템</span>
-              </div>
-            </header>
-            <section className="flex justify-center w-full">
-              <section className="grid grid-cols-8 gap-3">
-                {[...Array.from(Array(16).keys())].map((num) => (
-                  <ItemCard
-                    key={num}
-                    itemId="1"
-                    itemName="장갑"
-                    rarityName="유니크"
-                  />
-                ))}
-              </section>
-            </section>
+      <section>
+        <WinAndPickSection
+          characterId={characterId}
+          loading={characterRankLoading}
+          characterRankData={characterRankData}
+        />
+      </section>
+      <PositionStats />
+      {/*아이템파트*/}
+      <div className={`${baseBoxStyle}`}>
+        <header className="flex justify-start p-3 bg-white">
+          <div className="flex justify-start">
+            <span className="text-2xl">추천 아이템</span>
           </div>
-        </>
-      )}
+        </header>
+        <section className="flex justify-center w-full">
+          <section className="grid grid-cols-8 gap-3">
+            {[...Array.from(Array(16).keys())].map((num) => (
+              <ItemCard
+                key={num}
+                itemId="1"
+                itemName="장갑"
+                rarityName="유니크"
+              />
+            ))}
+          </section>
+        </section>
+      </div>
     </>
   );
 }

@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import React, { useEffect } from "react";
 import { selectRarityColor } from "../libs/utils";
 import Loading from "./Loading";
+import Skeleton from "react-loading-skeleton";
 
 /* interface ItemDetailScreenProps {
   detailItemingLoading: boolean;
@@ -59,38 +60,56 @@ function ItemDetailScreen() {
       onClick={onDeleteItemScreen}
       className="fixed top-0 right-0 flex items-center justify-center w-screen h-screen m-0 bg-black bg-opacity-35"
     >
-      {detailItemingLoading ? (
-        <Loading />
-      ) : (
-        <article
-          onClick={onDeleteCancel}
-          className="z-30 bg-white w-[903px] h-[456px] flex flex-col p-4 text-slate-600"
-        >
-          <section className="overflow-auto min-h-96">
-            <div className="flex items-center mb-10 space-x-2">
-              <figure
-                style={{ backgroundImage: `url(${getItemImg(itemId)})` }}
-                className="w-16 bg-black aspect-square"
-              />
-              <figcaption
-                style={{ color: textColor }}
-                className="text-xl font-semibold"
-              >
-                {detailItemingData?.itemName}
+      <article
+        onClick={onDeleteCancel}
+        className="z-30 bg-white w-[903px] h-[456px] flex flex-col p-4 text-slate-600"
+      >
+        <section className="overflow-auto min-h-96">
+          {detailItemingLoading ? (
+            <>
+              <div className="flex items-center mb-20 space-x-2">
+                <Skeleton width={64} height={64} />
+                <Skeleton width={160} height={28} />
+              </div>
+              <figcaption className="flex flex-col items-start space-y-4">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i}>
+                    <Skeleton width={120} />
+                    <Skeleton width={92} />
+                    <Skeleton width={200} />
+                    <Skeleton width={160} />
+                    <Skeleton width={180} />
+                  </div>
+                ))}
               </figcaption>
-            </div>
-            <figcaption>{enterExplainDetail}</figcaption>
-          </section>
-          <span className="flex items-end justify-end h-14">
-            <button
-              onClick={onDeleteItemScreen}
-              className="px-3 py-1 transition rounded-md hover:bg-slate-400"
-            >
-              닫기
-            </button>
-          </span>
-        </article>
-      )}
+            </>
+          ) : (
+            <>
+              <div className="flex items-center mb-10 space-x-2">
+                <figure
+                  style={{ backgroundImage: `url(${getItemImg(itemId)})` }}
+                  className="w-16 bg-black aspect-square"
+                />
+                <figcaption
+                  style={{ color: textColor }}
+                  className="text-xl font-semibold"
+                >
+                  {detailItemingData?.itemName}
+                </figcaption>
+              </div>
+              <figcaption>{enterExplainDetail}</figcaption>
+            </>
+          )}
+        </section>
+        <span className="flex items-end justify-end h-14">
+          <button
+            onClick={onDeleteItemScreen}
+            className="px-3 py-1 transition rounded-md hover:bg-slate-400"
+          >
+            닫기
+          </button>
+        </span>
+      </article>
     </div>
   );
 }

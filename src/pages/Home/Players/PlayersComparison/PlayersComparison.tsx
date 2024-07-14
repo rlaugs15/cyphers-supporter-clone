@@ -11,7 +11,6 @@ import { useQuery } from "react-query";
 import PlayerInfoCard from "../../../../components/PlayerInfoCard";
 import { allMatchData } from "../../../../libs/utils";
 import RecentGameCard from "./RecentGameCard";
-import Loading from "../../../../components/Loading";
 
 function PlayersComparison() {
   const [searchParams] = useSearchParams();
@@ -72,32 +71,30 @@ function PlayersComparison() {
     player2NormalMatchLoading && player2RatingMatchLoading;
   return (
     <>
-      {player1InfoLoading ? (
-        <Loading textWhite />
-      ) : (
-        <article className="p-4 bg-white">
-          <section className="pb-4 border-b-2">
-            <PlayerInfoCard playerInfoData={player1InfoData!} />
-          </section>
-          <RecentGameCard
-            playerMatchData={player1AllMatchData!}
-            playerAllMatchLoading={player1AllMatchLoading}
+      <article className="p-4 bg-white">
+        <section className="pb-4 border-b-2">
+          <PlayerInfoCard
+            loading={player1InfoLoading}
+            playerInfoData={player1InfoData!}
           />
-        </article>
-      )}
-      {player2InfoLoading ? (
-        <Loading textWhite />
-      ) : (
-        <article className="p-4 bg-white">
-          <section className="pb-4 border-b-2">
-            <PlayerInfoCard playerInfoData={player2InfoData!} />
-          </section>
-          <RecentGameCard
-            playerMatchData={player2AllMatchData!}
-            playerAllMatchLoading={player2AllMatchLoading}
+        </section>
+        <RecentGameCard
+          playerMatchData={player1AllMatchData!}
+          playerAllMatchLoading={player1AllMatchLoading}
+        />
+      </article>
+      <article className="p-4 bg-white">
+        <section className="pb-4 border-b-2">
+          <PlayerInfoCard
+            loading={player2InfoLoading}
+            playerInfoData={player2InfoData!}
           />
-        </article>
-      )}
+        </section>
+        <RecentGameCard
+          playerMatchData={player2AllMatchData!}
+          playerAllMatchLoading={player2AllMatchLoading}
+        />
+      </article>
     </>
   );
 }

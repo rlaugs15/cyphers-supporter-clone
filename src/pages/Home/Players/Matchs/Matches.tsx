@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import MatchsReport from "./MatchReport/MatchsReport";
 import GameViewDetail from "./GameViewDeatil";
 import MatchPlayInfo from "./MatchPlayInfo.tsx/MatchPlayInfo";
-import Loading from "../../../../components/Loading";
+import Skeleton from "react-loading-skeleton";
 
 export interface ParyMember {
   partyId: string;
@@ -146,7 +146,33 @@ function Matches() {
   return (
     <>
       {detailMatchingLoading ? (
-        <Loading />
+        <div className="space-y-9">
+          <header className="p-4 space-y-10 bg-white">
+            <Skeleton width={160} height={30} />
+            <div className="flex flex-col">
+              <Skeleton width={100} />
+              <Skeleton width={200} />
+              <Skeleton width={160} />
+              <Skeleton width={140} />
+            </div>
+          </header>
+          <main className="p-4 space-y-4 bg-white">
+            <header className="space-y-4">
+              <span className="text-2xl">리포트</span>
+              <section className="flex flex-col items-end">
+                <Skeleton width={40} />
+                <Skeleton width={40} />
+              </section>
+            </header>
+
+            {[...Array.from(Array(11).keys())].map((item) => (
+              <section key={item}>
+                <Skeleton width={40} height={20} />
+                <Skeleton width={"100%"} height={30} />
+              </section>
+            ))}
+          </main>
+        </div>
       ) : (
         <div className="space-y-9">
           <GameViewDetail detailMatchingData={detailMatchingData!} />

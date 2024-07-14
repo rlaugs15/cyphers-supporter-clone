@@ -1,9 +1,9 @@
 import { useSetRecoilState } from "recoil";
-import { charWindAndPickAtom } from "../../atoms";
+import { charWindAndPickAtom } from "../../../../atoms";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import { CharacterRanking, getCharacterRanking } from "../../api";
-import { calculateAverage } from "../../libs/utils";
+import { CharacterRanking, getCharacterRanking } from "../../../../api";
+import { calculateAverage } from "../../../../libs/utils";
 
 interface CharWindAndPickProps {
   characterId: string;

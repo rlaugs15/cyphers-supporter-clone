@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import { Outlet } from "react-router-dom";
 import { ICharacters, getCharacters } from "../../api";
 import { useQuery } from "react-query";
-import Loading from "../../components/Loading";
 import CharacterCard from "./CharacterCard";
 import { useSetRecoilState } from "recoil";
 import { characterLenthAtom } from "../../atoms";
-import CharWindAndPick from "./CharWinAndPick";
+import CharWindAndPick from "./CharacterInfo/WinAndPick/CharWinAndPick";
 import { useEffect } from "react";
+import Skeleton from "react-loading-skeleton";
 
 interface IForm {
   character: string;
@@ -75,19 +75,25 @@ function Characters() {
             />
           </form>
         </nav>
-        {charactersLoading ? (
-          <Loading />
-        ) : (
-          <main className="grid grid-cols-12 gap-1">
-            {charactersRealTimeData?.map((character) => (
+        <main className="grid grid-cols-12 gap-1">
+          {charactersLoading &&
+            [...Array.from(Array(72).keys())].map((item) => (
+              <Skeleton
+                key={item}
+                width="100%"
+                height={0}
+                style={{ paddingBottom: "100%" }}
+              />
+            ))}
+          {!charactersLoading &&
+            charactersRealTimeData?.map((character) => (
               <CharacterCard
                 key={character?.characterId}
                 characterId={character?.characterId}
                 characterName={character?.characterName}
               />
             ))}
-          </main>
-        )}
+        </main>
       </div>
       <Outlet />
     </div>

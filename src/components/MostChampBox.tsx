@@ -1,5 +1,5 @@
+import Skeleton from "react-loading-skeleton";
 import { PlayerInfo, partyInfo } from "../api";
-import Loading from "./Loading";
 import MostChamp from "./MostChamp";
 
 interface IParty {
@@ -56,54 +56,57 @@ function MostChampBox({
     ];
   }
   return (
-    <>
-      {matshingLoading ? (
-        <Loading />
-      ) : (
-        <main className="grid h-full grid-cols-3">
-          <section className="col-span-2 p-2">
-            <header className="my-4 text-2xl font-medium">
-              모스트 사이퍼 ({category})
-            </header>
-            <article className="flex flex-col items-center justify-between">
-              <span className="w-full p-2 text-lg font-semibold">
-                플레이 횟수
-              </span>
-              <MostChamp
-                data={matshingData?.matches?.rows!}
-                loading={matshingLoading}
-              />
-              <MostChamp
-                data={
-                  matshingData?.matches?.rows! // 첫 번째 MostChamp에 표시된 캐릭터 제외
-                }
-                loading={matshingLoading}
-                findSecond
-                secondColor
-              />
-            </article>
-          </section>
-          <section className="border-l">
-            <header className="p-2 text-xl font-semibold text-center">
-              함께 플레이한 유저
-            </header>
-            <article className="overflow-x-hidden text-sm h-[260px]">
-              {partyMatchingCount.map((partyMatch) => (
-                <section
-                  key={partyMatch.partyUser}
-                  className="flex items-center justify-between px-5 py-3 border-b"
-                >
-                  <span>{partyMatch?.partyUser}</span>
-                  <div className="flex flex-col">
-                    <span>{partyMatch?.partyCount}회 플레이</span>
-                  </div>
-                </section>
-              ))}
-            </article>
-          </section>
-        </main>
-      )}
-    </>
+    <main className="grid h-full grid-cols-3">
+      <section className="col-span-2 p-2">
+        <header className="my-4 text-2xl font-medium">
+          모스트 사이퍼 ({category})
+        </header>
+        <article className="flex flex-col items-center justify-between">
+          <span className="w-full p-2 text-lg font-semibold">플레이 횟수</span>
+          <MostChamp
+            data={matshingData?.matches?.rows!}
+            loading={matshingLoading}
+          />
+          <MostChamp
+            data={
+              matshingData?.matches?.rows! // 첫 번째 MostChamp에 표시된 캐릭터 제외
+            }
+            loading={matshingLoading}
+            findSecond
+            secondColor
+          />
+        </article>
+      </section>
+      <section className="border-l">
+        <header className="p-2 text-xl font-semibold text-center">
+          함께 플레이한 유저
+        </header>
+        <article className="overflow-x-hidden text-sm h-[260px]">
+          {matshingLoading &&
+            [...Array.from(Array(5).keys())].map((item) => (
+              <div
+                key={item}
+                className="flex items-center justify-between px-5 py-3 border-b"
+              >
+                <Skeleton width={50} height={20} />
+                <Skeleton width={100} height={20} />
+              </div>
+            ))}
+          {!matshingLoading &&
+            partyMatchingCount.map((partyMatch) => (
+              <section
+                key={partyMatch.partyUser}
+                className="flex items-center justify-between px-5 py-3 border-b"
+              >
+                <span>{partyMatch?.partyUser}</span>
+                <div className="flex flex-col">
+                  <span>{partyMatch?.partyCount}회 플레이</span>
+                </div>
+              </section>
+            ))}
+        </article>
+      </section>
+    </main>
   );
 }
 
