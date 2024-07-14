@@ -4,7 +4,6 @@ import { DetailItem, getDetailItem, getItemImg } from "../api";
 import { useQuery } from "react-query";
 import React, { useEffect } from "react";
 import { selectRarityColor } from "../libs/utils";
-import Loading from "./Loading";
 import Skeleton from "react-loading-skeleton";
 
 /* interface ItemDetailScreenProps {
