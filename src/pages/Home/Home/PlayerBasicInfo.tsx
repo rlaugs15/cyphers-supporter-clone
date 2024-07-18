@@ -24,7 +24,7 @@ import {
   ratingMatchingAtom,
   ratingMatshingLoadingAtom,
 } from "../../../atoms";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import PlayerInfoCard from "../../../components/PlayerInfoCard";
 
 function PlayerBasicInfo() {
@@ -32,7 +32,7 @@ function PlayerBasicInfo() {
   const mostcyallMatch = useMatch("/:nickname/mostcyall");
   const mostcyratingMatch = useMatch("/:nickname/mostcyrating");
   const mostcynomalMatch = useMatch("/:nickname/mostcynomal");
-  const { isLoading: nicknameLoading, data: nicknameData } = useQuery<IPlayer>(
+  const { data: nicknameData } = useQuery<IPlayer>(
     ["playerNickname", nickname],
     () => getPlayer(nickname + "")
   );

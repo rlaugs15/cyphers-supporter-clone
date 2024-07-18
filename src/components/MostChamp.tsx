@@ -17,10 +17,10 @@ interface IMostChamp {
 }
 
 function MostChamp({ data, loading, findSecond, secondColor }: IMostChamp) {
-  const [champLoading, setChampLoading] = useState(false);
+  //const [champLoading, setChampLoading] = useState(false);
   const [mostChampArray, setMostChampArray] = useState([] as MatchRecord[]);
   useEffect(() => {
-    setChampLoading(true);
+    //setChampLoading(true);
     if (!loading && data) {
       const mostChamp = findSecond
         ? findSecondMostChamp(data ?? [])
@@ -29,7 +29,7 @@ function MostChamp({ data, loading, findSecond, secondColor }: IMostChamp) {
         (item) => item?.playInfo?.characterName === mostChamp
       );
       setMostChampArray(() => [...newArray]);
-      setChampLoading(false);
+      //setChampLoading(false);
     }
   }, [loading, data, findSecond ? findSecondMostChamp : findMostChamp]);
 

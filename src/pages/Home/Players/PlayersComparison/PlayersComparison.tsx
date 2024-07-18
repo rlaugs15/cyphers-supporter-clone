@@ -17,14 +17,14 @@ function PlayersComparison() {
   const player1 = searchParams.get("player1");
   const player2 = searchParams.get("player2");
   //닉네임 로딩
-  const { isLoading: player1NicknameLoading, data: player1NicknameData } =
-    useQuery<IPlayer>(["player1Nickname", player1], () =>
-      getPlayer(player1 + "")
-    );
-  const { isLoading: player2NicknameLoading, data: player2NicknameData } =
-    useQuery<IPlayer>(["player2Nickname", player2], () =>
-      getPlayer(player2 + "")
-    );
+  const { data: player1NicknameData } = useQuery<IPlayer>(
+    ["player1Nickname", player1],
+    () => getPlayer(player1 + "")
+  );
+  const { data: player2NicknameData } = useQuery<IPlayer>(
+    ["player2Nickname", player2],
+    () => getPlayer(player2 + "")
+  );
   //플레이어 정보 로딩
   const { isLoading: player1InfoLoading, data: player1InfoData } =
     useQuery<IPlayerInfo>(["player1Info", player1NicknameData], () =>

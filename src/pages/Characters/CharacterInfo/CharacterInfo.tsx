@@ -1,9 +1,7 @@
 import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
 import { CharacterRanking, getCharacterRanking } from "../../../api";
-import { baseBoxStyle, meterStylesBlack } from "../../../libs/utils";
-import PositionStats from "./PositionStats";
-import ItemCard from "../../../components/playInfoCard/ItemCard";
+import { meterStylesBlack } from "../../../libs/utils";
 import Skeleton from "react-loading-skeleton";
 import WinAndPickSection from "./WinAndPick/WinAndPickSection";
 

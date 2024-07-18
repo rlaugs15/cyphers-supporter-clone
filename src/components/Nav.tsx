@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 interface NavProps {
   svg: ReactNode;
   text: string;
-  movePage: string;
+  movePage?: string; //모든 페이지 작업이 끝나면 ? 제거
 }
 
 function Nav({ svg, movePage, text }: NavProps) {

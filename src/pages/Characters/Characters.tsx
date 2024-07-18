@@ -9,9 +9,10 @@ import CharWindAndPick from "./CharacterInfo/WinAndPick/CharWinAndPick";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
-interface IForm {
+//추후 useForm에 추가할 것
+/* interface IForm {
   character: string;
-}
+} */
 
 function Characters() {
   const { isLoading: charactersLoading, data: charactersData } =
@@ -26,8 +27,8 @@ function Characters() {
     }
   }, [charactersData]);
 
-  const { register, handleSubmit, setValue, watch } = useForm<IForm>();
-  const onCaracterSubmit = ({ character }: IForm) => {
+  const { register, handleSubmit, setValue, watch } = useForm();
+  const onCaracterSubmit = () => {
     setValue("character", "");
   };
 

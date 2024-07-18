@@ -5,8 +5,8 @@ interface AvatarImgProps {
   character?: boolean;
   item?: boolean;
 }
-
-function AvatarImg({ id, character = true, item }: AvatarImgProps) {
+//추후 2번째 파라미터로 item 추가
+function AvatarImg({ id, character = true }: AvatarImgProps) {
   return (
     <div
       style={{
