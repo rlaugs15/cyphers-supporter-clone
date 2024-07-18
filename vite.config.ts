@@ -1,17 +1,21 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  base: "/cyphers-supporter-clone/", //GitHub 저장소 이름으로 변경
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://api.neople.co.kr",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+export default defineConfig(({ mode }) => {
+  // 환경 변수를 로드합니다.
+  const env = loadEnv(mode, process.cwd());
+
+  return {
+    plugins: [react()],
+    base: "/cyphers-supporter-clone/",
+    server: {
+      proxy: {
+        "/api": {
+          target: env.VITE_API_BASE_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
       },
     },
-  },
+  };
 });

@@ -2,7 +2,9 @@ import axios from "axios";
 import { CustomDateFormatter } from "./libs/utils";
 
 const BASE_PATH =
-  import.meta.env.MODE === "development" ? "/api" : "https://api.neople.co.kr";
+  import.meta.env.MODE === "development"
+    ? "/api"
+    : import.meta.env.VITE_API_BASE_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 interface Row {
