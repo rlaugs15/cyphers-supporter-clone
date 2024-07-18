@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CustomDateFormatter } from "./libs/utils";
 
-const BASE_PATH = "https://api.neople.co.kr";
+const BASE_PATH = "/api";
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 interface Row {
@@ -20,7 +20,7 @@ export interface IPlayer {
 
 export async function getPlayer(nickname: string) {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/players?nickname=${nickname}&apikey=${API_KEY}`
+    `${BASE_PATH}/cy/players?nickname=${nickname}&apikey=${API_KEY}`
   );
   return response.data;
 }
@@ -48,7 +48,7 @@ export interface IPlayerInfo {
 
 export async function getPlayerInfo(playerId: string) {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/players/${playerId}?apikey=${API_KEY}`
+    `${BASE_PATH}/cy/players/${playerId}?apikey=${API_KEY}`
   );
   return response.data;
 }
@@ -156,7 +156,7 @@ export async function getMatching(
   gameTypeId: boolean = false
 ) {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/players/${playerId}/matches?gameTypeId=${
+    `${BASE_PATH}/cy/players/${playerId}/matches?gameTypeId=${
       gameTypeId ? "normal" : "rating"
     }&startDate=${dateFormatter.getOneMonthAgoTime()}&endDate=${dateFormatter.getCurrentTime()}&limit=100&apikey=${API_KEY}`
   );
@@ -249,7 +249,7 @@ export interface DetailMatchData {
 
 export async function getDetailMatching(matchId: string) {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/matches/${matchId}?apikey=${API_KEY}`
+    `${BASE_PATH}/cy/matches/${matchId}?apikey=${API_KEY}`
   );
   return response.data;
 }
@@ -272,12 +272,12 @@ export interface DetailItem {
 //아이템 디테일 데이터
 export async function getDetailItem(itemId: string) {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/battleitems/${itemId}?apikey=${API_KEY}`
+    `${BASE_PATH}/cy/battleitems/${itemId}?apikey=${API_KEY}`
   );
   return response.data;
 }
 
-interface Character {
+export interface Character {
   characterId: string;
   characterName: string;
 }
@@ -287,7 +287,7 @@ export interface ICharacters {
 //캐릭터 정보 조회
 export async function getCharacters() {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/characters?apikey=${API_KEY}`
+    `${BASE_PATH}/cy/characters?apikey=${API_KEY}`
   );
   return response.data;
 }
@@ -324,7 +324,7 @@ export async function getCharacterRanking(
   limit: string = "1000" //범위는 10~1000 이어야 한다.
 ) {
   const response = await axios.get(
-    `https://cors-anywhere.herokuapp.com/${BASE_PATH}/cy/ranking/characters/${characterId}/${rankingType}?${
+    `${BASE_PATH}/cy/ranking/characters/${characterId}/${rankingType}?${
       playerId ? `playerId=${playerId}&` : ""
     }&offset=${offset}&limit=${limit}&apikey=${API_KEY}`
   );

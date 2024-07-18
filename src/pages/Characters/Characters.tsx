@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { Outlet } from "react-router-dom";
-import { ICharacters, getCharacters } from "../../api";
+import { Character, ICharacters, getCharacters } from "../../api";
 import { useQuery } from "react-query";
 import CharacterCard from "./CharacterCard";
 import { useSetRecoilState } from "recoil";
 import { characterLenthAtom } from "../../atoms";
 import CharWindAndPick from "./CharacterInfo/WinAndPick/CharWinAndPick";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 interface IForm {
@@ -32,10 +32,16 @@ function Characters() {
   };
 
   //캐릭터 실시간 검색
+  const [realSearchChar, setRealSearchChar] = useState<Character[]>([]);
   const characterRealTime = watch("character");
-  const charactersRealTimeData = charactersData?.rows?.filter((character) =>
-    character.characterName.includes(characterRealTime)
-  );
+  useEffect(() => {
+    if (charactersData) {
+      const charactersRealTimeData = charactersData?.rows?.filter((character) =>
+        character.characterName.includes(characterRealTime)
+      );
+      setRealSearchChar(charactersRealTimeData!);
+    }
+  }, [watch, charactersData, setRealSearchChar, characterRealTime]);
 
   return (
     <div className="space-y-5">
@@ -76,23 +82,22 @@ function Characters() {
           </form>
         </nav>
         <main className="grid grid-cols-12 gap-1">
-          {charactersLoading &&
-            [...Array.from(Array(72).keys())].map((item) => (
-              <Skeleton
-                key={item}
-                width="100%"
-                height={0}
-                style={{ paddingBottom: "100%" }}
-              />
-            ))}
-          {!charactersLoading &&
-            charactersRealTimeData?.map((character) => (
-              <CharacterCard
-                key={character?.characterId}
-                characterId={character?.characterId}
-                characterName={character?.characterName}
-              />
-            ))}
+          {charactersLoading
+            ? [...Array.from(Array(72).keys())].map((item) => (
+                <Skeleton
+                  key={item}
+                  width="100%"
+                  height={0}
+                  style={{ paddingBottom: "100%" }}
+                />
+              ))
+            : realSearchChar?.map((character) => (
+                <CharacterCard
+                  key={character?.characterId}
+                  characterId={character?.characterId}
+                  characterName={character?.characterName}
+                />
+              ))}
         </main>
       </div>
       <Outlet />

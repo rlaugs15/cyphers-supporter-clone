@@ -28,7 +28,7 @@ const { persistAtom } = recoilPersist({
 });
 
 export const searchHistory = atom<ISearchHistory[]>({
-  key: "searchHistory",
+  key: "searchHistorykey",
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
