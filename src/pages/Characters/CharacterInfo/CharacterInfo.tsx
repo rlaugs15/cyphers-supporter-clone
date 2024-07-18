@@ -76,14 +76,17 @@ function CharacterInfo() {
         </figure>
       </header>
       <section>
-        <WinAndPickSection
-          characterId={characterId}
-          loading={characterRankLoading}
-          characterRankData={characterRankData}
-        />
+        {!characterRankLoading && (
+          <WinAndPickSection
+            characterId={characterId}
+            loading={characterRankLoading}
+            characterRankData={characterRankData}
+          />
+        )}
       </section>
+      {/* 포지션 통계
       <PositionStats />
-      {/*아이템파트*/}
+      추천 아이템
       <div className={`${baseBoxStyle}`}>
         <header className="flex justify-start p-3 bg-white">
           <div className="flex justify-start">
@@ -102,7 +105,7 @@ function CharacterInfo() {
             ))}
           </section>
         </section>
-      </div>
+      </div> */}
     </>
   );
 }

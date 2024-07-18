@@ -279,20 +279,26 @@ export function selectRarityColor(
   return itemColor;
 }
 
+type AverrageArg = (charactersData: CharacterRanking) => number[];
+
 //숫자가 들어있는 배열의 평균 값 구하기
-export function calculateAverage(numbers: number[]) {
-  if (!Array.isArray(numbers) || numbers.length === 0) {
-    throw new Error("잘못된 입력: 숫자 배열을 제공하십시오.");
+export function calculateAverage(
+  charactersData: CharacterRanking,
+  averrageArg: AverrageArg
+) {
+  const callwinRateList = averrageArg(charactersData);
+  if (!callwinRateList) {
+    throw new Error("잘못된 입력: 콜백함수가 올바르게 작동하지 않습니다.");
   }
 
-  const sum = numbers.reduce((accumulator, currentValue) => {
+  const sum = callwinRateList.reduce((accumulator, currentValue) => {
     if (typeof currentValue !== "number") {
       throw new Error("잘못된 입력: 배열에는 숫자만 포함되어야 합니다.");
     }
     return accumulator + currentValue;
   }, 0);
 
-  const average = sum / numbers.length;
+  const average = sum / callwinRateList.length;
 
   // 소수점 4자리까지 반올림
   return Math.round(average * 10000) / 10000;

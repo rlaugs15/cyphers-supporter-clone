@@ -22,13 +22,18 @@ function CharWindAndPick({ characterId, characterName }: CharWindAndPickProps) {
   const setCharWindAndPick = useSetRecoilState(charWindAndPickAtom);
   useEffect(() => {
     if (!charactersLoading && charactersData) {
-      let winRateList: number[] = [];
       let winRate = 0;
       let pickRate = 0;
-      for (const character of charactersData.rows) {
-        winRateList = [...winRateList, character.winRate];
-      }
-      winRate = calculateAverage(winRateList);
+      const setwinRateList = (charactersData: CharacterRanking) => {
+        let winRateList: number[] = [];
+        for (const character of charactersData.rows) {
+          winRateList = [...winRateList, character.winRate];
+        }
+        return winRateList;
+      };
+
+      winRate = calculateAverage(charactersData, setwinRateList);
+
       pickRate = charactersData.rows.length;
       setCharWindAndPick((prev) => [
         ...prev,
