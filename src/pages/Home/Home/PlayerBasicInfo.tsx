@@ -40,6 +40,7 @@ function PlayerBasicInfo() {
     useQuery<IPlayerInfo>(["playerInfo", nicknameData], () =>
       getPlayerInfo(nicknameData?.rows[0].playerId + "")
     );
+
   //노말 매칭 데이터, 로딩
   const { isLoading: normalMatshingLoading, data: normalMatshingData } =
     useQuery<PlayerInfo>(["normalPlayeId", playerInfoData?.playerId], () =>
