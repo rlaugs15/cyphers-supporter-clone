@@ -21,10 +21,18 @@ export interface IPlayer {
   rows: Row[];
 }
 
-export async function getPlayer(nickname: string) {
+// 서버 연결 전 코드
+/* export async function getPlayer(nickname: string) {
   const response = await axios.get(
     `${BASE_PATH}/cy/players?nickname=${nickname}&apikey=${API_KEY}`
   );
+  return response.data;
+} */
+
+export async function getPlayer(nickname: string) {
+  const response = await axios.get(`${BASE_PATH}/cy/players`, {
+    params: { nickname },
+  });
   return response.data;
 }
 
@@ -50,9 +58,7 @@ export interface IPlayerInfo {
 }
 
 export async function getPlayerInfo(playerId: string) {
-  const response = await axios.get(
-    `${BASE_PATH}/cy/players/${playerId}?apikey=${API_KEY}`
-  );
+  const response = await axios.get(`${BASE_PATH}/cy/players/${playerId}`);
   return response.data;
 }
 
@@ -154,14 +160,18 @@ export interface PlayerInfo {
 
 const dateFormatter = new CustomDateFormatter();
 //https:api.neople.co.kr/cy/players/00b7cc76104cd3d1dad04e227dc6d325/matches?gameTypeId=normal&&startDate=20240311T0623&endDate=20240411T0623&limit=100&apikey=AR5FRcTpheYlQiA8tMc3KMW6S15vzd71
-export async function getMatching(
-  playerId: string,
-  gameTypeId: boolean = false
-) {
+
+export async function getMatching(playerId: string, gameTypeId = false) {
   const response = await axios.get(
-    `${BASE_PATH}/cy/players/${playerId}/matches?gameTypeId=${
-      gameTypeId ? "normal" : "rating"
-    }&startDate=${dateFormatter.getOneMonthAgoTime()}&endDate=${dateFormatter.getCurrentTime()}&limit=100&apikey=${API_KEY}`
+    `${BASE_PATH}/cy/players/${playerId}/matches`,
+    {
+      params: {
+        gameTypeId: gameTypeId ? "normal" : "rating",
+        startDate: dateFormatter.getOneMonthAgoTime(),
+        endDate: dateFormatter.getCurrentTime(),
+        limit: 100,
+      },
+    }
   );
   return response.data;
 }
@@ -251,9 +261,7 @@ export interface DetailMatchData {
 }
 
 export async function getDetailMatching(matchId: string) {
-  const response = await axios.get(
-    `${BASE_PATH}/cy/matches/${matchId}?apikey=${API_KEY}`
-  );
+  const response = await axios.get(`${BASE_PATH}/cy/matches/${matchId}`);
   return response.data;
 }
 
@@ -274,9 +282,7 @@ export interface DetailItem {
 
 //아이템 디테일 데이터
 export async function getDetailItem(itemId: string) {
-  const response = await axios.get(
-    `${BASE_PATH}/cy/battleitems/${itemId}?apikey=${API_KEY}`
-  );
+  const response = await axios.get(`${BASE_PATH}/cy/battleitems/${itemId}`);
   return response.data;
 }
 
@@ -289,9 +295,7 @@ export interface ICharacters {
 }
 //캐릭터 정보 조회
 export async function getCharacters() {
-  const response = await axios.get(
-    `${BASE_PATH}/cy/characters?apikey=${API_KEY}`
-  );
+  const response = await axios.get(`${BASE_PATH}/cy/characters`);
   return response.data;
 }
 
@@ -324,12 +328,17 @@ export async function getCharacterRanking(
   rankingType: IRankingType,
   playerId?: string,
   offset: string = "0",
-  limit: string = "1000" //범위는 10~1000 이어야 한다.
+  limit: string = "1000" // 범위는 10~1000 이어야 한다.
 ) {
   const response = await axios.get(
-    `${BASE_PATH}/cy/ranking/characters/${characterId}/${rankingType}?${
-      playerId ? `playerId=${playerId}&` : ""
-    }&offset=${offset}&limit=${limit}&apikey=${API_KEY}`
+    `${BASE_PATH}/cy/ranking/characters/${characterId}/${rankingType}`,
+    {
+      params: {
+        playerId,
+        offset,
+        limit,
+      },
+    }
   );
   return response.data;
 }
