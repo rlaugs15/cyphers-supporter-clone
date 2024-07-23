@@ -3,9 +3,8 @@ import { CustomDateFormatter } from "./libs/utils";
 
 const BASE_PATH =
   import.meta.env.MODE === "development"
-    ? import.meta.env.VITE_lOCAL_API_BASE_URL
+    ? import.meta.env.VITE_LOCAL_API_BASE_URL
     : import.meta.env.VITE_API_BASE_URL;
-const API_KEY = import.meta.env.VITE_API_KEY;
 
 interface Row {
   playerId: string;
