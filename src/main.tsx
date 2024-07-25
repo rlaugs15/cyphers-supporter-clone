@@ -21,10 +21,12 @@ async function enableMocking() {
     return;
   }
 
-  const { worker } = await import("./mocks/browser.ts");
-
-  // 서비스 워커 시작
-  return worker.start();
+  const { worker } = await import("./mocks/browser");
+  return worker.start({
+    serviceWorker: {
+      url: "/cyphers-supporter-clone/mockServiceWorker.js",
+    },
+  });
 }
 
 enableMocking().then(() => {
