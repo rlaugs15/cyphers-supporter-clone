@@ -82,7 +82,7 @@ function CharacterInfo() {
           />
         )}
       </section>
-      {/* 포지션 통계
+      {/* 포지션 통계 보류
       <PositionStats />
       추천 아이템
       <div className={`${baseBoxStyle}`}>

@@ -1,0 +1,179 @@
+import { http, HttpResponse } from "msw";
+import { SignJWT, jwtVerify } from "jose";
+import { logout } from "../tokenInstance";
+import { users } from "./data";
+import { User } from "../api";
+
+const secretKey = new TextEncoder().encode("your-secret-key");
+
+// JWT 생성 함수
+const generateToken = async (user: User): Promise<string> => {
+  const payload = {
+    userId: user.loginId,
+  };
+
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setIssuer("urn:example:issuer")
+    .setAudience("urn:example:audience")
+    .setExpirationTime("1h")
+    .sign(secretKey);
+};
+
+// JWT 검증 및 디코딩 함수
+const verifyAndDecodeToken = async (token: string): Promise<any> => {
+  try {
+    const { payload } = await jwtVerify(token, secretKey, {
+      issuer: "urn:example:issuer",
+      audience: "urn:example:audience",
+    });
+    return payload;
+  } catch (e) {
+    console.error("Token verification failed:", e);
+    return null;
+  }
+};
+
+// 쿠키 파싱 유틸리티 함수
+const parseCookies = (cookieHeader: string): { [key: string]: string } => {
+  return cookieHeader
+    .split(";")
+    .map((cookie) => cookie.trim().split("="))
+    .reduce((acc, [key, value]) => {
+      acc[key] = decodeURIComponent(value);
+      return acc;
+    }, {} as { [key: string]: string });
+};
+
+export const handlers = [
+  // Access Token 재발급 요청
+  http.post("/auth/reissue-token", async ({ request }) => {
+    const cookieHeader = request.headers.get("cookie");
+    if (!cookieHeader) {
+      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const cookies = parseCookies(cookieHeader);
+    const refreshToken = cookies["refreshToken"];
+    if (!refreshToken) {
+      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    try {
+      const { payload } = await jwtVerify(refreshToken, secretKey, {
+        issuer: "urn:example:issuer",
+        audience: "urn:example:audience",
+      });
+      if (payload.exp! <= Math.floor(Date.now() / 1000)) {
+        throw new Error("Token expired");
+      }
+
+      const user = users.find((u) => u.loginId === payload.userId);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const newAccessToken = await generateToken(user);
+      return HttpResponse.json({ newToken: newAccessToken }, { status: 200 });
+    } catch (e) {
+      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+  }),
+
+  //---------------------GET 요청---------------------------
+
+  // 회원 정보 조회
+  http.get("/api/v1/member", async ({ request }) => {
+    const authHeader = request.headers.get("Authorization");
+    const token = authHeader?.split(" ")[1];
+
+    if (!token) {
+      return HttpResponse.json(
+        { code: 401, message: "Unauthorized", data: null },
+        { status: 401 }
+      );
+    }
+
+    const decoded = await verifyAndDecodeToken(token);
+    if (!decoded) {
+      return HttpResponse.json(
+        { code: 401, message: "Unauthorized", data: null },
+        { status: 401 }
+      );
+    }
+
+    // 토큰이 유효한 경우 사용자 데이터 반환
+    const user = users.find((u) => u.loginId === decoded.userId);
+
+    if (!user) {
+      return HttpResponse.json(
+        { code: 404, message: "User not found", data: null },
+        { status: 404 }
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "Member information retrieved successfully",
+        data: {
+          id: user.loginId, // Assuming `loginId` is the user's ID
+          email: user.email,
+          nickname: user.nickname,
+          profileImg: null,
+          createdAt: null,
+        },
+      },
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }),
+
+  //---------------------POST 요청-------------------------------
+
+  // 로그인 요청
+  http.post("/api/v1/login", async ({ request }) => {
+    const { loginId, password } = (await request.json()) as {
+      loginId: string;
+      password: string;
+    };
+
+    const user = users.find(
+      (user) => user.loginId === loginId && user.password === password
+    );
+
+    if (!user) {
+      return HttpResponse.json(
+        {
+          code: 400,
+          message: "회원정보가 일치하지 않습니다.",
+          data: null,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Access Token 생성
+    const token = await generateToken(user);
+    // Refresh Token은 여기에서는 단순히 응답의 쿠키로 설정, 실제 환경에서는 서버에서 관리
+    const refreshToken = await new SignJWT({ userId: user.loginId })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("7d")
+      .sign(secretKey);
+
+    return HttpResponse.json(
+      { code: 200, message: "성공", data: { token } },
+      {
+        status: 200,
+        headers: {
+          "Set-Cookie": `refreshToken=${refreshToken}; HttpOnly`,
+        },
+      }
+    );
+  }),
+];

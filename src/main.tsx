@@ -16,12 +16,25 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </RecoilRoot>
-  </React.StrictMode>
-);
+async function enableMocking() {
+  if (!import.meta.env.DEV) {
+    return;
+  }
+
+  const { worker } = await import("./mocks/browser.ts");
+
+  // 서비스 워커 시작
+  return worker.start();
+}
+
+enableMocking().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")!).render(
+    <React.StrictMode>
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </RecoilRoot>
+    </React.StrictMode>
+  );
+});

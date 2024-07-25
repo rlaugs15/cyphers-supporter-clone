@@ -4,7 +4,7 @@ import { CustomDateFormatter } from "./libs/utils";
 const BASE_PATH =
   import.meta.env.MODE === "development"
     ? import.meta.env.VITE_LOCAL_API_BASE_URL
-    : import.meta.env.VITE_API_BASE_URL;
+    : null;
 
 interface Row {
   playerId: string;
@@ -355,4 +355,32 @@ export function makeImagePath(characterId: string) {
 //아이템 이미지
 export function getItemImg(itemId: string) {
   return `https://img-api.neople.co.kr/cy/items/${itemId}`;
+}
+
+//------------------------유저 관리------------------------------
+export async function getMember() {
+  const response = await axios.get("/member");
+  return response.data;
+}
+
+export interface User {
+  loginId: string;
+  password: string;
+  passwordConfirm?: string;
+  name: string;
+  gender: string;
+  nickname: string;
+  birthDay: string;
+  email: string;
+}
+//회원가입
+export async function setJoin(body: User) {
+  const response = await axios.post("/api/1v/join", body);
+  return response.data;
+}
+
+//로그인
+export async function setLogin(body: Pick<User, "loginId" | "password">) {
+  const response = await axios.post("/api/1v/login", body);
+  return response.data;
 }
