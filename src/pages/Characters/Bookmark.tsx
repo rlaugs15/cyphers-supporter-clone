@@ -7,7 +7,6 @@ import { makeImagePath } from "../../api";
 function Bookmark() {
   const nav = useNavigate();
   const [champBookmark, setChampBookmark] = useRecoilState(champBookmarkAtom);
-  console.log("champBookmark", champBookmark);
 
   const onCharacterInfoClick = (characterId: string, characterName: string) => {
     nav(`${characterName}`, {

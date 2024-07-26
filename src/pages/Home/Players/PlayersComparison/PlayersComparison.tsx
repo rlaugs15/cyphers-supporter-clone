@@ -27,30 +27,42 @@ function PlayersComparison() {
   );
   //플레이어 정보 로딩
   const { isLoading: player1InfoLoading, data: player1InfoData } =
-    useQuery<IPlayerInfo>(["player1Info", player1NicknameData], () =>
-      getPlayerInfo(player1NicknameData?.rows[0].playerId + "")
+    useQuery<IPlayerInfo>(
+      ["player1Info", player1NicknameData],
+      () => getPlayerInfo(player1NicknameData?.rows[0].playerId + ""),
+      { enabled: !!player1NicknameData }
     );
   const { isLoading: player2InfoLoading, data: player2InfoData } =
-    useQuery<IPlayerInfo>(["player2Info", player2NicknameData], () =>
-      getPlayerInfo(player2NicknameData?.rows[0].playerId + "")
+    useQuery<IPlayerInfo>(
+      ["player2Info", player2NicknameData],
+      () => getPlayerInfo(player2NicknameData?.rows[0].playerId + ""),
+      { enabled: !!player2NicknameData }
     );
   //플레이어 일반전 매칭기록 로딩
   const { isLoading: player1NormalMatchLoading, data: player1NormalMatchData } =
-    useQuery<PlayerInfo>(["player1Match", player1InfoData?.playerId], () =>
-      getMatching(player1InfoData?.playerId + "", true)
+    useQuery<PlayerInfo>(
+      ["player1Match", player1InfoData?.playerId],
+      () => getMatching(player1InfoData?.playerId + "", true),
+      { enabled: !!player1InfoData }
     );
   const { isLoading: player2NormalMatchLoading, data: player2NormalMatchData } =
-    useQuery<PlayerInfo>(["player2Match", player1InfoData?.playerId], () =>
-      getMatching(player2InfoData?.playerId + "", true)
+    useQuery<PlayerInfo>(
+      ["player2Match", player1InfoData?.playerId],
+      () => getMatching(player2InfoData?.playerId + "", true),
+      { enabled: !!player2InfoData }
     );
   //플레이어 공식전 매칭기록 로딩
   const { isLoading: player1RatingMatchLoading, data: player1RatingMatchData } =
-    useQuery<PlayerInfo>(["player1Match", player1InfoData?.playerId], () =>
-      getMatching(player1InfoData?.playerId + "")
+    useQuery<PlayerInfo>(
+      ["player1Match", player1InfoData?.playerId],
+      () => getMatching(player1InfoData?.playerId + ""),
+      { enabled: !!player1InfoData }
     );
   const { isLoading: player2RatingMatchLoading, data: player2RatingMatchData } =
-    useQuery<PlayerInfo>(["player2Match", player1InfoData?.playerId], () =>
-      getMatching(player2InfoData?.playerId + "")
+    useQuery<PlayerInfo>(
+      ["player2Match", player1InfoData?.playerId],
+      () => getMatching(player2InfoData?.playerId + ""),
+      { enabled: !!player2InfoData }
     );
   //플레이어 모든 매칭기록 로딩
   const player1AllMatchData = allMatchData(

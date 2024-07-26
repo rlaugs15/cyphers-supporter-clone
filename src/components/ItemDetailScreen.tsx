@@ -13,11 +13,16 @@ import Skeleton from "react-loading-skeleton";
 
 function ItemDetailScreen() {
   const itemId = useRecoilValue(itemIdAtom);
+
   const setItemDetailScreen = useSetRecoilState(itemDetailScreenAtom);
 
   const { isLoading: detailItemingLoading, data: detailItemingData } =
-    useQuery<DetailItem>(["detailItem", itemId], () =>
-      getDetailItem(itemId + "")
+    useQuery<DetailItem>(
+      ["detailItem", itemId],
+      () => getDetailItem(itemId + ""),
+      {
+        enabled: !!itemId,
+      }
     );
 
   const onDeleteItemScreen = () => {
@@ -64,7 +69,7 @@ function ItemDetailScreen() {
         className="z-30 bg-white w-[903px] h-[456px] flex flex-col p-4 text-slate-600"
       >
         <section className="overflow-auto min-h-96">
-          {detailItemingLoading ? (
+          {detailItemingLoading || !detailItemingData ? (
             <>
               <div className="flex items-center mb-20 space-x-2">
                 <Skeleton width={64} height={64} />
