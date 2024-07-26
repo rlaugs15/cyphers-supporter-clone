@@ -26,7 +26,7 @@ function WinAndPickSection({
   useEffect(() => {
     let newCharWindAndPick = [...charWindAndPick];
     const winRankIndex = newCharWindAndPick
-      .sort((a, b) => Number(a.winRate) - Number(b.winRate))
+      .sort((a, b) => Number(b.winRate) - Number(a.winRate))
       .findIndex((item) => item.characterName === characterName);
     setWinNum(winRankIndex);
   }, [charWindAndPick, setWinNum, characterName]);
@@ -35,7 +35,7 @@ function WinAndPickSection({
   useEffect(() => {
     let newCharWindAndPick = [...charWindAndPick];
     const pickRankIndex = newCharWindAndPick
-      .sort((a, b) => Number(a.pickRate) - Number(b.pickRate))
+      .sort((a, b) => Number(b.pickRate) - Number(a.pickRate))
       .findIndex((item) => item.characterName === characterName);
     setPickNum(pickRankIndex);
   }, [charWindAndPick, setPickNum, characterName]);
@@ -45,11 +45,10 @@ function WinAndPickSection({
 
   //캐릭터를 플레이 한 유저들을 승률 평균 계산
   const calcWinRate = (characterRankData: CharacterRanking) => {
-    let winRates: number[] = [];
-
-    for (const characterRanker of characterRankData?.rows) {
-      winRates = [...winRates, characterRanker?.winRate];
-    }
+    // 평균 승률 계산
+    let winRates: number[] = characterRankData?.rows.map(
+      (characterRanker) => characterRanker?.winRate
+    );
 
     // 배열의 합을 구하기
     const total = winRates.reduce((a, b) => a + b, 0);
@@ -59,6 +58,7 @@ function WinAndPickSection({
 
     return average.toFixed(2);
   };
+
   return (
     <>
       <header className="p-3 bg-white">

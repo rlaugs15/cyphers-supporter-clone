@@ -22,19 +22,16 @@ function CharWindAndPick({ characterId, characterName }: CharWindAndPickProps) {
   const setCharWindAndPick = useSetRecoilState(charWindAndPickAtom);
   useEffect(() => {
     if (!charactersLoading && charactersData) {
-      let winRate = 0;
-      let pickRate = 0;
+      // setwinRateList 함수 정의
       const setwinRateList = (charactersData: CharacterRanking) => {
-        let winRateList: number[] = [];
-        for (const character of charactersData.rows) {
-          winRateList = [...winRateList, character.winRate];
-        }
-        return winRateList;
+        return charactersData.rows.map((character) => character.winRate);
       };
 
-      winRate = calculateAverage(charactersData, setwinRateList);
+      // calculateAverage 함수 호출하여 winRate 계산
+      const winRate = calculateAverage(charactersData, setwinRateList);
+      const pickRate = charactersData.rows.length;
 
-      pickRate = charactersData.rows.length;
+      // Recoil 상태 업데이트
       setCharWindAndPick((prev) => [
         ...prev,
         { characterId, characterName, winRate, pickRate },
