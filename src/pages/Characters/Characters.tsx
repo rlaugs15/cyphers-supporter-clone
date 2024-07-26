@@ -8,6 +8,8 @@ import { characterLenthAtom } from "../../atoms";
 import CharWindAndPick from "./CharacterInfo/WinAndPick/CharWinAndPick";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
+import { contentBoxStyle, contentTitleStyle } from "../../libs/utils";
+import Bookmark from "./Bookmark";
 
 //추후 useForm에 추가할 것
 /* interface IForm {
@@ -54,8 +56,11 @@ function Characters() {
             characterName={character.characterName}
           />
         ))}
-      <div className="p-3 space-y-3 bg-white drop-shadow-md">
-        <span className="text-2xl mb-7">캐릭터를 선택하세요.</span>
+      <div className={`${contentBoxStyle}`}>
+        <Bookmark />
+      </div>
+      <div className={`${contentBoxStyle} space-y-3`}>
+        <span className={`${contentTitleStyle}`}>캐릭터를 선택하세요.</span>
         <nav className="flex justify-end">
           <form
             onSubmit={handleSubmit(onCaracterSubmit)}

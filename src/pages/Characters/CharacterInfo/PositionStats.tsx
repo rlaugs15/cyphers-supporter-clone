@@ -1,4 +1,4 @@
-import { baseBoxStyle, cls, playPosition } from "../../../libs/utils";
+import { contentBoxStyle, cls, playPosition } from "../../../libs/utils";
 
 function PositionStats() {
   return (
@@ -8,7 +8,7 @@ function PositionStats() {
           <span className="text-2xl">포지션 통계</span>
         </div>
       </header>
-      <section className={`grid grid-cols-3 gap-9 ${baseBoxStyle}`}>
+      <section className={`grid grid-cols-3 gap-9 ${contentBoxStyle}`}>
         {[...Array.from(Array(3).keys())].map((num) => (
           <article key={num} className="flex flex-col items-center bg-red-300">
             <figcaption className="flex flex-col bg-blue-300">

@@ -4,6 +4,8 @@ import { CharacterRanking, getCharacterRanking } from "../../../api";
 import { meterStylesBlack } from "../../../libs/utils";
 import Skeleton from "react-loading-skeleton";
 import WinAndPickSection from "./WinAndPick/WinAndPickSection";
+import { useSetRecoilState } from "recoil";
+import { champBookmarkAtom, IChampBookmark } from "../../../atoms";
 
 function CharacterInfo() {
   const { characterName } = useParams();
@@ -16,6 +18,14 @@ function CharacterInfo() {
     useQuery<CharacterRanking>(["characterRanking", characterId], () =>
       getCharacterRanking(characterId + "", "winRate")
     );
+
+  const setChampBookmark = useSetRecoilState(champBookmarkAtom);
+  const onBookmarkClick = () => {
+    setChampBookmark((champ) => [
+      ...champ,
+      { characterId, characterName } as IChampBookmark,
+    ]);
+  };
 
   return (
     <>
@@ -49,7 +59,10 @@ function CharacterInfo() {
               </span>
             </figcaption>
           </button>
-          <button className="relative p-3 transition rounded-full hover:bg-slate-200 group">
+          <button
+            onClick={onBookmarkClick}
+            className="relative p-3 transition rounded-full hover:bg-slate-200 group"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -85,7 +98,7 @@ function CharacterInfo() {
       {/* 포지션 통계 보류
       <PositionStats />
       추천 아이템
-      <div className={`${baseBoxStyle}`}>
+      <div className={`${contentBoxStyle}`}>
         <header className="flex justify-start p-3 bg-white">
           <div className="flex justify-start">
             <span className="text-2xl">추천 아이템</span>

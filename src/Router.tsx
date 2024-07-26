@@ -13,6 +13,7 @@ import Players from "./pages/Home/Players/Players";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
+//isLocalhost가 true일 때 카페24배포 도메인으로 연결 - 추후 수정할 것
 const basename = isLocalhost ? "/cyphers-supporter-clone" : "/";
 
 export const router = createBrowserRouter(

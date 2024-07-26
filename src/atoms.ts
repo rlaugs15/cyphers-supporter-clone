@@ -22,7 +22,7 @@ export interface ISearchHistory {
   firstName: string;
   fullName: string;
 }
-const { persistAtom } = recoilPersist({
+const { persistAtom: persistSearchHistoryAtom } = recoilPersist({
   key: "persist-atom-key",
   storage: localStorage,
 });
@@ -30,7 +30,7 @@ const { persistAtom } = recoilPersist({
 export const searchHistory = atom<ISearchHistory[]>({
   key: "searchHistorykey",
   default: [],
-  effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistSearchHistoryAtom],
 });
 
 //매칭 시리즈
@@ -96,4 +96,20 @@ export interface IWinAndPickStat {
 export const charWindAndPickAtom = atom<IWinAndPickStat[]>({
   key: "charWindAndPick",
   default: [],
+});
+
+//캐릭터 즐겨찾기
+export interface IChampBookmark {
+  characterId: string;
+  characterName: string;
+}
+const { persistAtom: persistChampBookmarkAtom } = recoilPersist({
+  key: "champBookmark-persist-atom-key",
+  storage: localStorage,
+});
+
+export const champBookmarkAtom = atom<IChampBookmark[]>({
+  key: "champBookmarkKey",
+  default: [],
+  effects_UNSTABLE: [persistChampBookmarkAtom],
 });

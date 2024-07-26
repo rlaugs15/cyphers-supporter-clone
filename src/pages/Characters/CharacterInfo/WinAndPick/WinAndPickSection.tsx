@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import { CharacterRanking } from "../../../../api";
-import { baseBoxStyle } from "../../../../libs/utils";
+import { contentBoxStyle } from "../../../../libs/utils";
 import { useRecoilValue } from "recoil";
 import { characterLenthAtom, charWindAndPickAtom } from "../../../../atoms";
 import { useEffect, useState } from "react";
@@ -66,7 +66,7 @@ function WinAndPickSection({
           <span className="text-2xl">승률/픽률 통계</span>
         </div>
       </header>
-      <section className={`grid grid-cols-2 gap-9 ${baseBoxStyle}`}>
+      <section className={`grid grid-cols-2 gap-9 ${contentBoxStyle}`}>
         <div className="flex flex-col">
           {winAndPickLoading ? (
             <>

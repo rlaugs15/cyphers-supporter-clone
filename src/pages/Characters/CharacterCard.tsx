@@ -1,6 +1,8 @@
 import { useMatch, useNavigate } from "react-router-dom";
 import { cls } from "../../libs/utils";
 import { makeImagePath } from "../../api";
+import { useRecoilValue } from "recoil";
+import { champBookmarkAtom } from "../../atoms";
 
 interface CharacterCardProps {
   characterName: string;
@@ -22,6 +24,8 @@ function CharacterCard({ characterId, characterName }: CharacterCardProps) {
       },
     });
   };
+
+  const bookmarks = useRecoilValue(champBookmarkAtom);
   return (
     <button
       onClick={() => onCharacterInfoClick(characterName)}
@@ -36,10 +40,27 @@ function CharacterCard({ characterId, characterName }: CharacterCardProps) {
           backgroundImage: `url(${makeImagePath(characterId)})`,
         }}
         className={cls(
-          "flex items-end w-auto bg-black bg-cover aspect-square grayscale-[80%] group-focus:grayscale-0",
+          "flex items-end w-auto bg-black bg-cover aspect-square grayscale-[80%] group-focus:grayscale-0 relative",
           characterNameFocus === characterName ? "grayscale-0" : ""
         )}
       >
+        {bookmarks?.find((champ) => champ.characterId === characterId) ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="yellow"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="none"
+            className="absolute top-0 left-0 size-7"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+            />
+          </svg>
+        ) : null}
+
         <figcaption className="w-full text-sm text-white bg-black text-start opacity-60">
           {characterName}
         </figcaption>

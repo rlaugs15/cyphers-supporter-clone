@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { searchHistory } from "../../../atoms";
 import SearchHistory from "./SearchHistory";
 import SearchInputBtn from "../../../components/SearchInputBtn";
+import { contentTitleStyle } from "../../../libs/utils";
 
 interface IForm {
   nickname: string;
@@ -29,7 +30,7 @@ function Home() {
   return (
     <div className="space-y-5">
       <div className="p-3 space-y-3 bg-white drop-shadow-md">
-        <p className="text-2xl mb-7">플레이어 전적검색</p>
+        <p className={`${contentTitleStyle}`}>플레이어 전적검색</p>
         <form
           onSubmit={handleSubmit(onPlayerSubmit)}
           className="flex h-10 ring-4 ring-black"

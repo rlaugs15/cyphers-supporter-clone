@@ -4,7 +4,8 @@ export function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 
-export const baseBoxStyle = "p-3 bg-white drop-shadow-md";
+export const contentBoxStyle = "p-3 bg-white drop-shadow-md";
+export const contentTitleStyle = "text-2xl mb-7";
 
 //mater 태그의 바 색을 검정으로
 export const meterStylesBlack = `

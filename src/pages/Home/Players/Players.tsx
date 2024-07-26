@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import SearchInputBtn from "../../../components/SearchInputBtn";
 import { Outlet, useNavigate } from "react-router-dom";
+import { contentTitleStyle } from "../../../libs/utils";
 
 interface IForm {
   nicknames: string;
@@ -19,7 +20,7 @@ function Players() {
   return (
     <div className="space-y-5">
       <div className="p-3 space-y-3 bg-white drop-shadow-md">
-        <p className="text-2xl mb-7">플레이어 전적검색</p>
+        <p className={`${contentTitleStyle}`}>플레이어 전적검색</p>
         <form
           onSubmit={handleSubmit(onPlayersSubmit)}
           className="flex h-10 ring-4 ring-black"
