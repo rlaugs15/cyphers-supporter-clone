@@ -1,4 +1,4 @@
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { charWindAndPickAtom } from "../../../../atoms";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
@@ -19,7 +19,8 @@ function CharWindAndPick({ characterId, characterName }: CharWindAndPickProps) {
         staleTime: 1000 * 60 * 20,
       }
     );
-  const setCharWindAndPick = useSetRecoilState(charWindAndPickAtom);
+  const [charWindAndPick, setCharWindAndPick] =
+    useRecoilState(charWindAndPickAtom);
   useEffect(() => {
     if (!charactersLoading && charactersData) {
       // setwinRateList 함수 정의
@@ -30,12 +31,17 @@ function CharWindAndPick({ characterId, characterName }: CharWindAndPickProps) {
       // calculateAverage 함수 호출하여 winRate 계산
       const winRate = calculateAverage(charactersData, setwinRateList);
       const pickRate = charactersData.rows.length;
-
-      // Recoil 상태 업데이트
-      setCharWindAndPick((prev) => [
-        ...prev,
-        { characterId, characterName, winRate, pickRate },
-      ]);
+      // 중복 체크
+      const isDuplicate = charWindAndPick.some(
+        (character) => character.characterId === characterId
+      );
+      // 중복인 아닌 경우에만 업데이트
+      if (!isDuplicate) {
+        setCharWindAndPick((prev) => [
+          ...prev,
+          { characterId, characterName, winRate, pickRate },
+        ]);
+      }
     }
   }, [
     charactersLoading,

@@ -304,3 +304,12 @@ export function calculateAverage(
   // 소수점 4자리까지 반올림
   return Math.round(average * 10000) / 10000;
 }
+
+//비례 변환 함수
+export function convertRank(rank: number, total: number) {
+  // 80을 100으로 변환하는 비율 계산
+  const conversionFactor = 100 / total;
+  // 현재 랭크를 변환된 랭크로 변환
+  const newRank = rank * conversionFactor;
+  return newRank;
+}

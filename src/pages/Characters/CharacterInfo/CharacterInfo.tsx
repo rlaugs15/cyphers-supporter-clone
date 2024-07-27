@@ -15,8 +15,12 @@ function CharacterInfo() {
   } = useLocation();
 
   const { isLoading: characterRankLoading, data: characterRankData } =
-    useQuery<CharacterRanking>(["characterRanking", characterId], () =>
-      getCharacterRanking(characterId + "", "winRate")
+    useQuery<CharacterRanking>(
+      ["characterRanking", characterId],
+      () => getCharacterRanking(characterId + "", "winRate"),
+      {
+        staleTime: 1000 * 60 * 20,
+      }
     );
 
   const setChampBookmark = useSetRecoilState(champBookmarkAtom);

@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import { CharacterRanking } from "../../../../api";
-import { contentBoxStyle } from "../../../../libs/utils";
+import { contentBoxStyle, convertRank } from "../../../../libs/utils";
 import { useRecoilValue } from "recoil";
 import { characterLenthAtom, charWindAndPickAtom } from "../../../../atoms";
 import { useEffect, useState } from "react";
@@ -20,44 +20,31 @@ function WinAndPickSection({
   //픽 순위 출력
   const [pickNum, setPickNum] = useState(0);
   const [WinNum, setWinNum] = useState(0);
-  const characterLenth = useRecoilValue(characterLenthAtom);
+  const totalChamp = useRecoilValue(characterLenthAtom);
   const charWindAndPick = useRecoilValue(charWindAndPickAtom);
+  console.log(charWindAndPick.slice(1));
+
   //승률 생성
   useEffect(() => {
-    let newCharWindAndPick = [...charWindAndPick];
+    //charWindAndPick의 0번과 1번 인덱스만 중복되므로 0번을 제외하고 반환
+    let newCharWindAndPick = charWindAndPick.slice(1);
     const winRankIndex = newCharWindAndPick
       .sort((a, b) => Number(b.winRate) - Number(a.winRate))
       .findIndex((item) => item.characterName === characterName);
-    setWinNum(winRankIndex);
+    setWinNum(winRankIndex + 1);
   }, [charWindAndPick, setWinNum, characterName]);
 
   //픽률 생성
   useEffect(() => {
-    let newCharWindAndPick = [...charWindAndPick];
+    let newCharWindAndPick = charWindAndPick.slice(1);
     const pickRankIndex = newCharWindAndPick
       .sort((a, b) => Number(b.pickRate) - Number(a.pickRate))
       .findIndex((item) => item.characterName === characterName);
-    setPickNum(pickRankIndex);
+    setPickNum(pickRankIndex + 1);
   }, [charWindAndPick, setPickNum, characterName]);
 
   let winAndPickLoading =
-    loading || !characterLenth || !pickNum || !WinNum || !characterRankData;
-
-  //캐릭터를 플레이 한 유저들을 승률 평균 계산
-  const calcWinRate = (characterRankData: CharacterRanking) => {
-    // 평균 승률 계산
-    let winRates: number[] = characterRankData?.rows.map(
-      (characterRanker) => characterRanker?.winRate
-    );
-
-    // 배열의 합을 구하기
-    const total = winRates.reduce((a, b) => a + b, 0);
-
-    // 평균을 구하기
-    const average = total / winRates.length;
-
-    return average.toFixed(2);
-  };
+    loading || !totalChamp || !pickNum || !WinNum || !characterRankData;
 
   return (
     <>
@@ -79,16 +66,16 @@ function WinAndPickSection({
           ) : (
             <>
               <span>
-                승률: {WinNum + 1}위 ({WinNum + 1}/{characterLenth})
+                승률: {WinNum}위 ({WinNum}/{totalChamp})
               </span>
               <meter
                 min="0"
                 max="100"
-                value={calcWinRate(characterRankData!)}
+                value={convertRank(WinNum, totalChamp)}
                 className="w-full h-6"
               />
               <p className="flex justify-end">
-                <span>{calcWinRate(characterRankData!)}%</span>
+                <span>{convertRank(WinNum, totalChamp)}%</span>
               </p>
             </>
           )}
@@ -105,16 +92,16 @@ function WinAndPickSection({
           ) : (
             <>
               <span>
-                픽률 {pickNum + 1}위 ({pickNum + 1}/{characterLenth})
+                픽률 {pickNum}위 ({pickNum}/{totalChamp})
               </span>
               <meter
                 min="0"
                 max="100"
-                value={pickNum + 1}
+                value={convertRank(pickNum, totalChamp)}
                 className="w-full h-6"
               />
               <p className="flex justify-end">
-                <span>{pickNum + 1}%</span>
+                <span>{convertRank(pickNum, totalChamp)}%</span>
               </p>
             </>
           )}
