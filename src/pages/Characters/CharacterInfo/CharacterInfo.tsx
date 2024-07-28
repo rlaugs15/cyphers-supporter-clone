@@ -6,6 +6,7 @@ import Skeleton from "react-loading-skeleton";
 import WinAndPickSection from "./Component/WinAndPickSection";
 import { useSetRecoilState } from "recoil";
 import { champBookmarkAtom, IChampBookmark } from "../../../atoms";
+import CommentSection from "./Component/CommentSection/CommentSection";
 
 function CharacterInfo() {
   const { characterName } = useParams();
@@ -121,6 +122,9 @@ function CharacterInfo() {
           </section>
         </section>
       </div> */}
+      <section className={`${contentBoxStyle} space-y-4`}>
+        <CommentSection />
+      </section>
     </>
   );
 }
