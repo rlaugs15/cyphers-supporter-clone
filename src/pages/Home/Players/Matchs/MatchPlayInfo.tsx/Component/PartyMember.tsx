@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { cls } from "../../libs/utils";
+import { cls } from "../../../../../../libs/utils";
 
 interface PartyMemberProps {
   partyId: string;

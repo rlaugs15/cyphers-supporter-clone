@@ -1,4 +1,4 @@
-import { cls, playPosition } from "../libs/utils";
+import { cls, playPosition } from "../../libs/utils";
 
 interface PositionImgProps {
   positionName: string;

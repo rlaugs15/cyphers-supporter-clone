@@ -1,5 +1,5 @@
-import { makeImagePath } from "../../api";
-import { cls, playPosition } from "../../libs/utils";
+import { makeImagePath } from "../../../../../../api";
+import { cls, playPosition } from "../../../../../../libs/utils";
 
 interface ChampAndPositionCardProps {
   matchResult: string;

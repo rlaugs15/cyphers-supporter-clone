@@ -1,6 +1,6 @@
-import { IPlayerInfo } from "../api";
-import { winningRate } from "../libs/utils";
-import AvatarImg from "./AvatarImg";
+import { IPlayerInfo } from "../../../../../api";
+import { winningRate } from "../../../../../libs/utils";
+import AvatarImg from "../../../../../components/images/AvatarImg";
 
 interface ImgOrRankAndRateProps {
   playerInfoData: IPlayerInfo;

@@ -1,8 +1,8 @@
 import { useRecoilState } from "recoil";
-import { contentTitleStyle } from "../../libs/utils";
-import { champBookmarkAtom } from "../../atoms";
 import { useNavigate } from "react-router-dom";
-import { makeImagePath } from "../../api";
+import { champBookmarkAtom } from "../../../atoms";
+import { contentTitleStyle } from "../../../libs/utils";
+import { makeImagePath } from "../../../api";
 
 function Bookmark() {
   const nav = useNavigate();

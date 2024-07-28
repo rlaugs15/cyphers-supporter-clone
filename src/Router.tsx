@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./pages/Home/Home/Home";
 import Characters from "./pages/Characters/Characters";
-import PlayerBasicInfo from "./pages/Home/Home/PlayerBasicInfo";
+import PlayerBasicInfo from "./pages/Home/Home/PlayBasicInfo/PlayerBasicInfo";
 import MostCyAll from "./pages/Home/Home/MostCypher/MostCyAll";
 import MostCyRating from "./pages/Home/Home/MostCypher/MostCyRating";
 import MostCyNomal from "./pages/Home/Home/MostCypher/MostCyNomal";

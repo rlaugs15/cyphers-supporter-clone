@@ -1,5 +1,5 @@
 import Skeleton from "react-loading-skeleton";
-import { IPlayerInfo } from "../api";
+import { IPlayerInfo } from "../../../../../api";
 import ImgOrRankAndRate from "./ImgOrRankAndRate";
 
 interface PlayerInfoProps {

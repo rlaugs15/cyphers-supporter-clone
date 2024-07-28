@@ -17,14 +17,14 @@ function WinAndPickSection({
   characterRankData,
 }: WinAndPickSectionProps) {
   const { characterName } = useParams();
-  //픽 순위 출력
   const [pickNum, setPickNum] = useState(0);
   const [WinNum, setWinNum] = useState(0);
+  //총 인구수
   const totalChamp = useRecoilValue(characterLenthAtom);
+  //캐릭터의 픽률과 승률이 계산된 새로운 배열
   const charWindAndPick = useRecoilValue(charWindAndPickAtom);
-  console.log(charWindAndPick.slice(1));
 
-  //승률 생성
+  //캐릭터의 승률 순위를 계산
   useEffect(() => {
     //charWindAndPick의 0번과 1번 인덱스만 중복되므로 0번을 제외하고 반환
     let newCharWindAndPick = charWindAndPick.slice(1);
@@ -34,7 +34,7 @@ function WinAndPickSection({
     setWinNum(winRankIndex + 1);
   }, [charWindAndPick, setWinNum, characterName]);
 
-  //픽률 생성
+  //캐릭터의 픽률 순위를 계산
   useEffect(() => {
     let newCharWindAndPick = charWindAndPick.slice(1);
     const pickRankIndex = newCharWindAndPick

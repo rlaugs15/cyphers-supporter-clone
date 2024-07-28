@@ -2,14 +2,14 @@ import { useForm } from "react-hook-form";
 import { Outlet } from "react-router-dom";
 import { Character, ICharacters, getCharacters } from "../../api";
 import { useQuery } from "react-query";
-import CharacterCard from "./CharacterCard";
+import CharacterCard from "./Component/CharacterCard";
 import { useSetRecoilState } from "recoil";
 import { characterLenthAtom } from "../../atoms";
 import CharWindAndPick from "./CharacterInfo/WinAndPick/CharWinAndPick";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { contentBoxStyle, contentTitleStyle } from "../../libs/utils";
-import Bookmark from "./Bookmark";
+import Bookmark from "./Component/Bookmark";
 
 //추후 useForm에 추가할 것
 /* interface IForm {

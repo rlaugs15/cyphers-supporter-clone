@@ -1,6 +1,6 @@
 import { DetailPlayer } from "../../../../../api";
-import PositionImg from "../../../../../components/PositionImg";
-import ReportBar from "./ReportBar";
+import PositionImg from "../../../../../components/images/PositionImg";
+import ReportBar from "./Component/ReportBar";
 
 interface IMatchsReport {
   winners: DetailPlayer[];

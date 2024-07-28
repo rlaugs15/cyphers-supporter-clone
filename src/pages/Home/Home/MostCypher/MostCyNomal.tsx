@@ -3,7 +3,7 @@ import {
   normalMatchingAtom,
   normalMatshingLoadingAtom,
 } from "../../../../atoms";
-import MostChampBox from "../../../../components/MostChampBox";
+import MostChampBox from "./Componet/MostChampBox";
 
 function MostCyNomal() {
   const matshingData = useRecoilValue(normalMatchingAtom);

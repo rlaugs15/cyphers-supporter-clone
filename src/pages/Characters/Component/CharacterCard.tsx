@@ -1,8 +1,8 @@
 import { useMatch, useNavigate } from "react-router-dom";
-import { cls } from "../../libs/utils";
-import { makeImagePath } from "../../api";
+import { cls } from "../../../libs/utils";
+import { makeImagePath } from "../../../api";
 import { useRecoilValue } from "recoil";
-import { champBookmarkAtom } from "../../atoms";
+import { champBookmarkAtom } from "../../../atoms";
 
 interface CharacterCardProps {
   characterName: string;

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import SearchInputBtn from "../../../components/SearchInputBtn";
+import SearchInputBtn from "../../../components/Button/SearchInputBtn";
 import { Outlet, useNavigate } from "react-router-dom";
 import { contentTitleStyle } from "../../../libs/utils";
 

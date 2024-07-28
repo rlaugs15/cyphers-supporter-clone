@@ -8,7 +8,7 @@ import {
   getPlayerInfo,
 } from "../../../../api";
 import { useQuery } from "react-query";
-import PlayerInfoCard from "../../../../components/PlayerInfoCard";
+import PlayerInfoCard from "../../Home/PlayBasicInfo/Component/PlayerInfoCard";
 import { allMatchData } from "../../../../libs/utils";
 import RecentGameCard from "./RecentGameCard";
 

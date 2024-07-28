@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { PlayerInfo } from "../../../../api";
-import AvatarImg from "../../../../components/AvatarImg";
 import { cls, winningRate } from "../../../../libs/utils";
-import PositionImg from "../../../../components/PositionImg";
+import PositionImg from "../../../../components/images/PositionImg";
 import Skeleton from "react-loading-skeleton";
+import AvatarImg from "../../../../components/images/AvatarImg";
 
 interface RecentGameCardProps {
   playerAllMatchLoading: boolean;

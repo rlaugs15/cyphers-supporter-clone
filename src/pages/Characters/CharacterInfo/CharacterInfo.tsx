@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
 import { CharacterRanking, getCharacterRanking } from "../../../api";
-import { meterStylesBlack } from "../../../libs/utils";
+import { contentBoxStyle, meterStylesBlack } from "../../../libs/utils";
 import Skeleton from "react-loading-skeleton";
-import WinAndPickSection from "./WinAndPick/WinAndPickSection";
+import WinAndPickSection from "./Component/WinAndPickSection";
 import { useSetRecoilState } from "recoil";
 import { champBookmarkAtom, IChampBookmark } from "../../../atoms";
 

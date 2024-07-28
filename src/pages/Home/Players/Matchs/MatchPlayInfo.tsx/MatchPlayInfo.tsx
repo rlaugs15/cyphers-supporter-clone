@@ -10,11 +10,11 @@ import {
   winningRate,
 } from "../../../../../libs/utils";
 import { ParyMember } from "../Matches";
-import ChampAndPositionCard from "../../../../../components/playInfoCard/ChampAndPositionCard";
-import GameStats from "../../../../../components/playInfoCard/GameStats";
-import PartyMember from "../../../../../components/playInfoCard/PartyMember";
-import ItemCard from "../../../../../components/playInfoCard/ItemCard";
-import AttCards from "../../../../../components/playInfoCard/AttCardsArray";
+import ChampAndPositionCard from "./Component/ChampAndPositionCard";
+import GameStats from "../MatchReport/Component/GameStats";
+import PartyMember from "./Component/PartyMember";
+import ItemCard from "../../../../../components/images/ItemCard";
+import AttCards from "./Component/AttCardsArray";
 
 interface MatchPlayInfoProps {
   items: DetailMatchItem[];

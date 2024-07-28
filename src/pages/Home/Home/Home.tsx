@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { searchHistory } from "../../../atoms";
 import SearchHistory from "./SearchHistory";
-import SearchInputBtn from "../../../components/SearchInputBtn";
+import SearchInputBtn from "../../../components/Button/SearchInputBtn";
 import { contentTitleStyle } from "../../../libs/utils";
 
 interface IForm {

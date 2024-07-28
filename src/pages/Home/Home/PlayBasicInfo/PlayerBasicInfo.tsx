@@ -13,8 +13,8 @@ import {
   getMatching,
   getPlayer,
   getPlayerInfo,
-} from "../../../api";
-import { allMatchData, cls } from "../../../libs/utils";
+} from "../../../../api";
+import { allMatchData, cls } from "../../../../libs/utils";
 import { useSetRecoilState } from "recoil";
 import {
   allMatchingAtom,
@@ -23,9 +23,9 @@ import {
   normalMatshingLoadingAtom,
   ratingMatchingAtom,
   ratingMatshingLoadingAtom,
-} from "../../../atoms";
+} from "../../../../atoms";
 import { useEffect } from "react";
-import PlayerInfoCard from "../../../components/PlayerInfoCard";
+import PlayerInfoCard from "./Component/PlayerInfoCard";
 
 function PlayerBasicInfo() {
   const { nickname } = useParams();

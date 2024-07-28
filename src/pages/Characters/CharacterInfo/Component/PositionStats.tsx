@@ -1,4 +1,4 @@
-import { contentBoxStyle, cls, playPosition } from "../../../libs/utils";
+import { contentBoxStyle, cls, playPosition } from "../../../../libs/utils";
 
 function PositionStats() {
   return (

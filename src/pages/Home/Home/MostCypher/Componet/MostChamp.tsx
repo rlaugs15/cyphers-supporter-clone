@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { MatchRecord, makeImagePath } from "../api";
+import { MatchRecord, makeImagePath } from "../../../../../api";
 import {
   cls,
   findMostChamp,
   findSecondMostChamp,
   scoreAverage,
   winningRate,
-} from "../libs/utils";
+} from "../../../../../libs/utils";
 import Skeleton from "react-loading-skeleton";
 
 interface IMostChamp {

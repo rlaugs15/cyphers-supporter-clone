@@ -3,7 +3,7 @@ import {
   ratingMatchingAtom,
   ratingMatshingLoadingAtom,
 } from "../../../../atoms";
-import MostChampBox from "../../../../components/MostChampBox";
+import MostChampBox from "./Componet/MostChampBox";
 
 function MostCyRating() {
   const matshingData = useRecoilValue(ratingMatchingAtom);
