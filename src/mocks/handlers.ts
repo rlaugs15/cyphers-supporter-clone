@@ -1,8 +1,8 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import { users } from "./data";
 import { User } from "../api";
+import { users } from "./data";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -134,7 +134,75 @@ export const handlers = [
     );
   }),
 
+  // 로그인id 중복확인 GET 요청
+  http.get("/api/v1/auth/check-loginid/:loginId", ({ params }) => {
+    const { loginId } = params;
+    const user = users.find((user) => user.loginId === loginId);
+
+    if (user) {
+      return HttpResponse.json(
+        { code: 409, message: "존재하는 로그인ID입니다." },
+        { status: 409 }
+      );
+    }
+    return HttpResponse.json(
+      { code: 200, message: "사용할 수 있는 로그인ID입니다." },
+      { status: 200 }
+    );
+  }),
+
+  // 닉네임 중복확인 GET 요청
+  http.get("/api/v1/auth/check-nickname/:nickname", ({ params }) => {
+    const { nickname } = params;
+    const user = users.find((user) => user.nickname === nickname);
+
+    if (user) {
+      return HttpResponse.json(
+        { code: 409, message: "존재하는 닉네임입니다." },
+        { status: 409 }
+      );
+    }
+    return HttpResponse.json(
+      { code: 200, message: "사용할 수 있는 닉네임입니다." },
+      { status: 200 }
+    );
+  }),
+
+  // 이메일 중복확인 GET 요청
+  http.get("/api/v1/auth/check-email/:email", ({ params }) => {
+    const { email } = params;
+    const user = users.find((user) => user.email === email);
+
+    if (user) {
+      return HttpResponse.json(
+        { code: 409, message: "존재하는 이메일입니다." },
+        { status: 409 }
+      );
+    }
+    return HttpResponse.json(
+      { code: 200, message: "사용할 수 있는 이메일입니다." },
+      { status: 200 }
+    );
+  }),
+
   //---------------------POST 요청-------------------------------
+
+  // 회원가입 요청
+  http.post("/api/v1/join", async ({ request }) => {
+    const data = (await request.json()) as User;
+    users.push(data);
+    const joinResult = users.find((user) => user.loginId === data.loginId);
+    if (!joinResult) {
+      return HttpResponse.json(
+        { code: 500, message: "회원가입 실패" },
+        { status: 500 }
+      );
+    }
+    return HttpResponse.json(
+      { code: 200, message: "회원가입 성공" },
+      { status: 200 }
+    );
+  }),
 
   // 로그인 요청
   http.post("/api/v1/login", async ({ request }) => {

@@ -37,7 +37,10 @@ function SearchHistory({ nav, search, setSearch }: SearchHistoryProps) {
       <section className="flex flex-col">
         {search
           ? search?.map((name) => (
-              <div className="flex items-center justify-between p-3 border-t-2 hover:bg-slate-200">
+              <div
+                key={name.fullName}
+                className="flex items-center justify-between p-3 border-t-2 hover:bg-slate-200"
+              >
                 <button
                   key={name.fullName}
                   onClick={() => onSearchClick(name?.fullName)}

@@ -10,6 +10,8 @@ import PlayersComparison from "./pages/Home/Players/PlayersComparison/PlayersCom
 import Matches from "./pages/Home/Players/Matchs/Matches";
 import CharacterInfo from "./pages/Characters/CharacterInfo/CharacterInfo";
 import Players from "./pages/Home/Players/Players";
+import Join from "./pages/Join";
+import Login from "./pages/Login";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
@@ -22,6 +24,14 @@ export const router = createBrowserRouter(
       path: "/",
       element: <App />,
       children: [
+        {
+          path: "join",
+          element: <Join />,
+        },
+        {
+          path: "login",
+          element: <Login />,
+        },
         {
           path: "",
           element: <Home />,

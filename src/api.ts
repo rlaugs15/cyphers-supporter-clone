@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CustomDateFormatter } from "./libs/utils";
+import { handleAxiosError } from "./libs/handleAxiosError";
 
 const BASE_PATH =
   import.meta.env.MODE === "development"
@@ -358,24 +359,57 @@ export function getItemImg(itemId: string) {
 }
 
 //------------------------유저 관리------------------------------
-export async function getMember() {
-  const response = await axios.get("/member");
-  return response.data;
+
+export interface MutationResult {
+  code: number;
+  message?: string;
 }
 
 export interface User {
   loginId: string;
+  nickname: string;
   password: string;
-  passwordConfirm?: string;
   name: string;
   gender: string;
-  nickname: string;
   birthDay: string;
   email: string;
 }
+
+export async function getMember() {
+  const response = await axios.get("/member");
+  return response;
+}
+
+//로그인id 중복 체크
+export async function checkLoginId(loginId: string) {
+  return handleAxiosError(
+    axios
+      .get<MutationResult>(`/api/v1/auth/check-loginid/${loginId}`)
+      .then((res) => res.data)
+  );
+}
+
+//닉네임 중복 체크
+export async function checkNickname(nickname: string) {
+  return handleAxiosError(
+    axios
+      .get<MutationResult>(`/api/v1/auth/check-nickname/${nickname}`)
+      .then((res) => res.data)
+  );
+}
+
+//이메일 중복 체크
+export async function checkEmail(email: string) {
+  return handleAxiosError(
+    axios
+      .get<MutationResult>(`/api/v1/auth/check-email/${email}`)
+      .then((res) => res.data)
+  );
+}
+
 //회원가입
 export async function setJoin(body: User) {
-  const response = await axios.post("/api/1v/join", body);
+  const response = await axios.post("/api/v1/join", body);
   return response.data;
 }
 

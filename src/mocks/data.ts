@@ -3,21 +3,21 @@ import { User } from "../api";
 //유저 데이터
 export const users: User[] = [
   {
-    loginId: "rlaugs15@naver.com",
-    nickname: "Bam",
+    loginId: "loginId1",
+    nickname: "울라리",
     password: "rlaguswns123!!",
     name: "김현준",
-    gender: "남자",
-    birthDay: "19941234",
-    email: "rlaugs15@goole.com",
+    gender: "male",
+    birthDay: "1994-02-16",
+    email: "rlaugs15@gmail.com",
   },
   {
-    loginId: "rlaugs44@naver.com",
-    nickname: "Alen",
+    loginId: "loginId2",
+    nickname: "히리",
     password: "rlaguswns123!!",
     name: "방민아",
-    gender: "여자",
-    birthDay: "19930513",
-    email: "rlaugs44@goole.com",
+    gender: "female",
+    birthDay: "1993-05-13",
+    email: "rlaugs44@gmail.com",
   },
 ];

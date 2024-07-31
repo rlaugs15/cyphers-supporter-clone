@@ -8,7 +8,7 @@ import ItemDetailScreen from "./components/ItemDetailScreen";
 function App() {
   const itemDetail = useRecoilValue(itemDetailScreenAtom);
   return (
-    <div className="flex w-screen h-auto gap-8 p-4 bg-slate-100">
+    <div className="flex w-screen h-auto gap-8 p-4 pr-8 bg-slate-100">
       <Contents />
       <div className="w-full drop-shadow-md min-w-[1067px]">
         <Outlet />
