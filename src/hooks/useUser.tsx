@@ -12,8 +12,8 @@ interface IUser {
   id: number;
   email: string;
   nickname: string;
-  profileImg: string;
-  createdAt: string; // 생성일 (LocalDateTime은 ISO 문자열로 변환됨)
+  profileImg?: string;
+  createdAt?: string; // 생성일 (LocalDateTime은 ISO 문자열로 변환됨)
 }
 
 interface IApiResponse extends MutationResult {
@@ -31,7 +31,7 @@ export default function useUser(userOnly?: UserOnly) {
 
   useEffect(() => {
     if (error) {
-      console.error("Error fetching user data:", error);
+      console.error("사용자 데이터 가져오는 중 오류 발생:", error);
       return;
     }
 

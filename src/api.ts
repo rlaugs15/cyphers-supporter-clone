@@ -1,11 +1,12 @@
 import axios from "axios";
 import { CustomDateFormatter } from "./libs/utils";
 import { handleAxiosError } from "./libs/handleAxiosError";
+import tokenInstance from "./tokenInstance";
 
 const BASE_PATH =
   import.meta.env.MODE === "development"
     ? import.meta.env.VITE_LOCAL_API_BASE_URL
-    : import.meta.env.VITE_LOCAL_API_BASE_URL;
+    : import.meta.env.VITE_LOCAL_API_BASE_URL; //추후 배포 url로 변경할 것
 
 interface Row {
   playerId: string;
@@ -373,37 +374,32 @@ export interface User {
   gender: string;
   birthDay: string;
   email: string;
+  createdAt?: string;
 }
 
 export async function getMember() {
-  const response = await axios.get("/member");
-  return response;
+  const response = await tokenInstance.get("/member");
+  return response.data;
 }
 
 //로그인id 중복 체크
 export async function checkLoginId(loginId: string) {
-  return handleAxiosError(
-    axios
-      .get<MutationResult>(`/api/v1/auth/check-loginid/${loginId}`)
-      .then((res) => res.data)
+  return handleAxiosError<MutationResult>(
+    axios.get(`/api/v1/auth/check-loginid/${loginId}`).then((res) => res.data)
   );
 }
 
 //닉네임 중복 체크
 export async function checkNickname(nickname: string) {
-  return handleAxiosError(
-    axios
-      .get<MutationResult>(`/api/v1/auth/check-nickname/${nickname}`)
-      .then((res) => res.data)
+  return handleAxiosError<MutationResult>(
+    axios.get(`/api/v1/auth/check-nickname/${nickname}`).then((res) => res.data)
   );
 }
 
 //이메일 중복 체크
 export async function checkEmail(email: string) {
-  return handleAxiosError(
-    axios
-      .get<MutationResult>(`/api/v1/auth/check-email/${email}`)
-      .then((res) => res.data)
+  return handleAxiosError<MutationResult>(
+    axios.get(`/api/v1/auth/check-email/${email}`).then((res) => res.data)
   );
 }
 
@@ -414,7 +410,14 @@ export async function setJoin(body: User) {
 }
 
 //로그인
+export interface LoginResult extends MutationResult {
+  data: {
+    token: string;
+    refreshToken: string;
+  };
+}
 export async function setLogin(body: Pick<User, "loginId" | "password">) {
-  const response = await axios.post("/api/1v/login", body);
-  return response.data;
+  return handleAxiosError<LoginResult>(
+    axios.post("/api/v1/login", body).then((res) => res.data)
+  );
 }

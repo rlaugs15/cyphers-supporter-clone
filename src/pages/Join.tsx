@@ -111,7 +111,7 @@ function Join() {
   const [joinFail, setJoinFail] = useState(false);
   const nav = useNavigate();
   const queryClient = useQueryClient();
-  const { mutate: joinMutate } = useMutation(setJoin, {
+  const { mutate: joinMutate, isLoading: joinLoading } = useMutation(setJoin, {
     onSuccess: (data) => {
       console.log(data);
 
@@ -124,6 +124,7 @@ function Join() {
     },
   });
   const onJoinSubmit = (data: IForm) => {
+    if (joinLoading) return;
     if (data.password !== data.password2) {
       setError("password", { message: "비밀번호 확인과 일치하지 않습니다" });
     }

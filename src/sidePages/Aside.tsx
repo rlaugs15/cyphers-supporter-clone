@@ -17,7 +17,12 @@ function Aside() {
           </div>
         ) : (
           <div className="grid grid-cols-2 space-x-2">
-            <button className={`${contentBtnStyle}`}>로그인</button>
+            <button
+              onClick={() => nav("/login")}
+              className={`${contentBtnStyle}`}
+            >
+              로그인
+            </button>
             <button
               onClick={() => nav("/join")}
               className={`${contentBtnStyle}`}

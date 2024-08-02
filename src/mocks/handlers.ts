@@ -189,7 +189,18 @@ export const handlers = [
 
   // 회원가입 요청
   http.post("/api/v1/join", async ({ request }) => {
+    const currentDate = new Date();
+    // 연도를 가져오고 문자열로 변환
+    const year = currentDate.getFullYear().toString();
+    // 월을 가져오고, JavaScript의 월은 0부터 시작하므로 1을 더한 후 문자열로 변환
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    // 일을 가져오고 문자열로 변환
+    const day = currentDate.getDate().toString().padStart(2, "0");
+    // 형식화된 문자열 생성
+    const formattedDate = `${year}-${month}-${day}`;
+
     const data = (await request.json()) as User;
+    data.createdAt = formattedDate;
     users.push(data);
     const joinResult = users.find((user) => user.loginId === data.loginId);
     if (!joinResult) {
@@ -206,26 +217,35 @@ export const handlers = [
 
   // 로그인 요청
   http.post("/api/v1/login", async ({ request }) => {
-    const { loginId, password } = (await request.json()) as {
-      loginId: string;
-      password: string;
-    };
+    const { loginId, password } = (await request.json()) as Pick<
+      User,
+      "loginId" | "password"
+    >;
 
-    const user = users.find(
-      (user) => user.loginId === loginId && user.password === password
-    );
+    const idCeck = users.find((user) => user.loginId === loginId);
 
-    if (!user) {
+    if (!idCeck) {
       return HttpResponse.json(
         {
           code: 400,
-          message: "회원정보가 일치하지 않습니다.",
+          message: "아이디가 일치하지 않습니다.",
           data: null,
         },
         { status: 400 }
       );
     }
-
+    const pwCeck = users.find((user) => user.password === password);
+    if (!pwCeck) {
+      return HttpResponse.json(
+        {
+          code: 400,
+          message: "비밀번호가 일치하지 않습니다.",
+          data: null,
+        },
+        { status: 400 }
+      );
+    }
+    const user = idCeck;
     // Access Token 생성
     const token = await generateToken(user);
     // Refresh Token은 여기에서는 단순히 응답의 쿠키로 설정, 실제 환경에서는 서버에서 관리

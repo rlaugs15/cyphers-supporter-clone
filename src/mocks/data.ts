@@ -10,6 +10,7 @@ export const users: User[] = [
     gender: "male",
     birthDay: "1994-02-16",
     email: "rlaugs15@gmail.com",
+    createdAt: "2024-01-02",
   },
   {
     loginId: "loginId2",
@@ -19,5 +20,6 @@ export const users: User[] = [
     gender: "female",
     birthDay: "1993-05-13",
     email: "rlaugs44@gmail.com",
+    createdAt: "2024-02-03",
   },
 ];
