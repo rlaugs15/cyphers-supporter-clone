@@ -421,3 +421,9 @@ export async function setLogin(body: Pick<User, "loginId" | "password">) {
     axios.post("/api/v1/login", body).then((res) => res.data)
   );
 }
+
+//로그아웃
+export async function setLogout(body: {}) {
+  const response = await axios.post("/api/v1/logout", body);
+  return response.data;
+}

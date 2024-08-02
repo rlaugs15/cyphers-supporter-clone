@@ -264,4 +264,10 @@ export const handlers = [
       }
     );
   }),
+
+  // 로그아웃 요청
+  http.post("/api/v1/logout", async ({ request }) => {
+    logout();
+    return HttpResponse.json({ code: 200 }, { status: 200 });
+  }),
 ];
