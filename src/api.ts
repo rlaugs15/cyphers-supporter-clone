@@ -427,3 +427,41 @@ export async function setLogout(body: {}) {
   const response = await axios.post("/api/v1/logout", body);
   return response.data;
 }
+
+//캐릭터 댓글 조회
+export interface ICharacterComment {
+  characterId: string;
+  userId: string;
+  userNickname: string;
+  comment: string;
+}
+
+export interface CharacterCommentResult extends MutationResult {
+  data: ICharacterComment[];
+}
+
+export async function getCharacterComment(characterId: string) {
+  return handleAxiosError<CharacterCommentResult>(
+    axios
+      .get(`/api/v1/auth/character/comment/${characterId}`)
+      .then((res) => res.data)
+  );
+}
+
+//캐릭터 댓글 작성
+export async function setCharacterComment({
+  characterId,
+  userId,
+  userNickname,
+  comment,
+}: ICharacterComment) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .post(`/api/v1/auth/character/comment/${characterId}`, {
+        userId,
+        userNickname,
+        comment,
+      })
+      .then((res) => res.data)
+  );
+}

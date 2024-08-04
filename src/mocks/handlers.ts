@@ -1,8 +1,8 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import { User } from "../api";
-import { users } from "./data";
+import { ICharacterComment, User } from "../api";
+import { characterComments, users } from "./data";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -185,6 +185,29 @@ export const handlers = [
     );
   }),
 
+  // 캐릭터 댓글 GET 요청
+  http.get("/api/v1/auth/character/comment/:characterId", ({ params }) => {
+    const { characterId } = params;
+    const characterComment = characterComments.filter(
+      (character) => character.characterId === characterId
+    );
+
+    if (!characterComment) {
+      return HttpResponse.json(
+        { code: 409, message: "댓글을 조회할 수 없습니다." },
+        { status: 409 }
+      );
+    }
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "댓글 조회에 성공했습니다.",
+        data: characterComment,
+      },
+      { status: 200 }
+    );
+  }),
+
   //---------------------POST 요청-------------------------------
 
   // 회원가입 요청
@@ -270,4 +293,30 @@ export const handlers = [
     logout();
     return HttpResponse.json({ code: 200 }, { status: 200 });
   }),
+
+  //캐릭터 댓글작성 요청
+  http.post(
+    "/api/v1/auth/character/comment/:characterId",
+    async ({ request, params }) => {
+      const { characterId } = params as Pick<ICharacterComment, "characterId">;
+      const { userId, userNickname, comment } =
+        (await request.json()) as ICharacterComment;
+      if (!characterId) {
+        return HttpResponse.json(
+          { code: 400, message: " 서버가 요청을 처리하지 못 했습니다." },
+          { status: 400 }
+        );
+      }
+      characterComments.push({
+        characterId,
+        userId,
+        userNickname,
+        comment,
+      });
+      return HttpResponse.json(
+        { code: 200, message: "댓글작성에 성공했습니다." },
+        { status: 200 }
+      );
+    }
+  ),
 ];
