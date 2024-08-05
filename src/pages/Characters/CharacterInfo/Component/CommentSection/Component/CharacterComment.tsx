@@ -1,4 +1,4 @@
-import AvatarImg from "../../../../../components/images/AvatarImg";
+import AvatarImg from "../../../../../../components/images/AvatarImg";
 
 interface CharacterCommentProps {
   characterId: string;

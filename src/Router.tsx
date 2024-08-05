@@ -12,6 +12,10 @@ import CharacterInfo from "./pages/Characters/CharacterInfo/CharacterInfo";
 import Players from "./pages/Home/Players/Players";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
+import Board from "./pages/Board/Board";
+import BoardDetail from "./pages/Board/Component/BoardDetail";
+import BoardModify from "./pages/Board/Component/BoardModify.";
+import BoardList from "./pages/Board/Component/BoardList";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
@@ -77,6 +81,24 @@ export const router = createBrowserRouter(
             {
               path: ":characterName",
               element: <CharacterInfo />,
+            },
+          ],
+        },
+        {
+          path: "board",
+          element: <Board />,
+          children: [
+            {
+              path: "",
+              element: <BoardList />,
+            },
+            {
+              path: "read/:boardId",
+              element: <BoardDetail />,
+            },
+            {
+              path: "modify/:boardId",
+              element: <BoardModify />,
             },
           ],
         },

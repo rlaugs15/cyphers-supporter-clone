@@ -465,3 +465,44 @@ export async function setCharacterComment({
       .then((res) => res.data)
   );
 }
+
+export interface Comment {
+  id: number;
+  parentCommentId?: number | null;
+  childrenCommentsIds?: number[];
+  content: string;
+}
+
+//게시글 조회
+export interface Post {
+  id: number;
+  title: string;
+  content: string;
+  author: string;
+  like?: number;
+  createdAt: string;
+  updatedAt: string;
+  comments?: number[];
+}
+
+export interface BoardListResult extends MutationResult {
+  data: {
+    posts: Post[];
+    totalElements: number;
+    totalPages: number;
+    currentPage: number;
+  };
+}
+
+export async function getBoardList(page: number, size: number) {
+  return handleAxiosError<BoardListResult>(
+    axios
+      .get("/api/v1/board", {
+        params: {
+          page,
+          size,
+        },
+      })
+      .then((res) => res.data)
+  );
+}

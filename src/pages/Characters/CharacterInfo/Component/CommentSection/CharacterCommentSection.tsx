@@ -5,7 +5,7 @@ import {
   getCharacterComment,
   ICharacterComment,
 } from "../../../../../api";
-import CharacterComment from "./CharacterComment";
+import CharacterComment from "./Component/CharacterComment";
 import Skeleton from "react-loading-skeleton";
 import CharacterCommentForm from "./Component/CharacterCommentForm";
 

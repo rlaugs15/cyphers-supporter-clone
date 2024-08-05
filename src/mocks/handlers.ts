@@ -2,7 +2,7 @@ import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
 import { ICharacterComment, User } from "../api";
-import { characterComments, users } from "./data";
+import { characterComments, posts, users } from "./data";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -203,6 +203,32 @@ export const handlers = [
         code: 200,
         message: "댓글 조회에 성공했습니다.",
         data: characterComment,
+      },
+      { status: 200 }
+    );
+  }),
+
+  // 게시글 목록 GET 요청
+  http.get("/api/v1/board", ({ request }) => {
+    const url = new URL(request.url);
+
+    const page = parseInt(url.searchParams.get("page") || "0");
+    const size = parseInt(url.searchParams.get("size") || "10");
+    const start = page * size;
+    const end = start + size;
+
+    const paginatedPosts = posts.slice(start, end);
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "데이터 조회 성공",
+        data: {
+          posts: paginatedPosts,
+          totalElements: posts.length,
+          totalPages: Math.ceil(posts.length / size),
+          currentPage: page,
+        },
       },
       { status: 200 }
     );
