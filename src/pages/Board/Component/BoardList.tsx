@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { BoardListResult, getBoardList } from "../../../api";
+import Skeleton from "react-loading-skeleton";
 
 interface IForm {
   page: number;
@@ -65,6 +66,14 @@ function BoardList() {
           </tr>
         </thead>
         <tbody className="text-sm font-light text-gray-600">
+          {boardListLoading &&
+            [...Array.from(Array(10).keys())].map((item) => (
+              <tr key={item} className="w-full px-6 py-3 my-4 border-b">
+                <td colSpan={5}>
+                  <Skeleton height={32} className="w-full" />
+                </td>
+              </tr>
+            ))}
           {boardListData?.data.posts.map((post) => (
             <tr
               key={post.id}

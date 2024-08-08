@@ -17,6 +17,7 @@ function BoardComment({
   childrenCommentsIds,
 }: ModifyComment) {
   const { user } = useUser();
+
   const onDeleteClick = () => {};
   return (
     <div className="space-y-2">
