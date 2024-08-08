@@ -9,7 +9,7 @@ export interface MutationResult {
 }
 
 interface IUser {
-  id: number;
+  id: string;
   email: string;
   nickname: string;
   profileImg?: string;

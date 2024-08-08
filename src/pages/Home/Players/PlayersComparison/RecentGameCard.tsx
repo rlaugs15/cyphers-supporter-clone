@@ -42,7 +42,7 @@ function RecentGameCard({
                 match?.playInfo?.result === "win" ? "bg-blue-200" : "bg-red-200"
               )}
             >
-              <AvatarImg id={match?.playInfo?.characterId} />
+              <AvatarImg character id={match?.playInfo?.characterId} />
               <PositionImg positionName={match?.position?.name} />
               <span>({match?.playInfo?.result === "win" ? "승" : "패"})</span>
               <figcaption className="flex flex-col text-sm text-slate-600">

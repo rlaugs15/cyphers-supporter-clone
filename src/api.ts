@@ -466,13 +466,6 @@ export async function setCharacterComment({
   );
 }
 
-export interface Comment {
-  id: number;
-  parentCommentId?: number | null;
-  childrenCommentsIds?: number[];
-  content: string;
-}
-
 //게시글 조회
 export interface Post {
   id: number;
@@ -504,5 +497,37 @@ export async function getBoardList(page: number, size: number) {
         },
       })
       .then((res) => res.data)
+  );
+}
+
+//게시글 상세 조회
+export interface BoardDetailResult extends MutationResult {
+  data: Post;
+}
+
+export async function getBoardDetail(boardId: string) {
+  return handleAxiosError<BoardDetailResult>(
+    axios.get(`/api/v1/board/${boardId}`).then((res) => res.data)
+  );
+}
+
+//게시글 댓글 조회
+export interface BoardComment {
+  id: number;
+  userId: string;
+  userNickname: string;
+  parentCommentId?: number | null;
+  childrenCommentsIds?: number[];
+  content: string;
+  createdAt: string;
+}
+
+export interface BoardCommentResult extends MutationResult {
+  data: BoardComment[];
+}
+
+export async function getBoardComment(boardId: string) {
+  return handleAxiosError<BoardCommentResult>(
+    axios.get(`/api/v1/comments/${boardId}`).then((res) => res.data)
   );
 }

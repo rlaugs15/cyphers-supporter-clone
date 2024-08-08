@@ -1,4 +1,4 @@
-import { Comment, ICharacterComment, Post, User } from "../api";
+import { BoardComment, ICharacterComment, Post, User } from "../api";
 
 //유저 데이터
 export const users: User[] = [
@@ -52,66 +52,97 @@ export const characterComments: ICharacterComment[] = [
   },
 ];
 
-export const commentListData: Comment[] = [
+//게시글 댓글
+export const boardComments: BoardComment[] = [
   {
     id: 1,
     parentCommentId: null,
     childrenCommentsIds: [2, 3],
     content: "첫 번째 게시글의 첫 번째 댓글",
+    userId: "loginId1",
+    userNickname: "울라리",
+    createdAt: "2024-01-01 10:30:00",
   },
   {
     id: 2,
     parentCommentId: 1,
     childrenCommentsIds: [],
     content: "첫 번째 게시글의 두 번째 댓글",
+    userId: "loginId2",
+    userNickname: "방민아",
+    createdAt: "2024-01-02 11:15:00",
   },
   {
     id: 3,
     parentCommentId: 1,
     childrenCommentsIds: [4],
     content: "첫 번째 게시글의 세 번째 댓글",
+    userId: "loginId3",
+    userNickname: "달콤한펭귄",
+    createdAt: "2024-01-03 12:00:00",
   },
   {
     id: 4,
     parentCommentId: 3,
     childrenCommentsIds: [],
     content: "첫 번째 게시글의 네 번째 댓글",
+    userId: "loginId4",
+    userNickname: "행복한고양이",
+    createdAt: "2024-01-04 13:45:00",
   },
   {
     id: 5,
     parentCommentId: null,
     childrenCommentsIds: [],
     content: "첫 번째 게시글의 다섯 번째 댓글",
+    userId: "loginId5",
+    userNickname: "용감한독수리",
+    createdAt: "2024-01-05 14:30:00",
   },
   {
     id: 6,
     parentCommentId: null,
     childrenCommentsIds: [],
     content: "두 번째 게시글의 첫 번째 댓글",
+    userId: "loginId6",
+    userNickname: "신나는돌고래",
+    createdAt: "2024-01-06 09:00:00",
   },
   {
     id: 7,
     parentCommentId: null,
     childrenCommentsIds: [],
     content: "두 번째 게시글의 두 번째 댓글",
+    userId: "loginId7",
+    userNickname: "웃음가득호랑이",
+    createdAt: "2024-01-07 10:15:00",
   },
   {
     id: 8,
     parentCommentId: null,
     childrenCommentsIds: [],
     content: "두 번째 게시글의 세 번째 댓글",
+    userId: "loginId8",
+    userNickname: "호기심많은너구리",
+    createdAt: "2024-01-08 11:30:00",
   },
   {
     id: 9,
     parentCommentId: null,
     childrenCommentsIds: [],
     content: "두 번째 게시글의 네 번째 댓글",
+    userId: "loginId9",
+    userNickname: "열정적인사자",
+    createdAt: "2024-01-09 12:45:00",
   },
   {
     id: 10,
     parentCommentId: null,
     childrenCommentsIds: [],
     content: "두 번째 게시글의 다섯 번째 댓글",
+    userId: "loginId10",
+    userNickname: "행운의토끼",
+    createdAt: "2024-01-10 13:00:00",
   },
 ];
 

@@ -13,21 +13,32 @@ interface AvatarImgProps {
 function AvatarImg({
   id,
   cssClass,
-  character = true,
+  character = false,
   userAvatar = false,
   size = "16",
 }: AvatarImgProps) {
   const sizeTransform = (sizeValue: string) => `w-${sizeValue} h-${sizeValue}`;
+  const setStyleImage = (
+    character: boolean,
+    userAvatar: boolean,
+    id: string
+  ) => {
+    if (character) {
+      return {
+        backgroundImage: `rul(${makeImagePath(id)})`,
+      };
+    } else if (userAvatar) {
+      return {
+        backgroundImage: `유저 아바타`,
+      };
+    }
+    return {};
+  };
+  const styleImage = setStyleImage(character, userAvatar, id);
   return (
     <div
       style={{
-        backgroundImage: `url(${
-          character && !userAvatar
-            ? makeImagePath(id)
-            : userAvatar
-            ? "유저 아바타"
-            : null
-        })`,
+        ...styleImage,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

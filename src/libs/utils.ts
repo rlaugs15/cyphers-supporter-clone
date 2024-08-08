@@ -7,7 +7,7 @@ export function cls(...classnames: string[]) {
 export const contentBoxStyle = "p-3 bg-white drop-shadow-md";
 export const contentTitleStyle = "text-2xl mb-7";
 export const contentBtnStyle =
-  "w-auto px-4 py-2 mt-1 text-xs text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none active:ring-2 active:ring-offset-2 active:ring-black";
+  "w-auto px-4 py-2 mt-1 text-xs text-white bg-black transition rounded-md hover:bg-gray-800 focus:outline-none active:ring-2 active:ring-offset-2 active:ring-black";
 
 //mater 태그의 바 색을 검정으로
 export const meterStylesBlack = `
@@ -111,6 +111,20 @@ export class CustomDateFormatter {
 
   public getOneMonthAgoTime(): string {
     return this.formatTime(this.oneMonthAgo);
+  }
+  private formatDateTime(date: Date): string {
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hours = ("0" + date.getHours()).slice(-2);
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+    const seconds = ("0" + date.getSeconds()).slice(-2);
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  //"2024-08-06 15:25:30" 형식으로 출력
+  public getFormattedCurrentTime(): string {
+    return this.formatDateTime(this.now);
   }
 }
 

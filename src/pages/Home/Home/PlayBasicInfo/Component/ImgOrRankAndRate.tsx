@@ -17,7 +17,7 @@ function ImgOrRankAndRate({
       <figure className="flex flex-col items-center justify-center">
         <span>{normal ? "일반전" : "공식전"}</span>
         {normal ? (
-          <AvatarImg id={playerInfoData?.represent?.characterId} />
+          <AvatarImg character id={playerInfoData?.represent?.characterId} />
         ) : (
           <div className="flex items-center justify-center w-16 h-16 bg-black rounded-full">
             <span className="flex items-center justify-center text-sm font-semibold text-white">
