@@ -511,6 +511,15 @@ export async function getBoardDetail(boardId: string) {
   );
 }
 
+//게시글 작성
+export async function writeBoard(
+  body: Pick<Post, "title" | "content" | "author">
+) {
+  return handleAxiosError<MutationResult>(
+    axios.post("/api/v1/board", body).then((res) => res.data)
+  );
+}
+
 //게시글 댓글 조회
 export interface BoardComment {
   id: number;

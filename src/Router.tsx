@@ -16,6 +16,7 @@ import Board from "./pages/Board/Board";
 import BoardDetail from "./pages/Board/Component/BoardDetail";
 import BoardModify from "./pages/Board/Component/BoardModify.";
 import BoardList from "./pages/Board/Component/BoardList";
+import BoardWrite from "./pages/Board/Component/BoardComment/BoardWrite";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
@@ -95,6 +96,10 @@ export const router = createBrowserRouter(
             {
               path: "read/:boardId",
               element: <BoardDetail />,
+            },
+            {
+              path: "write",
+              element: <BoardWrite />,
             },
             {
               path: "modify/:boardId",

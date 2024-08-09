@@ -1,8 +1,9 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import { ICharacterComment, User } from "../api";
+import { ICharacterComment, Post, User } from "../api";
 import { boardComments, characterComments, posts, users } from "./data";
+import { CustomDateFormatter } from "../libs/utils";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -424,4 +425,39 @@ export const handlers = [
       );
     }
   ),
+
+  //게시글 작성
+  http.post("/api/v1/board", async ({ request }) => {
+    const { title, content, author } = (await request.json()) as Pick<
+      Post,
+      "title" | "content" | "author"
+    >;
+    if (!title || !content || !author) {
+      return HttpResponse.json(
+        { code: 500, message: "게시글 작성에 실패했습니다." },
+        { status: 500 }
+      );
+    }
+
+    const id = Math.floor(100000 + Math.random() * 900000);
+    const createdAt = new CustomDateFormatter().getFormattedCurrentTime();
+
+    posts.push({
+      id,
+      title,
+      content,
+      author,
+      like: 0,
+      createdAt,
+      updatedAt: "",
+    });
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "게시글 작성에 성공했습니다.",
+      },
+      { status: 200 }
+    );
+  }),
 ];

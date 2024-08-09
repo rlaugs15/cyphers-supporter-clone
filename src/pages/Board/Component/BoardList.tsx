@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { contentBoxStyle } from "../../../libs/utils";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { BoardListResult, getBoardList } from "../../../api";
 import Skeleton from "react-loading-skeleton";
+import StyledButton from "../../../components/Button/StyledButton";
 
 interface IForm {
   page: number;
@@ -13,6 +14,7 @@ interface IForm {
 function BoardList() {
   const [page, setPage] = useState(0);
   const [size] = useState(10);
+  const nav = useNavigate();
 
   const { data: boardListData, isLoading: boardListLoading } =
     useQuery<BoardListResult>(
@@ -49,12 +51,19 @@ function BoardList() {
     setPage((num) => num + 1);
   };
 
+  const onWriteBoardClick = () => {
+    nav("write");
+  };
+
   useEffect(() => {
     setValue("page", page + 1);
   }, [page, setValue]);
   return (
     <div className={`${contentBoxStyle} container p-4 mx-auto`}>
-      <h1 className="mb-6 text-3xl font-bold">게시판</h1>
+      <header className="flex items-center justify-between p-4">
+        <h1 className="text-3xl font-bold">게시판</h1>
+        <StyledButton onClick={onWriteBoardClick} color="black" text="글쓰기" />
+      </header>
       <table className="min-w-full bg-white">
         <thead>
           <tr className="w-full text-sm leading-normal text-gray-600 uppercase bg-gray-200">
@@ -101,13 +110,13 @@ function BoardList() {
           disabled={page === 0}
           className="px-4 py-2 font-semibold text-gray-800 bg-gray-200 rounded hover:bg-gray-300"
         >
-          Previous
+          이전
         </button>
         <form
           onSubmit={handleSubmit(onMoveSubmit)}
           className="flex items-center w-auto"
         >
-          Page <input {...register("page")} className="w-10 text-center" /> of{" "}
+          페이지 <input {...register("page")} className="w-10 text-center" /> of{" "}
           {boardListData?.data?.totalPages}
         </form>
         <button
@@ -118,7 +127,7 @@ function BoardList() {
           }
           className="px-4 py-2 font-semibold text-gray-800 bg-gray-200 rounded hover:bg-gray-300"
         >
-          Next
+          다음
         </button>
       </div>
     </div>
