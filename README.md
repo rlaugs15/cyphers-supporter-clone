@@ -63,6 +63,13 @@
 - **비용 절감:**
   서버 리소스를 아끼고, 클라이언트 측에서 처리함으로써 서버 비용을 절감할 수 있다.
 
-# 트러블 슈팅
+# [트러블 슈팅](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
 
-**[트러블 슈팅은 여기를 클릭하세요.](./docs/TROUBLESHOOTING.md)**
+### [CORS 에러](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#cors-%EC%97%90%EB%9F%AC)
+### [테일윈드에서 클래스가 동적으로 적용되지 않는 문제](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%ED%85%8C%EC%9D%BC%EC%9C%88%EB%93%9C%EC%97%90%EC%84%9C-%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-%EB%8F%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
+### [페이지네이션 시에 화면 깜빡임 현상](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%ED%8E%98%EC%9D%B4%EC%A7%80%EB%84%A4%EC%9D%B4%EC%85%98-%EC%8B%9C%EC%97%90-%ED%99%94%EB%A9%B4-%EA%B9%9C%EB%B9%A1%EC%9E%84-%ED%98%84%EC%83%81)
+### [PlayerBasicInfo 하위 컴포넌트 로딩현상 해결](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#playerbasicinfo-%ED%95%98%EC%9C%84-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%A1%9C%EB%94%A9%ED%98%84%EC%83%81-%ED%95%B4%EA%B2%B0)
+### [CharWindAndPick 컴포넌트 버그 수정](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#charwindandpick-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%B2%84%EA%B7%B8-%EC%88%98%EC%A0%95)
+### [리액트 라우터 경로 설정 문제(새로고침 시 경로 오류 발생)](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%9D%BC%EC%9A%B0%ED%84%B0-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95-%EB%AC%B8%EC%A0%9C%EC%83%88%EB%A1%9C%EA%B3%A0%EC%B9%A8-%EC%8B%9C-%EA%B2%BD%EB%A1%9C-%EC%98%A4%EB%A5%98-%EB%B0%9C%EC%83%9D)
+### [Vite 환경에서 MSW 경로 설정으로 발생한 에러 해결](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#vite-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-msw-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%EC%9C%BC%EB%A1%9C-%EB%B0%9C%EC%83%9D%ED%95%9C-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0)
+### [승률 및 픽률 계산 오류 수정](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%EC%8A%B9%EB%A5%A0-%EB%B0%8F-%ED%94%BD%EB%A5%A0-%EA%B3%84%EC%82%B0-%EC%98%A4%EB%A5%98-%EC%88%98%EC%A0%95)
