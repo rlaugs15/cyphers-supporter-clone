@@ -20,7 +20,10 @@
 
 ### 개발내역
 
-- heroku 프록시 서버를 이용하여 CORS 에러 해결
+- CORS에러 해결
+  - ~~vite.config.js 수정~~
+  - ~~heroku 프록시 서버를 이용하여 CORS 에러 해결~~
+  - 노드js 서버를 만들기
 - 네오플 오픈 API 홈페이지에서 KEY 발급 및 AXIOS로 사이퍼즈 오픈 API 패칭
 - **메인 페이지**
   - 리코일을 이용하여 검색기록을 로컬스토리지에 넣어서 관리
@@ -29,6 +32,22 @@
 - **전적비교 및 매칭정보 조회 페이지**
   - 검색창에 입력된 2명의 유저를 쉼표로 구분하여 각각 조회
   - 해당 판의 매칭 상세정보를 받아와 프론트단에서 승리팀과 패배팀을 분리하고, 함께 플레이한 파티원 프로퍼티 추가
+- **캐릭터 정보 조회 페이지**
+  - 캐릭터 이름을 입력할 때 submit을 보낼 필요 없이 실시간으로 조회
+  - 로컬스토리지에 캐릭터 정보를 저장하여 즐겨찾기 기능 추가
+  - 캐릭터 정보 데이터와 캐릭터 랭킹 데이터를 조합하여 캐릭터 승률 및 픽률 통계 구현
+  - 각 캐릭터마다 로그인이 필요없는 댓글 기능 추가
+  - 캐릭터 댓글 무한스크롤 구현
+- **회원가입 페이지**
+  - 로그인ID, 닉네임, 이메일 중복체크 기능 구현
+  - 모든 중복체크가 완료되어야 회원가입 버튼 활성화
+- **로그인 페이지**
+  - 가입한 ID와 비밀번호를 이용하여 로그인
+- **게시판 페이지**
+  - 한 페이지마다 게시글 최대 10개 조회
+  - 버튼 클릭으로 페이지를 이동할 경우 첫페이지 혹은 마지막 페이지에 도달할 시 버튼 비활성화
+  - 숫자 입력으로 페이지를 이동할 경우 전체 페이지 범위에서 벗어나면 0 페이지 혹은 마지막 페이지로 이동
+  - 리액트 쿼리의 낙관적 업데이트를 이용한 실시간과 같은 댓글 작성과 좋아요 기능
 
 ### 주요 개발 스택
 
@@ -65,11 +84,64 @@
 
 # [트러블 슈팅](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
 
-### [CORS 에러](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#cors-%EC%97%90%EB%9F%AC)
-### [테일윈드에서 클래스가 동적으로 적용되지 않는 문제](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%ED%85%8C%EC%9D%BC%EC%9C%88%EB%93%9C%EC%97%90%EC%84%9C-%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-%EB%8F%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%A0%81%EC%9A%A9%EB%90%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EB%AC%B8%EC%A0%9C)
-### [페이지네이션 시에 화면 깜빡임 현상](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%ED%8E%98%EC%9D%B4%EC%A7%80%EB%84%A4%EC%9D%B4%EC%85%98-%EC%8B%9C%EC%97%90-%ED%99%94%EB%A9%B4-%EA%B9%9C%EB%B9%A1%EC%9E%84-%ED%98%84%EC%83%81)
-### [PlayerBasicInfo 하위 컴포넌트 로딩현상 해결](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#playerbasicinfo-%ED%95%98%EC%9C%84-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%A1%9C%EB%94%A9%ED%98%84%EC%83%81-%ED%95%B4%EA%B2%B0)
-### [CharWindAndPick 컴포넌트 버그 수정](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#charwindandpick-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%B2%84%EA%B7%B8-%EC%88%98%EC%A0%95)
-### [리액트 라우터 경로 설정 문제(새로고침 시 경로 오류 발생)](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%9D%BC%EC%9A%B0%ED%84%B0-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95-%EB%AC%B8%EC%A0%9C%EC%83%88%EB%A1%9C%EA%B3%A0%EC%B9%A8-%EC%8B%9C-%EA%B2%BD%EB%A1%9C-%EC%98%A4%EB%A5%98-%EB%B0%9C%EC%83%9D)
-### [Vite 환경에서 MSW 경로 설정으로 발생한 에러 해결](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#vite-%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C-msw-%EA%B2%BD%EB%A1%9C-%EC%84%A4%EC%A0%95%EC%9C%BC%EB%A1%9C-%EB%B0%9C%EC%83%9D%ED%95%9C-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0)
-### [승률 및 픽률 계산 오류 수정](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md#%EC%8A%B9%EB%A5%A0-%EB%B0%8F-%ED%94%BD%EB%A5%A0-%EA%B3%84%EC%82%B0-%EC%98%A4%EB%A5%98-%EC%88%98%EC%A0%95)
+### [CORS 에러](./docs/TROUBLESHOOTING.md#cors-에러)
+
+### [테일윈드에서 클래스가 동적으로 적용되지 않는 문제](./docs/TROUBLESHOOTING.md#테일윈드에서-클래스가-동적으로-적용되지-않는-문제)
+
+### [페이지네이션 시에 화면 깜빡임 현상](./docs/TROUBLESHOOTING.md#페이지네이션-시에-화면-깜빡임-현상)
+
+### [PlayerBasicInfo 하위 컴포넌트 로딩현상 해결](./docs/TROUBLESHOOTING.md#playerbasicinfo-하위-컴포넌트-로딩현상-해결)
+
+### [CharWindAndPick 컴포넌트 버그 수정](./docs/TROUBLESHOOTING.md#charwindandpick-컴포넌트-버그-수정)
+
+### [리액트 라우터 경로 설정 문제(새로고침 시 경로 오류 발생)](./docs/TROUBLESHOOTING.md#리액트-라우터-경로-설정-문제새로고침-시-경로-오류-발생)
+
+- winRateList을 인자로 받는 calculateAverage 함수가 winRateList의 계산 과정을 기다리지 못 하고 인자로 받아가서 에러 발생
+
+### [Vite 환경에서 MSW 경로 설정으로 발생한 에러 해결](./docs/TROUBLESHOOTING.md#vite-환경에서-msw-경로-설정으로-발생한-에러-해결)
+
+### [승률 및 픽률 계산 오류 수정](./docs/TROUBLESHOOTING.md#승률-및-픽률-계산-오류-수정)
+
+- CharWindAndPick 컴포넌트에서 승률, 픽률 데이터 계산 시 중복된 값들이 업데이트
+
+# API 명세서
+
+### API 응답 형식 예시
+
+- 성공시 code, message , data(전송해야 할 데이터가 있는 경우)로 나뉨
+- 실패시 status, code , message로 나뉨
+- 로그인 성공
+  ```json
+  {
+    "code": 200,
+    "message": "로그인 성공"
+  }
+  ```
+- 로그인 실패
+  ```json
+  {
+    "code": 401,
+    "message": "로그인 실패"
+  }
+  ```
+- 회원정보 조횐
+
+```json
+{
+  "code": 200,
+  "message": "회원정보 조회에 성공",
+  "data": {
+    "id": 4,
+    "email": "test@test.com",
+    "nickname": null,
+    "profileImg": null,
+    "createdAt": null
+  }
+}
+```
+
+### [캐릭터 댓글 기능 API 문서](./docs/APIDocumentation/CHAMP_COMMENT_API.md)
+
+### [Member 기능 API 문서](./docs/APIDocumentation/MEMBER_API.md)
+
+### [Board 기능 API 문서](./docs/APIDocumentation/BOARD_API.md)

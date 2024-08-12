@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   BoardCommentResult,
   BoardDetailResult,
@@ -91,11 +91,7 @@ function BoardDetail() {
             </div>
           </div>
           <div className="mb-1">
-            {postLoading ? (
-              <Skeleton width={50} height={20} />
-            ) : (
-              <>추천: {postData?.data?.like}</>
-            )}
+            {postLoading ? <Skeleton width={50} height={20} /> : <>추천: 1</>}
           </div>
           <div className="mb-4 space-x-3">
             <StyledButton onClick={onGoodClick} color="orange" text="추천" />

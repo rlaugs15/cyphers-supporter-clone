@@ -187,7 +187,7 @@ export const handlers = [
   }),
 
   // 캐릭터 댓글 GET 요청
-  http.get("/api/v1/auth/character/comment/:characterId", ({ params }) => {
+  http.get("/api/v1/character/comment/:characterId", ({ params }) => {
     const { characterId } = params;
     const characterComment = characterComments.filter(
       (character) => character.characterId === characterId
@@ -374,35 +374,9 @@ export const handlers = [
     return HttpResponse.json({ code: 200 }, { status: 200 });
   }),
 
-  //캐릭터 댓글삭제 요청
-  http.post(
-    "/api/v1/auth/character/comment/:characterId",
-    async ({ request, params }) => {
-      const { characterId } = params as Pick<ICharacterComment, "characterId">;
-      const { userId, userNickname, comment } =
-        (await request.json()) as ICharacterComment;
-      if (!characterId) {
-        return HttpResponse.json(
-          { code: 400, message: " 서버가 요청을 처리하지 못 했습니다." },
-          { status: 400 }
-        );
-      }
-      characterComments.push({
-        characterId,
-        userId,
-        userNickname,
-        comment,
-      });
-      return HttpResponse.json(
-        { code: 200, message: "댓글작성에 성공했습니다." },
-        { status: 200 }
-      );
-    }
-  ),
-
   //캐릭터 댓글작성 요청
   http.post(
-    "/api/v1/auth/character/comment/:characterId",
+    "/api/v1/character/comment/:characterId",
     async ({ request, params }) => {
       const { characterId } = params as Pick<ICharacterComment, "characterId">;
       const { userId, userNickname, comment } =
@@ -447,7 +421,6 @@ export const handlers = [
       title,
       content,
       author,
-      like: 0,
       createdAt,
       updatedAt: "",
     });

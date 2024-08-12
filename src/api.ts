@@ -443,7 +443,7 @@ export interface CharacterCommentResult extends MutationResult {
 export async function getCharacterComment(characterId: string) {
   return handleAxiosError<CharacterCommentResult>(
     axios
-      .get(`/api/v1/auth/character/comment/${characterId}`)
+      .get(`/api/v1/character/comment/${characterId}`)
       .then((res) => res.data)
   );
 }
@@ -457,7 +457,7 @@ export async function setCharacterComment({
 }: ICharacterComment) {
   return handleAxiosError<MutationResult>(
     axios
-      .post(`/api/v1/auth/character/comment/${characterId}`, {
+      .post(`/api/v1/character/comment/${characterId}`, {
         userId,
         userNickname,
         comment,
@@ -472,7 +472,6 @@ export interface Post {
   title: string;
   content: string;
   author: string;
-  like?: number;
   createdAt: string;
   updatedAt: string;
   comments?: number[];
