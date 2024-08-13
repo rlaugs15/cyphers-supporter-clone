@@ -26,12 +26,12 @@ export const users: User[] = [
 
 //캐릭터 댓글
 export const characterComments: ICharacterComment[] = [
-  {
+  ...Array.from({ length: 40 }, (_, index) => ({
     characterId: "c603a74ba02374026a535dc53e5b8d40",
-    userId: "loginId1",
-    userNickname: "울라리",
-    comment: "로라스 2차는 별로인듯?",
-  },
+    userId: `loginId${index + 1}`,
+    userNickname: `울라리${index + 1}`,
+    comment: `로라스 2차는 별로인듯?${index + 1}${index + 1}${index + 1}`,
+  })),
   {
     characterId: "d69971a6762d94340bb2332e8735238a",
     userId: "loginId1",

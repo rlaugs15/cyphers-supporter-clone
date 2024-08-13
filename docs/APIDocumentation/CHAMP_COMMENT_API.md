@@ -1,11 +1,11 @@
 - 모든 응답 성공시 HttpStatus Code 200번 으로 응답
 - 예외 발생시 각 코드별 에러 코드와 메시지로 응답
 
-| 기능 설명                     | 요청 경로                              | 요청 메서드 |
-| ----------------------------- | -------------------------------------- | ----------- |
-| 캐릭터 댓글 조회              | /api/v1/character/comment/:characterId | GET         |
-| 캐릭터 댓글 조회(무한 스크롤) | api/v1/character/comment/:characterId  | GET         |
-| 캐릭터 댓글 작성              | /api/v1/character/comment/:characterId | POST        |
+| 기능 설명                     | 요청 경로                                       | 요청 메서드 |
+| ----------------------------- | ----------------------------------------------- | ----------- |
+| 캐릭터 댓글 조회              | /api/v1/character/comment/:characterId          | GET         |
+| 캐릭터 댓글 조회(무한 스크롤) | /api/v1/character/comment/infinite/:characterId | GET         |
+| 캐릭터 댓글 작성              | /api/v1/character/comment/:characterId          | POST        |
 
 ## 캐릭터 댓글 조회
 
@@ -36,7 +36,7 @@
 
 ### 요청 경로
 
-`GET /api/v1/character/comment/:characterId`
+`GET /api/v1/character/comment/infinite/:characterId`
 
 ### 요청 메서드
 

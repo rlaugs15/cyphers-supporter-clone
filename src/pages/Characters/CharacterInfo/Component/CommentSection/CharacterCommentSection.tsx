@@ -4,12 +4,14 @@ import {
   CharacterCommentResult,
   getCharacterComment,
   ICharacterComment,
+  setCharacterComment,
 } from "../../../../../api";
 import CharacterComment from "./Component/CharacterComment";
 import Skeleton from "react-loading-skeleton";
 import CharacterCommentForm from "./Component/CharacterCommentForm";
+import { useNavigate } from "react-router-dom";
 
-type IForm = Omit<ICharacterComment, "characterId">;
+export type ICharacterCommentForm = Omit<ICharacterComment, "characterId">;
 
 interface CharacterCommentSectionProps {
   characterId: string;
@@ -18,16 +20,22 @@ interface CharacterCommentSectionProps {
 function CharacterCommentSection({
   characterId,
 }: CharacterCommentSectionProps) {
+  const nav = useNavigate();
   const { user } = useUser();
   const { data: commentData, isLoading: commentLoading } =
-    useQuery<CharacterCommentResult>(["characterComment", characterId], () =>
-      getCharacterComment(characterId)
+    useQuery<CharacterCommentResult>(
+      ["characterComment", characterId],
+      () => getCharacterComment(characterId),
+      {
+        cacheTime: 0,
+      }
     );
 
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: () => getCharacterComment(characterId),
+    mutationFn: (newComment: ICharacterComment) =>
+      setCharacterComment(newComment),
     //newComment: useMutation의 mutate에 전달되는 값
     onMutate: async (newComment: ICharacterComment) => {
       await queryClient.cancelQueries([
@@ -45,10 +53,10 @@ function CharacterCommentSection({
           ({
             ...old,
             data: [
-              ...(old?.data || []),
               {
                 ...newComment,
               },
+              ...(old?.data || []),
             ],
           } as CharacterCommentResult)
       );
@@ -67,14 +75,55 @@ function CharacterCommentSection({
     },
   });
 
-  const onCommentSubmit = ({ userId, userNickname, comment }: IForm) => {
+  const onCommentSubmit = ({
+    userId,
+    userNickname,
+    comment,
+  }: ICharacterCommentForm) => {
     mutate({ userId, userNickname, comment, characterId });
+  };
+
+  const onInfiniteCommentClick = () => {
+    nav(`/character-comments/${characterId}`);
   };
 
   return (
     <>
-      <div className="flex items-center">
+      <div className="flex items-center justify-between">
         <span className="text-2xl">코멘트</span>
+        <button
+          onClick={onInfiniteCommentClick}
+          className="relative flex items-center justify-center p-2 transition rounded-full hover:bg-slate-200 group"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-10 rounded-full custom-icon aspect-square bg-slate-500"
+          >
+            {/* 위쪽 삼각형 */}
+            <path d="M12 4 L14 8 H10 L12 4 Z" />
+            {/* 중간 4개의 선 */}
+            <line x1="10" y1="10" x2="14" y2="10" />
+            <line x1="10" y1="12" x2="14" y2="12" />
+            <line x1="10" y1="14" x2="14" y2="14" />
+            <line x1="10" y1="16" x2="14" y2="16" />
+            {/* 아래쪽 삼각형 */}
+            <path d="M12 20 L14 16 H10 L12 20 Z" />
+          </svg>
+          <figcaption className="absolute left-0 right-0 flex justify-center w-auto transition opacity-0 top-16 group-hover:opacity-100">
+            <span
+              style={{ whiteSpace: "nowrap" }}
+              className="p-1 text-xs text-white rounded-sm bg-slate-600"
+            >
+              댓글 스크롤
+            </span>
+          </figcaption>
+        </button>
       </div>
       <CharacterCommentForm
         user={Boolean(user)}
@@ -92,9 +141,9 @@ function CharacterCommentSection({
               </article>
             ))
           : commentData?.data
-          ? commentData?.data.map((champ) => (
+          ? commentData?.data.map((champ, i) => (
               <CharacterComment
-                key={champ.characterId}
+                key={`${champ.characterId}-${i}`}
                 characterId={champ.characterId}
                 userNickname={champ.userNickname}
                 comment={champ.comment}

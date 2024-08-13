@@ -4,9 +4,10 @@ interface StyledButtonProps {
   color: "black" | "orange" | "red" | "blue";
   text: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  [key: string]: any;
 }
 
-function StyledButton({ text, onClick, color }: StyledButtonProps) {
+function StyledButton({ text, onClick, color, ...rest }: StyledButtonProps) {
   const colorVariants = {
     black: "bg-black hover:bg-gray-800 active:ring-black",
     orange: "bg-orange-400 hover:bg-orange-500 active:ring-orange-400",
@@ -20,6 +21,7 @@ function StyledButton({ text, onClick, color }: StyledButtonProps) {
         "w-auto px-4 py-2 mt-1 text-xs text-white transition rounded-md focus:outline-none active:ring-2 active:ring-offset-2",
         `${colorVariants[color]}`
       )}
+      {...rest}
     >
       {text}
     </button>

@@ -448,6 +448,21 @@ export async function getCharacterComment(characterId: string) {
   );
 }
 
+//캐릭터 댓글 조회 (무한 스크롤)
+export async function getInfiniteCharacterComments(
+  characterId: string,
+  page: number,
+  size: number
+) {
+  return handleAxiosError<CharacterCommentResult>(
+    axios
+      .get(`/api/v1/character/comment/infinite/${characterId}`, {
+        params: { page, size },
+      })
+      .then((res) => res.data)
+  );
+}
+
 //캐릭터 댓글 작성
 export async function setCharacterComment({
   characterId,

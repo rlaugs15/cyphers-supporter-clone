@@ -189,9 +189,9 @@ export const handlers = [
   // 캐릭터 댓글 GET 요청
   http.get("/api/v1/character/comment/:characterId", ({ params }) => {
     const { characterId } = params;
-    const characterComment = characterComments.filter(
-      (character) => character.characterId === characterId
-    );
+    const characterComment = characterComments
+      .filter((character) => character.characterId === characterId)
+      .slice(0, 4);
 
     if (!characterComment) {
       return HttpResponse.json(
@@ -208,6 +208,33 @@ export const handlers = [
       { status: 200 }
     );
   }),
+
+  // 캐릭터 댓글 GET 요청 (무한 스크롤)
+  http.get(
+    "/api/v1/character/comment/infinite/:characterId",
+    ({ params, request }) => {
+      const { characterId } = params;
+      const url = new URL(request.url);
+
+      const page = parseInt(url.searchParams.get("page") || "0");
+      const size = parseInt(url.searchParams.get("size") || "10");
+      const start = page * size;
+      const end = start + size;
+
+      const filteredComments = characterComments
+        .filter((comment) => comment.characterId === characterId)
+        .slice(start, end);
+
+      return HttpResponse.json(
+        {
+          code: 200,
+          message: "데이터 조회 성공",
+          data: filteredComments,
+        },
+        { status: 200 }
+      );
+    }
+  ),
 
   // 게시글 목록 GET 요청
   http.get("/api/v1/board", ({ request }) => {
@@ -387,7 +414,7 @@ export const handlers = [
           { status: 400 }
         );
       }
-      characterComments.push({
+      characterComments.unshift({
         characterId,
         userId,
         userNickname,

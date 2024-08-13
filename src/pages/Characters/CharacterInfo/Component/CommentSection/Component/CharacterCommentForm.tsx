@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { ICharacterComment } from "../../../../../../api";
+import { useEffect } from "react";
 
 type IForm = Omit<ICharacterComment, "characterId">;
 
@@ -16,18 +17,25 @@ function CharacterCommentForm({
     register,
     handleSubmit,
     watch,
-    reset,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<IForm>();
   const inputWatch = watch("comment", "");
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault(); // 엔터 키 기본 동작 방지 (줄바꿈 방지)
-      handleSubmit(onCommentSubmit)(); // 폼 제출
-      reset();
+      if (!isSubmitting) {
+        handleSubmit(onCommentSubmit)(); // 폼 제출
+      }
     }
   };
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      setValue("comment", ""); // 폼이 제출될 때마다 comment 초기화
+    }
+  }, [isSubmitting, setValue]);
   return (
     <form
       onSubmit={handleSubmit(onCommentSubmit)}

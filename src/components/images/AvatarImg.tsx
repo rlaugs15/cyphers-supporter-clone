@@ -25,7 +25,7 @@ function AvatarImg({
   ) => {
     if (character) {
       return {
-        backgroundImage: `rul(${makeImagePath(id)})`,
+        backgroundImage: `url(${makeImagePath(id)})`,
       };
     } else if (userAvatar) {
       return {
