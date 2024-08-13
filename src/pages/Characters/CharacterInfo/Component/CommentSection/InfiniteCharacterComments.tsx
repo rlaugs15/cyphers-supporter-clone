@@ -31,7 +31,8 @@ function InfiniteCharacterComments() {
         getInfiniteCharacterComments(characterId!, pageParam, PAGE_SIZE),
       {
         getNextPageParam: (lastPage, allPages) => {
-          const morePagesExist = lastPage.data.length === PAGE_SIZE;
+          // 수정된 부분: 실제 데이터 길이를 확인하고 다음 페이지 유무를 판단
+          const morePagesExist = lastPage.data.length >= PAGE_SIZE;
           if (!morePagesExist) return undefined;
           return allPages.length; // 다음 페이지 번호를 반환
         },
