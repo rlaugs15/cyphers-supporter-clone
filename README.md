@@ -111,6 +111,18 @@
 - RESTful 관점에서 DELETE 요청은 데이터(payload)를 포함하는 것은 일반적이지 않지만 이번엔 포함해봤다.
 - 다른 방법으로는 URL 쿼리 파라미터를 사용하는 것도 있다.
 
+### [useEffect 내 조건문에서 undefined 처리로 인한 잘못된 라우팅 문제 해결](./docs/TROUBLESHOOTING.md#useeffect-내-조건문에서-undefined-처리로-인한-잘못된-라우팅-문제-해결)
+
+- if문 내에서의 data?.ok와 data && data.ok의 차이
+
+### [컴포넌트에서 동적으로 객체의 속성에 접근](./docs/TROUBLESHOOTING.md#컴포넌트에서-동적으로-객체의-속성에-접근)
+
+### [요소가 들어있는 자식태그의 크기보다 부모태그의 크기가 작아 일어나는 줄바꿈 현상](./docs/TROUBLESHOOTING.md#요소가-들어있는-자식태그의-크기보다-부모태그의-크기가-작아-일어나는-줄바꿈-현상)
+
+### [form 태그 내부의 id 중복검사를 위한 버튼 클릭 시 form 전체가 submit 되는 문제](./docs/TROUBLESHOOTING.md#form-태그-내부의-id-중복검사를-위한-버튼-클릭-시-form-전체가-submit-되는-문제)
+
+### [문자열 내의 `\n`로 인한 줄바꿈이 이루어지지 않는 현상](./docs/TROUBLESHOOTING.md#문자열-내의-n로-인한-줄바꿈이-이루어지지-않는-현상)
+
 # API 명세서
 
 ### API 응답 형식 예시

@@ -112,13 +112,15 @@ function MyComponent ({win, text}) {
   ```
 
   - **placeholderData**
-    - **목적:** 데이터가 로딩되는 동안 사용자에게 초기 화면을 제공하기 위해 기본값이나 더미 데이터를 설정
+    - **목적:**  
+      데이터가 로딩되는 동안 사용자에게 초기 화면을 제공하기 위해 기본값이나 더미 데이터를 설정
     - **동작 방식:**
       - 쿼리가 처음 시작될 때 data의 초기값을 설정
       - 쿼리가 성공적으로 완료되면 실제 데이터로 대체
       - isLoading 상태는 여전히 true이며, 로딩이 끝나면 isLoading이 false로 변경
   - **keepPreviousData**
-    - **목적:** 페이지네이션이나 데이터가 변경될 때, 새로운 데이터가 로딩되는 동안 이전 데이터를 화면에 유지하여 깜빡임을 방지
+    - **목적:**  
+      페이지네이션이나 데이터가 변경될 때, 새로운 데이터가 로딩되는 동안 이전 데이터를 화면에 유지하여 깜빡임을 방지
     - **동작 방식:**
       - 쿼리 키가 변경되어 새로운 데이터를 로드할 때까지 이전 데이터를 유지
       - 쿼페이지 전환이나 쿼리 파라미터가 변경될 때 유용
@@ -162,7 +164,7 @@ winRateList의 계산과정을 기다리지 못 하고 winRate가 실행되어 �
     ]);
   }
   ```
-- **개선된 코드**
+- **개선된 코드**  
   winRateList의 계산 과정을 함수로 만들어 calculateAverage 함수에 콜백함수로 전달하여 해결
 
   ```typescript
@@ -257,7 +259,7 @@ msw를 활성화하면 하얀 페이지만 뜨는 현상 발생
 
 ## AXIOS DELETE 요청 에러 수정(data 속성에 body 전달)
 
-- **증상**
+- **증상**  
   개발자 도구에서 "Cannot read properties of undefined (reading 'password')"라는 에러가 발생
 
 - **문제 코드**
@@ -295,9 +297,131 @@ msw를 활성화하면 하얀 페이지만 뜨는 현상 발생
   }
   ```
 
-- **원인**
+- **원인**  
   원래 사용한 코드에서 axios.delete 메소드 호출 시 data가 올바르게 전달되지 않았다.
 
 - **이유**
   - axios.delete는 일반적으로 데이터(payload)를 전달할 때 data 속성을 사용하지 않는 경우가 많다.  
     하지만, 데이터를 전달해야 할 경우 data 속성을 명시적으로 추가해야 한다. 수정한 코드에서는 data 속성을 통해 loginId와 password를 명확히 전달하였다.
+
+## useEffect 내 조건문에서 undefined 처리로 인한 잘못된 라우팅 문제 해결
+
+- **증상**  
+  내가 원하는 동작은 data?.code를 200을 받아왔을 경우 특정 동작이 실행되는 거였다.  
+  하지만 페이지가 렌더링 되자마자 해당 코드가 실행됐다.
+
+- **문제 코드**
+
+  ```typescript
+  useEffect(() => {
+    if (data?.code === 200) {
+      nav("/", { replace: true });
+    }
+  }, [data, error, nav, pathname, userOnly]);
+  ```
+
+- **수정된 코드**
+
+  ```typescript
+  useEffect(() => {
+    if (data && data?.code === 200) {
+      nav("/", { replace: true });
+    }
+  }, [data, error, nav, pathname, userOnly]);
+  ```
+
+- **원인**  
+   컴포넌트가 처음 렌더링될 때 data가 아직 undefined인 상태에서 data.ok가 false로 평가되어 의도치 않은 라우팅이 발생
+
+- **해결**  
+   조건문을 data && !data.ok로 수정하여, data가 존재하는 경우에만 data.ok를 확인하도록 설정  
+   이로써 data가 로드되기 전에는 라우팅이 실행되지 않으며, data.ok가 false일 때만 라우팅이 정상적으로 작동
+
+## 컴포넌트에서 동적으로 객체의 속성에 접근
+
+- **해당 코드**
+
+  ```typescript
+  interface IReportBar {
+    text: string;
+    winnerCount: DetailPlayer[];
+    loserCount: DetailPlayer[];
+    countName: keyof DetailPlayerInfo; //핵심부분, key값을 가져온다
+  }
+
+  function ReportBar({ text, winnerCount, loserCount, countName }: IReportBar) {
+    let winCountSum = 0;
+    let loserCountSum = 0;
+    //팀원들의 카운트들을 합산
+    for (const winCount of winnerCount) {
+      winCountSum += Number(winCount?.playInfo[countName]);
+    }
+    for (const loseCount of loserCount) {
+      loserCountSum += Number(loseCount?.playInfo[countName]);
+    }
+  }
+  ```
+
+원했던 동작은 `winCount?.playInfo`의 하위 객체를 컴포넌트가 받은 `countName`에 따라 동적으로 가져오는 것
+
+- **해결**
+  객체 타입의 키(속성 이름)들로 이루어진 유니온 타입을 생성 `keyof`를 이용하여 해결
+  keyof에 대한 자세한 것은 [여기](https://velog.io/@rlaugs15/%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-%EB%8F%99%EC%A0%81%EC%9C%BC%EB%A1%9C-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%86%8D%EC%84%B1%EC%97%90-%EC%A0%91%EA%B7%BC%ED%95%98%EB%8A%94-%EB%B0%A9#keyof%EB%9E%80)를 클릭하세요.
+
+## 요소가 들어있는 자식태그의 크기보다 부모태그의 크기가 작아 일어나는 줄바꿈 현상
+
+![image](https://github.com/user-attachments/assets/2ef2cdc8-903f-4f37-9cb4-cc2a1dc67713)
+
+릴레이티브 속성이 적용된 A태그와 그 자식으로 앱솔루트가 적용된 B태그가 있다.  
+그런데 부모인 A태그의 크기가 B태그보다 작아서 B태그의 내용물인 텍스트가 자동으로 줄바꿈 처리 되었다.
+
+- **해결**  
+  `whiteSpace: "nowrap"`을 사용해서 해결
+  - **white-space**
+    요소 내부 텍스트의 연속된 공백 문자, 줄바꿈 문자 등을 어떻게 다룰지를 설정
+
+## form 태그 내부의 id 중복검사를 위한 버튼 클릭 시 form 전체가 submit 되는 문제
+
+- **문제 코드**
+
+  ```html
+  <button onClick="{handleClick}">중복 확인</button>
+  ```
+
+- **수정된 코드**
+  ```html
+  <button type="button" onClick="{handleClick}">중복 확인</button>
+  ```
+- **원인**  
+  기본적으로 <button> 태그는 type="submit"으로 간주  
+  따라서 폼 내부의 버튼을 클릭하면 폼이 제출
+
+- **해결**
+  type="button" 속성을 버튼에 추가하면 해당 버튼을 클릭해도 폼이 제출되지 않는다.  
+  이를 통해 이벤트를 독립적으로 처리할 수 있다.
+
+## 문자열 내의 `\n`로 인한 줄바꿈이 이루어지지 않는 현상
+
+- **문제의 데이터**  
+  리액트에선 문자열 내의 `\n`을 HTML에서의 줄바꿈으로 자동으로 변환하지 않는다.
+
+  ```html
+  "explainDetail": "\n\n[1레벨] : 장비레벨+4\n비용 800 coin\n공격력 :
+  +83\n\n[2레벨] : 장비레벨+4\n비용 1200 coin\n공격력 : +83\n용창 21식 돌격창(R)
+  인간추가공격력 : +5%\n\n[3레벨] : 장비레벨+4\n비용 1600 coin\n공격력 :
+  +83\n용창 21식 돌격창(R) 인간추가공격력 : +5%\n\n한 번쯤은 오시지 않을까,
+  손꼽아 기다렸습니다. 정말 꿈만 같습니다. -자네트-"
+  ```
+
+- **해결법**  
+  `<br>`태그로 변환하여 해결.
+  ```typescript
+  const enterExplainDetail = detailItemingData?.explainDetail
+    .split("\n")
+    .map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  ```
