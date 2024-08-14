@@ -8,6 +8,7 @@ export const contentBoxStyle = "p-3 bg-white drop-shadow-md";
 export const contentTitleStyle = "text-2xl mb-7";
 export const contentBtnStyle =
   "w-auto px-4 py-2 mt-1 text-xs text-white bg-black transition rounded-md hover:bg-gray-800 focus:outline-none active:ring-2 active:ring-offset-2 active:ring-black";
+export const errorTextStyle = "mt-1 text-sm text-red-500";
 
 //mater 태그의 바 색을 검정으로
 export const meterStylesBlack = `

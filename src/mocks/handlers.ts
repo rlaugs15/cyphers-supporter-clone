@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import { ICharacterComment, Post, User } from "../api";
+import { IChangPass, ICharacterComment, Post, User } from "../api";
 import { boardComments, characterComments, posts, users } from "./data";
 import { CustomDateFormatter } from "../libs/utils";
 
@@ -457,6 +457,83 @@ export const handlers = [
         code: 200,
         message: "게시글 작성에 성공했습니다.",
       },
+      { status: 200 }
+    );
+  }),
+
+  //---------------------PATCH 요청-------------------------------
+
+  //회원 정보 수정 patch 요청
+  http.patch("/api/v1/me", async ({ request }) => {
+    const { loginId, nickname } = (await request.json()) as Pick<
+      User,
+      "loginId" | "nickname"
+    >;
+
+    const checkId = users.find((user) => user.loginId === loginId);
+    if (!checkId) {
+      return HttpResponse.json(
+        { code: 400, message: "id 조회에 실패했습니다." },
+        { status: 400 }
+      );
+    }
+
+    const checkNickname = users.find((user) => user.nickname === nickname);
+    if (checkNickname) {
+      return HttpResponse.json(
+        { code: 409, message: "존재하는 닉네임입니다." },
+        { status: 409 }
+      );
+    }
+
+    const targetIndex = users.findIndex((user) => user.loginId === loginId);
+    users[targetIndex].nickname = nickname;
+    return HttpResponse.json(
+      { code: 200, message: "닉네임 수정에 성공했습니다." },
+      { status: 200 }
+    );
+  }),
+
+  //비밀번호 변경 patch 요청
+  http.patch("/api/v1/password", async ({ request }) => {
+    const { loginId, currentPassword, newPassword } =
+      (await request.json()) as IChangPass;
+
+    const targetIndex = users.findIndex((user) => user.loginId === loginId);
+
+    const checkCurrentPass = users[targetIndex].password !== currentPassword;
+    if (checkCurrentPass) {
+      return HttpResponse.json(
+        { code: 401, message: "현재 비밀번호와 일치하지 않습니다." },
+        { status: 401 }
+      );
+    }
+
+    users[targetIndex].password = newPassword;
+    return HttpResponse.json(
+      { code: 200, message: "비밀번호 변경에 성공했습니다." },
+      { status: 200 }
+    );
+  }),
+
+  //---------------------DELETE 요청-------------------------------
+  http.delete("/api/v1/me", async ({ request }) => {
+    const { loginId, password } = (await request.json()) as Pick<
+      User,
+      "loginId" | "password"
+    >;
+
+    const targetIndex = users.findIndex((user) => user.loginId === loginId);
+
+    const checkUser = users[targetIndex].password === password;
+    if (!checkUser) {
+      return HttpResponse.json(
+        { code: 401, message: "비밀번호가 일치하지 않습니다." },
+        { status: 401 }
+      );
+    }
+    return HttpResponse.json(
+      { code: 200, message: "회원 탈퇴에 성공했습니다." },
       { status: 200 }
     );
   }),

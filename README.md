@@ -106,6 +106,11 @@
 
 - CharWindAndPick 컴포넌트에서 승률, 픽률 데이터 계산 시 중복된 값들이 업데이트
 
+### [AXIOS DELETE 요청 에러 수정(data 속성에 body 전달)](./docs/TROUBLESHOOTING.md#axios-delete-요청-에러-수정data-속성에-body-전달)
+
+- RESTful 관점에서 DELETE 요청은 데이터(payload)를 포함하는 것은 일반적이지 않지만 이번엔 포함해봤다.
+- 다른 방법으로는 URL 쿼리 파라미터를 사용하는 것도 있다.
+
 # API 명세서
 
 ### API 응답 형식 예시

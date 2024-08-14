@@ -18,6 +18,10 @@ import BoardModify from "./pages/Board/Component/BoardModify.";
 import BoardList from "./pages/Board/Component/BoardList";
 import BoardWrite from "./pages/Board/Component/BoardComment/BoardWrite";
 import InfiniteCharacterComments from "./pages/Characters/CharacterInfo/Component/CommentSection/InfiniteCharacterComments";
+import UserProfile from "./pages/UserProfile/UserProfile";
+import EditProfile from "./pages/UserProfile/Component/EditProfile";
+import ChangePass from "./pages/UserProfile/Component/ChangePass";
+import QuitUser from "./pages/UserProfile/Component/QuitUser";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
@@ -109,6 +113,24 @@ export const router = createBrowserRouter(
             {
               path: "modify/:boardId",
               element: <BoardModify />,
+            },
+          ],
+        },
+        {
+          path: "user-profile",
+          element: <UserProfile />,
+          children: [
+            {
+              path: "edit-profile",
+              element: <EditProfile />,
+            },
+            {
+              path: "change-password",
+              element: <ChangePass />,
+            },
+            {
+              path: "quit-user",
+              element: <QuitUser />,
             },
           ],
         },

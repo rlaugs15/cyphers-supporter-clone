@@ -428,6 +428,44 @@ export async function setLogout(body: {}) {
   return response.data;
 }
 
+//회원 정보 수정(닉네임)
+export async function patchUserProfile(
+  body: Pick<User, "loginId" | "nickname">
+) {
+  return handleAxiosError<MutationResult>(
+    axios.patch("/api/v1/me", body).then((res) => res.data)
+  );
+}
+
+//비밀번호 변경
+export interface IChangPass {
+  loginId: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export async function patchUserPassword(body: IChangPass) {
+  return handleAxiosError<MutationResult>(
+    axios.patch("/api/v1/password", body).then((res) => res.data)
+  );
+}
+
+//회원 탈퇴
+export async function deleteUserProfile(
+  body: Pick<User, "loginId" | "password">
+) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .delete("/api/v1/me", {
+        data: {
+          loginId: body.loginId,
+          password: body.password,
+        },
+      })
+      .then((res) => res.data)
+  );
+}
+
 //캐릭터 댓글 조회
 export interface ICharacterComment {
   characterId: string;
