@@ -49,6 +49,35 @@ const parseCookies = (cookieHeader: string): { [key: string]: string } => {
     }, {} as { [key: string]: string });
 };
 
+//랜덤 비밀번호 생성 함수
+function createRandomPassword() {
+  const length = Math.floor(Math.random() * (20 - 8 + 1)) + 8; // 8~20 사이의 랜덤 길이
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const digits = "0123456789";
+  const specialCharacters = "@$!%*#?&";
+
+  const getRandomChar = (characters: string | any[]) =>
+    characters[Math.floor(Math.random() * characters.length)];
+
+  let password = "";
+  password += getRandomChar(alphabet);
+  password += getRandomChar(digits);
+  password += getRandomChar(specialCharacters);
+
+  while (password.length < length) {
+    const allCharacters = alphabet + digits + specialCharacters;
+    password += getRandomChar(allCharacters);
+  }
+
+  // 랜덤으로 섞기
+  password = password
+    .split("")
+    .sort(() => 0.5 - Math.random())
+    .join("");
+
+  return password;
+}
+
 export const handlers = [
   // Access Token 재발급 요청
   http.post("/auth/reissue-token", async ({ request }) => {
@@ -458,6 +487,78 @@ export const handlers = [
       {
         code: 200,
         message: "게시글 작성에 성공했습니다.",
+      },
+      { status: 200 }
+    );
+  }),
+
+  //로그안ID 찾기
+  http.post("/api/v1/auth/find-loginid", async ({ request }) => {
+    const { email, name, gender, birthDay } = (await request.json()) as Pick<
+      User,
+      "email" | "name" | "gender" | "birthDay"
+    >;
+    const findData = users.find(
+      (user) =>
+        user.email === email &&
+        user.name === name &&
+        user.gender === gender &&
+        user.birthDay === birthDay
+    );
+
+    if (!findData) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "입력된 정보를 다시 확인해주세요.",
+        },
+        { status: 404 }
+      );
+    }
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "로그인ID를 성공적으로 찾았습니다.",
+        data: {
+          loginId: findData.loginId,
+        },
+      },
+      { status: 200 }
+    );
+  }),
+
+  //임시 비밀번호 전송
+  http.post("/api/v1/auth/send-temporary-password", async ({ request }) => {
+    const { loginId, email } = (await request.json()) as Pick<
+      User,
+      "loginId" | "email"
+    >;
+
+    const findUser = users.find(
+      (user) => user.loginId === loginId && user.email === email
+    );
+
+    if (!findUser) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "입력된 정보를 다시 확인해주세요.",
+        },
+        { status: 404 }
+      );
+    }
+
+    const randomPassword = createRandomPassword();
+    findUser.password = randomPassword;
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "로그인ID를 성공적으로 찾았습니다.",
+        data: {
+          password: randomPassword,
+        },
       },
       { status: 200 }
     );

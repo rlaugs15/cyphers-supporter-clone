@@ -7,6 +7,7 @@ import StyledButton from "../../../components/Button/StyledButton";
 import { useState } from "react";
 import { logout } from "../../../tokenInstance";
 import { deleteUserProfile, MutationResult } from "../../../api/userApi";
+import ConfirmBox from "../../../components/ConfirmBox";
 
 interface IForm {
   password: string;
@@ -126,10 +127,9 @@ function QuitUser() {
         </form>
       </div>
       {confirm ? (
-        <section className="릳 absolute flex flex-col space-y-3 items-center justify-center h-32 bg-white border-2 border-black rounded-md w-80">
-          <p className="mt-1 text-sm">정말 탈퇴하시겠습니까?</p>
+        <ConfirmBox text="정말 탈퇴하시겠습니까?">
           <StyledButton color="red" text="확인" onClick={onConfirmClick} />
-        </section>
+        </ConfirmBox>
       ) : null}
     </div>
   );

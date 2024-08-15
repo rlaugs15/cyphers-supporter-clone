@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { contentBtnStyle } from "../libs/utils";
+import { contentBtnStyle, today } from "../libs/utils";
 import {
   checkEmail,
   checkLoginId,
@@ -368,6 +368,7 @@ function Join() {
             <input
               type="date"
               id="birthDay"
+              max={today}
               {...register("birthDay", { required: "생일은 필수입니다" })}
               className={`mt-1 block w-full border ${
                 errors.birthDay ? "border-red-500" : "border-gray-300"

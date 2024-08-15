@@ -69,3 +69,68 @@ export async function setLogout(body: {}) {
   return response.data;
 }
 
+//회원 정보 수정(닉네임)
+export async function patchUserProfile(
+  body: Pick<User, "loginId" | "nickname">
+) {
+  return handleAxiosError<MutationResult>(
+    axios.patch("/api/v1/me", body).then((res) => res.data)
+  );
+}
+
+//비밀번호 변경
+export interface IChangPass {
+  loginId: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export async function patchUserPassword(body: IChangPass) {
+  return handleAxiosError<MutationResult>(
+    axios.patch("/api/v1/password", body).then((res) => res.data)
+  );
+}
+
+//회원 탈퇴
+export async function deleteUserProfile(
+  body: Pick<User, "loginId" | "password">
+) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .delete("/api/v1/me", {
+        data: {
+          loginId: body.loginId,
+          password: body.password,
+        },
+      })
+      .then((res) => res.data)
+  );
+}
+
+//로그인id 찾기
+export interface FindLoginIdResult extends MutationResult {
+  data?: {
+    loginId: string;
+  };
+}
+export async function findLoginId(
+  body: Pick<User, "email" | "name" | "gender" | "birthDay">
+) {
+  return handleAxiosError<FindLoginIdResult>(
+    axios.post("/api/v1/auth/find-loginid", body).then((res) => res.data)
+  );
+}
+
+//임시 비밀번호 전송
+export interface SendTempPasswordResult extends MutationResult {
+  data?: {
+    password: string;
+  };
+}
+export async function sendTempPassword(body: Pick<User, "loginId" | "email">) {
+  return handleAxiosError<SendTempPasswordResult>(
+    axios
+      .post("/api/v1/auth/send-temporary-password", body)
+      .then((res) => res.data)
+  );
+}

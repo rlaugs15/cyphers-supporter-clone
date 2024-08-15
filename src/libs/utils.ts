@@ -31,6 +31,9 @@ export const meterStylesBlack = `
     }
   `;
 
+// 생년월일에 사용. 현재 날짜를 YYYY-MM-DD 형식으로 가져오기
+export const today = new Date().toISOString().split("T")[0];
+
 //KDA 계산
 export function winningRate(
   winCount: number,

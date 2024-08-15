@@ -22,6 +22,9 @@ import UserProfile from "./pages/UserProfile/UserProfile";
 import EditProfile from "./pages/UserProfile/Component/EditProfile";
 import ChangePass from "./pages/UserProfile/Component/ChangePass";
 import QuitUser from "./pages/UserProfile/Component/QuitUser";
+import FindUserProfile from "./pages/FindUserProfile/FindUserProfile";
+import FindLoginId from "./pages/FindUserProfile/Component/FindLoginId";
+import FindPassword from "./pages/FindUserProfile/Component/FindPassword";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
@@ -131,6 +134,20 @@ export const router = createBrowserRouter(
             {
               path: "quit-user",
               element: <QuitUser />,
+            },
+          ],
+        },
+        {
+          path: "find-user-profile",
+          element: <FindUserProfile />,
+          children: [
+            {
+              path: "loginId",
+              element: <FindLoginId />,
+            },
+            {
+              path: "password",
+              element: <FindPassword />,
             },
           ],
         },
