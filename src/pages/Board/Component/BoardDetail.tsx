@@ -1,16 +1,16 @@
 import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import {
-  BoardCommentResult,
-  BoardDetailResult,
-  getBoardComment,
-  getBoardDetail,
-} from "../../../api";
 import { contentBoxStyle, contentBtnStyle } from "../../../libs/utils";
 import useUser from "../../../hooks/useUser";
 import StyledButton from "../../../components/Button/StyledButton";
 import BoardComment, { ModifyComment } from "./BoardComment/BoardComment";
 import Skeleton from "react-loading-skeleton";
+import {
+  BoardCommentResult,
+  BoardDetailResult,
+  getBoardComment,
+  getBoardDetail,
+} from "../../../api/boardApi";
 
 function BoardDetail() {
   const { boardId } = useParams();
@@ -49,7 +49,6 @@ function BoardDetail() {
   const onGoodClick = () => {};
   const onModifyClick = () => {};
   const onDeleteClick = () => {};
-  console.log("commentData", commentData);
 
   return (
     <>

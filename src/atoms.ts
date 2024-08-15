@@ -1,6 +1,6 @@
 import { atom } from "recoil";
-import { PlayerInfo } from "./api";
 import { recoilPersist } from "recoil-persist";
+import { PlayerInfo } from "./api/cyphersApi";
 
 export const playerIdAtom = atom({
   key: "playerId",

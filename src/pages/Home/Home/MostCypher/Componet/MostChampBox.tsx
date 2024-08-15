@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
-import { PlayerInfo, partyInfo } from "../../../../../api";
 import MostChamp from "./MostChamp";
+import { partyInfo, PlayerInfo } from "../../../../../api/cyphersApi";
 
 interface IParty {
   partyUser: string;

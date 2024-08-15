@@ -1,4 +1,4 @@
-import { DetailPlayerInfo } from "../../../../../../api";
+import { DetailPlayerInfo } from "../../../../../../api/cyphersApi";
 
 interface GameStatsProps {
   playInfo: DetailPlayerInfo;

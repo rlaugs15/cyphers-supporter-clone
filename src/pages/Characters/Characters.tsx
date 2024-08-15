@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { Outlet } from "react-router-dom";
-import { Character, ICharacters, getCharacters } from "../../api";
 import { useQuery } from "react-query";
 import CharacterCard from "./Component/CharacterCard";
 import { useSetRecoilState } from "recoil";
@@ -10,6 +9,7 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { contentBoxStyle, contentTitleStyle } from "../../libs/utils";
 import Bookmark from "./Component/Bookmark";
+import { Character, getCharacters, ICharacters } from "../../api/cyphersApi";
 
 //추후 useForm에 추가할 것
 /* interface IForm {

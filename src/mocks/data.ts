@@ -1,4 +1,6 @@
-import { BoardComment, ICharacterComment, Post, User } from "../api";
+import { IBoardComment, Post } from "../api/boardApi";
+import { ICharacterComment } from "../api/cyphersApi";
+import { User } from "../api/userApi";
 
 //유저 데이터
 export const users: User[] = [
@@ -53,7 +55,7 @@ export const characterComments: ICharacterComment[] = [
 ];
 
 //게시글 댓글
-export const boardComments: BoardComment[] = [
+export const boardComments: IBoardComment[] = [
   {
     id: 1,
     parentCommentId: null,

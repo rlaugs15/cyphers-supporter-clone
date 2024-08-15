@@ -1,16 +1,16 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  IPlayer,
-  IPlayerInfo,
-  PlayerInfo,
-  getMatching,
-  getPlayer,
-  getPlayerInfo,
-} from "../../../../api";
 import { useQuery } from "react-query";
 import PlayerInfoCard from "../../Home/PlayBasicInfo/Component/PlayerInfoCard";
 import { allMatchData } from "../../../../libs/utils";
 import RecentGameCard from "./RecentGameCard";
+import {
+  getMatching,
+  getPlayer,
+  getPlayerInfo,
+  IPlayer,
+  IPlayerInfo,
+  PlayerInfo,
+} from "../../../../api/cyphersApi";
 
 function PlayersComparison() {
   const [searchParams] = useSearchParams();

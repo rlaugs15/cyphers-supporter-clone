@@ -1,4 +1,4 @@
-import { getPositionImg } from "../../../../../../api";
+import { getPositionImg } from "../../../../../../api/cyphersApi";
 
 interface AttCardsProps {
   id: string;

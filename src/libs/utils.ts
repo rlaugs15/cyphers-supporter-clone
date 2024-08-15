@@ -1,4 +1,9 @@
-import { CharacterRanking, MatchRecord, PlayerInfo, partyInfo } from "../api";
+import {
+  CharacterRanking,
+  MatchRecord,
+  PlayerInfo,
+  partyInfo,
+} from "../api/cyphersApi";
 
 export function cls(...classnames: string[]) {
   return classnames.join(" ");

@@ -1,4 +1,4 @@
-import { makeImagePath } from "../../api";
+import { makeImagePath } from "../../api/cyphersApi";
 import { cls } from "../../libs/utils";
 
 interface AvatarImgProps {

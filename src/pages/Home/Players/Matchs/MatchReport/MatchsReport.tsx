@@ -1,4 +1,4 @@
-import { DetailPlayer } from "../../../../../api";
+import { DetailPlayer } from "../../../../../api/cyphersApi";
 import PositionImg from "../../../../../components/images/PositionImg";
 import ReportBar from "./Component/ReportBar";
 

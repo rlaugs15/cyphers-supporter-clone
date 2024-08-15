@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { MatchRecord, makeImagePath } from "../../../../../api";
 import {
   cls,
   findMostChamp,
@@ -8,6 +7,7 @@ import {
   winningRate,
 } from "../../../../../libs/utils";
 import Skeleton from "react-loading-skeleton";
+import { makeImagePath, MatchRecord } from "../../../../../api/cyphersApi";
 
 interface IMostChamp {
   data: MatchRecord[];

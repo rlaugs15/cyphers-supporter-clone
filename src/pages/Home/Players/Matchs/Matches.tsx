@@ -1,14 +1,14 @@
 import { useQuery } from "react-query";
-import {
-  DetailMatchData,
-  DetailPlayer,
-  getDetailMatching,
-} from "../../../../api";
 import { useParams } from "react-router-dom";
 import MatchsReport from "./MatchReport/MatchsReport";
 import GameViewDetail from "./GameViewDeatil";
 import MatchPlayInfo from "./MatchPlayInfo.tsx/MatchPlayInfo";
 import Skeleton from "react-loading-skeleton";
+import {
+  DetailMatchData,
+  DetailPlayer,
+  getDetailMatching,
+} from "../../../../api/cyphersApi";
 
 export interface ParyMember {
   partyId: string;

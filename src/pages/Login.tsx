@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { LoginResult, setLogin, User } from "../api";
 import { contentBtnStyle } from "../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { setLogin, User } from "../api/userApi";
 
 type IForm = Pick<User, "loginId" | "password">;
 

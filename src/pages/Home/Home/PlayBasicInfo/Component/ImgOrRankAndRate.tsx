@@ -1,4 +1,4 @@
-import { IPlayerInfo } from "../../../../../api";
+import { IPlayerInfo } from "../../../../../api/cyphersApi";
 import { winningRate } from "../../../../../libs/utils";
 import AvatarImg from "../../../../../components/images/AvatarImg";
 

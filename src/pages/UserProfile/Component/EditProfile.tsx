@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import StyledButton from "../../../components/Button/StyledButton";
 import { errorTextStyle } from "../../../libs/utils";
-import { MutationResult, patchUserProfile, User } from "../../../api";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { MutationResult, patchUserProfile, User } from "../../../api/userApi";
 
 type IForm = Pick<User, "loginId" | "nickname">;
 

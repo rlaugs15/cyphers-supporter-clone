@@ -1,4 +1,4 @@
-import { DetailMatchData } from "../../../../api";
+import { DetailMatchData } from "../../../../api/cyphersApi";
 
 interface IGameViewDetail {
   detailMatchingData: DetailMatchData;

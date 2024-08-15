@@ -1,9 +1,11 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import { IChangPass, ICharacterComment, Post, User } from "../api";
 import { boardComments, characterComments, posts, users } from "./data";
 import { CustomDateFormatter } from "../libs/utils";
+import { IChangPass, User } from "../api/userApi";
+import { Post } from "../api/boardApi";
+import { ICharacterComment } from "../api/cyphersApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 

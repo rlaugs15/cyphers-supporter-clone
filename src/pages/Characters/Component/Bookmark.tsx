@@ -2,7 +2,7 @@ import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { champBookmarkAtom } from "../../../atoms";
 import { contentTitleStyle } from "../../../libs/utils";
-import { makeImagePath } from "../../../api";
+import { makeImagePath } from "../../../api/cyphersApi";
 
 function Bookmark() {
   const nav = useNavigate();

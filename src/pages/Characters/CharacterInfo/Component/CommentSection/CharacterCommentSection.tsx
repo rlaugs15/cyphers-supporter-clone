@@ -1,15 +1,15 @@
 import useUser from "../../../../../hooks/useUser";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import CharacterComment from "./Component/CharacterComment";
+import Skeleton from "react-loading-skeleton";
+import CharacterCommentForm from "./Component/CharacterCommentForm";
+import { useNavigate } from "react-router-dom";
 import {
   CharacterCommentResult,
   getCharacterComment,
   ICharacterComment,
   setCharacterComment,
-} from "../../../../../api";
-import CharacterComment from "./Component/CharacterComment";
-import Skeleton from "react-loading-skeleton";
-import CharacterCommentForm from "./Component/CharacterCommentForm";
-import { useNavigate } from "react-router-dom";
+} from "../../../../../api/cyphersApi";
 
 export type ICharacterCommentForm = Omit<ICharacterComment, "characterId">;
 

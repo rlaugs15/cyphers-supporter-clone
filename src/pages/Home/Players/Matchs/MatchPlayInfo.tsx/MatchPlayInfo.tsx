@@ -1,10 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import {
-  DetailMatchItem,
-  DetailPlayerInfo,
-  DetailPosition,
-} from "../../../../../api";
-import {
   calculateAverageCS,
   cls,
   winningRate,
@@ -15,6 +10,11 @@ import GameStats from "../MatchReport/Component/GameStats";
 import PartyMember from "./Component/PartyMember";
 import ItemCard from "../../../../../components/images/ItemCard";
 import AttCards from "./Component/AttCardsArray";
+import {
+  DetailMatchItem,
+  DetailPlayerInfo,
+  DetailPosition,
+} from "../../../../../api/cyphersApi";
 
 interface MatchPlayInfoProps {
   items: DetailMatchItem[];

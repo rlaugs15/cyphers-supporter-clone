@@ -3,9 +3,9 @@ import { contentBoxStyle } from "../../../libs/utils";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
-import { BoardListResult, getBoardList } from "../../../api";
 import Skeleton from "react-loading-skeleton";
 import StyledButton from "../../../components/Button/StyledButton";
+import { BoardListResult, getBoardList } from "../../../api/boardApi";
 
 interface IForm {
   page: number;
@@ -99,7 +99,7 @@ function BoardList() {
               </td>
               <td className="px-6 py-3 text-center">{post.author}</td>
               <td className="px-6 py-3 text-center">{post.createdAt}</td>
-              <td className="px-6 py-3 text-center">{post.like || 0}</td>
+              <td className="px-6 py-3 text-center">0 좋아요 로직 작성할 것</td>
             </tr>
           ))}
         </tbody>

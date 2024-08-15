@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { ICharacterComment } from "../../../../../../api";
 import { useEffect } from "react";
+import { ICharacterComment } from "../../../../../../api/cyphersApi";
 
 type IForm = Omit<ICharacterComment, "characterId">;
 

@@ -6,14 +6,6 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import {
-  IPlayer,
-  IPlayerInfo,
-  PlayerInfo,
-  getMatching,
-  getPlayer,
-  getPlayerInfo,
-} from "../../../../api";
 import { allMatchData, cls } from "../../../../libs/utils";
 import { useSetRecoilState } from "recoil";
 import {
@@ -26,6 +18,14 @@ import {
 } from "../../../../atoms";
 import { useEffect } from "react";
 import PlayerInfoCard from "./Component/PlayerInfoCard";
+import {
+  getMatching,
+  getPlayer,
+  getPlayerInfo,
+  IPlayer,
+  IPlayerInfo,
+  PlayerInfo,
+} from "../../../../api/cyphersApi";
 
 function PlayerBasicInfo() {
   const { nickname } = useParams();

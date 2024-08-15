@@ -1,10 +1,10 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { itemDetailScreenAtom, itemIdAtom } from "../atoms";
-import { DetailItem, getDetailItem, getItemImg } from "../api";
 import { useQuery } from "react-query";
 import React, { useEffect } from "react";
 import { selectRarityColor } from "../libs/utils";
 import Skeleton from "react-loading-skeleton";
+import { DetailItem, getDetailItem, getItemImg } from "../api/cyphersApi";
 
 /* interface ItemDetailScreenProps {
   detailItemingLoading: boolean;

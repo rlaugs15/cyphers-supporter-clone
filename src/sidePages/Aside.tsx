@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../hooks/useUser";
 import { contentBoxStyle, contentBtnStyle } from "../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
-import { setLogout } from "../api";
 import StyledButton from "../components/Button/StyledButton";
+import { setLogout } from "../api/userApi";
 
 function Aside() {
   const nav = useNavigate();

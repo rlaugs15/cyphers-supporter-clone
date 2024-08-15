@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
-import { IPlayerInfo } from "../../../../../api";
 import ImgOrRankAndRate from "./ImgOrRankAndRate";
+import { IPlayerInfo } from "../../../../../api/cyphersApi";
 
 interface PlayerInfoProps {
   loading: boolean;

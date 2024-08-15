@@ -1,10 +1,10 @@
-import type { BoardComment } from "../../../../api";
+import { IBoardComment } from "../../../../api/boardApi";
 import StyledButton from "../../../../components/Button/StyledButton";
 import useUser from "../../../../hooks/useUser";
 import BoardChildComment from "./BoardChildComment";
 
 export interface ModifyComment
-  extends Omit<BoardComment, "childrenCommentsIds"> {
+  extends Omit<IBoardComment, "childrenCommentsIds"> {
   childrenCommentsIds?: ModifyComment[];
 }
 

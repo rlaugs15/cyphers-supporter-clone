@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { contentBoxStyle } from "../../../../libs/utils";
-import { Post, writeBoard } from "../../../../api";
 import useUser from "../../../../hooks/useUser";
 import StyledButton from "../../../../components/Button/StyledButton";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Post, writeBoard } from "../../../../api/boardApi";
 
 type IForm = Pick<Post, "title" | "content">;
 

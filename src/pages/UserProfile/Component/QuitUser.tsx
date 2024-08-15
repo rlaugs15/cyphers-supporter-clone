@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { errorTextStyle } from "../../../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
-import { deleteUserProfile, MutationResult } from "../../../api";
 import useUser from "../../../hooks/useUser";
 import { useNavigate } from "react-router-dom";
 import StyledButton from "../../../components/Button/StyledButton";
 import { useState } from "react";
 import { logout } from "../../../tokenInstance";
+import { deleteUserProfile, MutationResult } from "../../../api/userApi";
 
 interface IForm {
   password: string;

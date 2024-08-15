@@ -1,7 +1,7 @@
-import { getItemImg } from "../../api";
 import { cls, selectRarityColor } from "../../libs/utils";
 import { useSetRecoilState } from "recoil";
 import { itemDetailScreenAtom, itemIdAtom } from "../../atoms";
+import { getItemImg } from "../../api/cyphersApi";
 
 interface ItemImgProps {
   itemId: string;

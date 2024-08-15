@@ -1,4 +1,8 @@
 import { useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { contentBtnStyle } from "../libs/utils";
 import {
   checkEmail,
   checkLoginId,
@@ -6,11 +10,7 @@ import {
   MutationResult,
   setJoin,
   User,
-} from "../api";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { contentBtnStyle } from "../libs/utils";
+} from "../api/userApi";
 
 interface IForm extends User {
   password2: string;

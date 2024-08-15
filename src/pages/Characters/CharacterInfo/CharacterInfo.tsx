@@ -1,12 +1,12 @@
 import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
-import { CharacterRanking, getCharacterRanking } from "../../../api";
 import { contentBoxStyle, meterStylesBlack } from "../../../libs/utils";
 import Skeleton from "react-loading-skeleton";
 import WinAndPickSection from "./Component/WinAndPickSection";
 import { useSetRecoilState } from "recoil";
 import { champBookmarkAtom, IChampBookmark } from "../../../atoms";
 import CharacterCommentSection from "./Component/CommentSection/CharacterCommentSection";
+import { CharacterRanking, getCharacterRanking } from "../../../api/cyphersApi";
 
 function CharacterInfo() {
   const { characterName } = useParams();

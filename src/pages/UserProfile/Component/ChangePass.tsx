@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import StyledButton from "../../../components/Button/StyledButton";
-import { IChangPass, MutationResult, patchUserPassword } from "../../../api";
 import { errorTextStyle } from "../../../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import useUser from "../../../hooks/useUser";
+import {
+  IChangPass,
+  MutationResult,
+  patchUserPassword,
+} from "../../../api/userApi";
 
 type IForm = Pick<IChangPass, "currentPassword" | "newPassword"> & {
   newPassword2: string;

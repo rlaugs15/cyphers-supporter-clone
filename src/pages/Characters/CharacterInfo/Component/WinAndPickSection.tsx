@@ -1,10 +1,10 @@
 import Skeleton from "react-loading-skeleton";
-import { CharacterRanking } from "../../../../api";
 import { contentBoxStyle, convertRank } from "../../../../libs/utils";
 import { useRecoilValue } from "recoil";
 import { characterLenthAtom, charWindAndPickAtom } from "../../../../atoms";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { CharacterRanking } from "../../../../api/cyphersApi";
 
 interface WinAndPickSectionProps {
   characterId: string;

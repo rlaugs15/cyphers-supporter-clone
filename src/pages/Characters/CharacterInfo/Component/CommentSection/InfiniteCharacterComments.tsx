@@ -1,17 +1,17 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import {
-  CharacterCommentResult,
-  getInfiniteCharacterComments,
-  ICharacterComment,
-  setCharacterComment,
-} from "../../../../../api";
 import StyledButton from "../../../../../components/Button/StyledButton";
 import CharacterComment from "./Component/CharacterComment";
 import { contentBoxStyle } from "../../../../../libs/utils";
 import CharacterCommentForm from "./Component/CharacterCommentForm";
 import useUser from "../../../../../hooks/useUser";
 import { ICharacterCommentForm } from "./CharacterCommentSection";
+import {
+  CharacterCommentResult,
+  getInfiniteCharacterComments,
+  ICharacterComment,
+  setCharacterComment,
+} from "../../../../../api/cyphersApi";
 
 const PAGE_SIZE = 10;
 

@@ -1,4 +1,4 @@
-import { makeImagePath } from "../../../../../../api";
+import { makeImagePath } from "../../../../../../api/cyphersApi";
 import { cls, playPosition } from "../../../../../../libs/utils";
 
 interface ChampAndPositionCardProps {
