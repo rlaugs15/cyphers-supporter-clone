@@ -1,7 +1,7 @@
 import { cls } from "../../libs/utils";
 
 interface StyledButtonProps {
-  color: "black" | "orange" | "red" | "blue";
+  color: "black" | "orange" | "red" | "blue" | "green";
   text: string;
   cssClass?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -17,9 +17,10 @@ function StyledButton({
 }: StyledButtonProps) {
   const colorVariants = {
     black: "bg-black hover:bg-gray-800 active:ring-black",
-    orange: "bg-orange-400 hover:bg-orange-500 active:ring-orange-400",
-    blue: "bg-blue-400 hover:bg-blue-500 active:ring-blue-400",
-    red: "bg-red-400 hover:bg-red-500 active:ring-red-400",
+    orange: "bg-orange-500 hover:bg-orange-600 active:ring-orange-500",
+    blue: "bg-blue-500 hover:bg-blue-600 active:ring-blue-500",
+    red: "bg-red-500 hover:bg-red-600 active:ring-red-500",
+    green: "bg-green-500 hover:bg-green-600 active:ring-green-500",
   };
   return (
     <button

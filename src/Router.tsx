@@ -13,10 +13,9 @@ import Players from "./pages/Home/Players/Players";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
 import Board from "./pages/Board/Board";
-import BoardDetail from "./pages/Board/Component/BoardDetail";
-import BoardModify from "./pages/Board/Component/BoardModify.";
+import BoardDetail from "./pages/Board/Component/BoardDetail/BoardDetail";
 import BoardList from "./pages/Board/Component/BoardList";
-import BoardWrite from "./pages/Board/Component/BoardComment/BoardWrite";
+import BoardWrite from "./pages/Board/BoardWrite";
 import InfiniteCharacterComments from "./pages/Characters/CharacterInfo/Component/CommentSection/InfiniteCharacterComments";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import EditProfile from "./pages/UserProfile/Component/EditProfile";
@@ -112,10 +111,6 @@ export const router = createBrowserRouter(
             {
               path: "write",
               element: <BoardWrite />,
-            },
-            {
-              path: "modify/:boardId",
-              element: <BoardModify />,
             },
           ],
         },

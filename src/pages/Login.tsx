@@ -25,7 +25,7 @@ function Login() {
       if (data.code === 200 && data.data.token) {
         localStorage.setItem("accessToken", data.data.token);
         queryClient.invalidateQueries("member");
-        nav("/", { replace: true });
+        nav(-1);
       }
 
       if (data.code !== 200) {

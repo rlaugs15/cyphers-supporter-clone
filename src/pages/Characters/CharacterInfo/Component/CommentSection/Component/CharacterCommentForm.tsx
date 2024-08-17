@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { ICharacterComment } from "../../../../../../api/cyphersApi";
+import Textarea from "../../../../../../components/Textarea";
 
 type IForm = Omit<ICharacterComment, "characterId">;
 
@@ -22,15 +23,6 @@ function CharacterCommentForm({
   } = useForm<IForm>();
   const inputWatch = watch("comment", "");
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // 엔터 키 기본 동작 방지 (줄바꿈 방지)
-      if (!isSubmitting) {
-        handleSubmit(onCommentSubmit)(); // 폼 제출
-      }
-    }
-  };
-
   useEffect(() => {
     if (!isSubmitting) {
       setValue("comment", ""); // 폼이 제출될 때마다 comment 초기화
@@ -44,16 +36,11 @@ function CharacterCommentForm({
       {errors?.comment && errors.comment.type === "maxLength" && (
         <p className="font-semibold text-red-500">{errors?.comment.message}</p>
       )}
-      <textarea
-        {...register("comment", { required: true, maxLength: 200 })}
-        required
-        placeholder={
-          user ? "캐릭터 코멘트 작성" : "로그인을 해야 작성할 수 있습니다."
-        }
-        className="p-3 border rounded-sm resize-none"
-        rows={4}
-        disabled={user ? false : true}
-        onKeyDown={handleKeyDown}
+      <Textarea
+        register={register("comment", { required: true, maxLength: 200 })}
+        handleSubmit={handleSubmit}
+        onSubmit={onCommentSubmit}
+        isSubmitting={isSubmitting}
       />
       <div className="flex justify-between w-full">
         <p>{inputWatch.length}/200</p>
