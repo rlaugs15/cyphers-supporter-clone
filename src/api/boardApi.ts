@@ -55,6 +55,57 @@ export async function writeBoard(
   );
 }
 
+//게시글 댓글 작성
+interface WriteParentCommentProps {
+  boardId: number;
+  body: Pick<IBoardComment, "content">;
+  userId: string;
+  userNickname: string;
+}
+
+export async function writeParentComment({
+  boardId,
+  body,
+  userId,
+  userNickname,
+}: WriteParentCommentProps) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .post(`/api/v1/board/comments/${boardId}`, body, {
+        params: {
+          userId,
+          userNickname,
+        },
+      })
+      .then((res) => res.data)
+  );
+}
+
+//게시글 대댓글 작성
+export interface WritechildrenCommentProps extends WriteParentCommentProps {
+  parentCommentId: number;
+}
+
+export async function writechildrenComment({
+  boardId,
+  body,
+  userId,
+  userNickname,
+  parentCommentId,
+}: WritechildrenCommentProps) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .post(`/api/v1/board/comments/reply/${boardId}`, body, {
+        params: {
+          userId,
+          userNickname,
+          parentCommentId,
+        },
+      })
+      .then((res) => res.data)
+  );
+}
+
 //게시글 댓글 조회
 export interface IBoardComment {
   id: number;
@@ -73,5 +124,48 @@ export interface BoardCommentResult extends MutationResult {
 export async function getBoardComment(boardId: string) {
   return handleAxiosError<BoardCommentResult>(
     axios.get(`/api/v1/comments/${boardId}`).then((res) => res.data)
+  );
+}
+
+//댓글 삭제
+interface DeleteBoardParentCommentProps {
+  commentId: number;
+  boardId: number;
+}
+
+export async function deleteBoardParentComment({
+  commentId,
+  boardId,
+}: DeleteBoardParentCommentProps) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .delete(`/api/v1/comments/${commentId}`, {
+        params: {
+          boardId,
+        },
+      })
+      .then((res) => res.data)
+  );
+}
+
+//대댓글 삭제
+interface DeleteBoardChildCommentProps extends DeleteBoardParentCommentProps {
+  parentCommentId: number;
+}
+
+export async function deleteBoardChildComment({
+  commentId,
+  boardId,
+  parentCommentId,
+}: DeleteBoardChildCommentProps) {
+  return handleAxiosError<MutationResult>(
+    axios
+      .delete(`/api/v1/comments/reply/${commentId}`, {
+        params: {
+          boardId,
+          parentCommentId,
+        },
+      })
+      .then((res) => res.data)
   );
 }

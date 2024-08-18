@@ -8,7 +8,7 @@ export interface MutationResult {
   message?: string;
 }
 
-interface IUser {
+export interface IUser {
   id: string;
   email: string;
   nickname: string;

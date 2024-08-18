@@ -4,7 +4,7 @@ import { logout } from "../tokenInstance";
 import { boardComments, characterComments, posts, users } from "./data";
 import { CustomDateFormatter } from "../libs/utils";
 import { IChangPass, User } from "../api/userApi";
-import { Post } from "../api/boardApi";
+import { IBoardComment, Post } from "../api/boardApi";
 import { ICharacterComment } from "../api/cyphersApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
@@ -492,6 +492,124 @@ export const handlers = [
     );
   }),
 
+  //게시판 댓글 작성
+  http.post("/api/v1/board/comments/:boardId", async ({ request, params }) => {
+    const { boardId } = params;
+
+    const url = new URL(request.url);
+
+    const userId = url.searchParams.get("userId");
+    const userNickname = url.searchParams.get("userNickname");
+
+    const { content } = (await request.json()) as Pick<
+      IBoardComment,
+      "content"
+    >;
+
+    const targetBoard = posts.find((board) => board.id === Number(boardId));
+
+    if (!targetBoard) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "해당 게시글 존재하지 않습니다.",
+        },
+        { status: 404 }
+      );
+    }
+
+    const createdAt = new CustomDateFormatter().getFormattedCurrentTime();
+    const commentId = Date.now();
+
+    targetBoard.comments?.push(commentId);
+
+    boardComments.push({
+      id: commentId,
+      parentCommentId: null,
+      childrenCommentsIds: [],
+      content,
+      userId: String(userId),
+      userNickname: String(userNickname),
+      createdAt: createdAt,
+    });
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "댓글 작성에 성공했습니다.",
+      },
+      { status: 200 }
+    );
+  }),
+
+  //게시판 대댓글 작성
+  http.post(
+    "/api/v1/board/comments/reply/:boardId",
+    async ({ request, params }) => {
+      const { boardId } = params;
+
+      const url = new URL(request.url);
+      const userId = url.searchParams.get("userId");
+      const parentCommentId = url.searchParams.get("parentCommentId");
+      const userNickname = url.searchParams.get("userNickname");
+
+      const { content } = (await request.json()) as Pick<
+        IBoardComment,
+        "content"
+      >;
+
+      const targetBoard = posts.find((board) => board.id === +boardId);
+      if (!targetBoard) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "해당 게시글이 존재하지 않습니다.",
+          },
+          { status: 404 }
+        );
+      }
+
+      const targetParent = boardComments.find(
+        (comment) => comment.id === Number(parentCommentId)
+      );
+      if (!targetParent) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "해당 부모 댓글이 존재하지 않습니다.",
+          },
+          { status: 404 }
+        );
+      }
+
+      const createdAt = new CustomDateFormatter().getFormattedCurrentTime();
+
+      const commentId = Date.now();
+
+      targetBoard.comments?.push(commentId);
+      targetParent.childrenCommentsIds?.push?.(commentId);
+
+      const newChild: IBoardComment = {
+        id: commentId,
+        parentCommentId: +parentCommentId!,
+        childrenCommentsIds: [],
+        content,
+        userId: String(userId),
+        userNickname: String(userNickname),
+        createdAt,
+      };
+      boardComments.push(newChild);
+
+      return HttpResponse.json(
+        {
+          code: 200,
+          message: "댓글 작성에 성공했습니다.",
+        },
+        { status: 200 }
+      );
+    }
+  ),
+
   //로그안ID 찾기
   http.post("/api/v1/auth/find-loginid", async ({ request }) => {
     const { email, name, gender, birthDay } = (await request.json()) as Pick<
@@ -620,6 +738,8 @@ export const handlers = [
   }),
 
   //---------------------DELETE 요청-------------------------------
+
+  //회원탈퇴 delete 요청
   http.delete("/api/v1/me", async ({ request }) => {
     const { loginId, password } = (await request.json()) as Pick<
       User,
@@ -640,4 +760,102 @@ export const handlers = [
       { status: 200 }
     );
   }),
+
+  //게시판 댓글 삭제 delete 요청
+  http.delete("/api/v1/comments/:commentId", async ({ request, params }) => {
+    const { commentId } = params;
+
+    const url = new URL(request.url);
+    const boardId = url.searchParams.get("boardId");
+
+    const targetBoard = posts.find((board) => board.id === Number(boardId));
+    if (!targetBoard) {
+      return HttpResponse.json(
+        { code: 404, message: "해당 게시글이 존재하지 않습니다." },
+        { status: 404 }
+      );
+    }
+
+    //댓글 데이터에서 자식 댓글들이 존재한다면 삭제
+    const targetComment = boardComments.find(
+      (comment) => comment.id === +commentId
+    );
+    if (targetComment?.childrenCommentsIds?.length) {
+      const childs = targetComment?.childrenCommentsIds;
+      for (const commentIndex in boardComments) {
+        if (childs.includes(boardComments[commentIndex].id)) {
+          childs.splice(+commentIndex, 1);
+        }
+      }
+    }
+    //해당 게시판에서 댓글id 삭제
+    const targetIndex = targetBoard.comments?.findIndex(
+      (comment) => comment === +commentId
+    );
+    targetBoard.comments?.splice(targetIndex!, 1);
+
+    //댓글 데이터에서 해당 댓글 삭제
+    const commentIndex = boardComments.findIndex(
+      (comment) => comment.id === +commentId
+    );
+    boardComments.splice(commentIndex, 1);
+
+    return HttpResponse.json(
+      { code: 200, message: "대댓글 삭제에 성공했습니다." },
+      { status: 200 }
+    );
+  }),
+
+  //게시판 대댓글 삭제 delete 요청
+  http.delete(
+    "/api/v1/comments/reply/:commentId",
+    async ({ request, params }) => {
+      const { commentId } = params;
+
+      const url = new URL(request.url);
+      const boardId = url.searchParams.get("boardId");
+      const parentCommentId = url.searchParams.get("parentCommentId");
+
+      const targetBoard = posts.find((board) => board.id === Number(boardId));
+      if (!targetBoard) {
+        return HttpResponse.json(
+          { code: 404, message: "해당 게시글이 존재하지 않습니다." },
+          { status: 404 }
+        );
+      }
+
+      const targetParent = boardComments.find(
+        (comment) => comment.id === Number(parentCommentId)
+      );
+      if (!targetParent) {
+        return HttpResponse.json(
+          { code: 404, message: "해당 부모 댓글이 존재하지 않습니다." },
+          { status: 404 }
+        );
+      }
+
+      //해당 게시판에서 댓글id 삭제
+      const targetIndex = targetBoard?.comments?.findIndex(
+        (comment) => comment === +commentId
+      );
+      targetBoard?.comments?.splice(targetIndex!, 1);
+
+      //댓글 데이터에서 댓글 삭제
+      const targetCommentIndex = boardComments.findIndex(
+        (comment) => comment.id === +commentId
+      );
+      boardComments.splice(targetCommentIndex, 1);
+
+      //부모 댓글에서 대댓글 id 삭제
+      const targetChildIndex = targetParent.childrenCommentsIds?.findIndex(
+        (comment) => comment === +commentId
+      );
+      targetParent.childrenCommentsIds?.splice(targetChildIndex!, 1);
+
+      return HttpResponse.json(
+        { code: 200, message: "대댓글 삭제에 성공했습니다." },
+        { status: 200 }
+      );
+    }
+  ),
 ];
