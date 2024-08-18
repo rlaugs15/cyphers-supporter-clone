@@ -38,15 +38,19 @@ function CharacterCommentSection({
       setCharacterComment(newComment),
     //newComment: useMutation의 mutate에 전달되는 값
     onMutate: async (newComment: ICharacterComment) => {
+      // 기존 캐시 취소, '쿼리 키'로 진행 중인 refetch 취소하여 낙관적 업데이트를 덮어쓰지 않도록 함
       await queryClient.cancelQueries([
         "characterComment",
         newComment.characterId,
       ]);
 
+      // 이전 캐시 상태 가져오기
       const previousComment = queryClient.getQueryData<CharacterCommentResult>([
         "characterComment",
         newComment.characterId,
       ]);
+
+      // 캐시된 데이터를 낙관적 업데이트
       queryClient.setQueryData<CharacterCommentResult>(
         ["characterComment", newComment.characterId],
         (old) =>
