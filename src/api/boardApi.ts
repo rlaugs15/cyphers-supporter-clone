@@ -169,3 +169,38 @@ export async function deleteBoardChildComment({
       .then((res) => res.data)
   );
 }
+
+//게시글 좋아요 조회
+export interface ILike {
+  boardId: number;
+  loginId: string;
+}
+
+export interface GetBoardLikeResult extends MutationResult {
+  data: {
+    likesLength: number;
+    onLike: boolean;
+  };
+}
+
+export async function getBoardLikes(boardId: number, loginId: string) {
+  return handleAxiosError<GetBoardLikeResult>(
+    axios
+      .get(`/api/v1/board/like/${boardId}`, {
+        params: { loginId },
+      })
+      .then((res) => res.data)
+  );
+}
+
+//게시글 좋아요 증가 및 감소 요청
+export interface PostBoardLikesProps {
+  boardId: number;
+  body: Pick<ILike, "loginId">;
+}
+
+export async function postBoardLikes({ boardId, body }: PostBoardLikesProps) {
+  return handleAxiosError<MutationResult>(
+    axios.post(`/api/v1/board/like/${boardId}`, body).then((res) => res.data)
+  );
+}

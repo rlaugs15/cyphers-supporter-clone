@@ -1,10 +1,16 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import { boardComments, characterComments, posts, users } from "./data";
+import {
+  boardComments,
+  boardLikes,
+  characterComments,
+  posts,
+  users,
+} from "./data";
 import { CustomDateFormatter } from "../libs/utils";
 import { IChangPass, User } from "../api/userApi";
-import { IBoardComment, Post } from "../api/boardApi";
+import { IBoardComment, ILike, Post } from "../api/boardApi";
 import { ICharacterComment } from "../api/cyphersApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
@@ -317,7 +323,7 @@ export const handlers = [
     );
   }),
 
-  //댓글 조회
+  //게시글 댓글 GET 요청
   http.get("/api/v1/comments/:id", ({ params }) => {
     const { id } = params;
     const post = posts.find((post) => Number(id) === post?.id);
@@ -341,6 +347,57 @@ export const handlers = [
         code: 200,
         message: "데이터 조회 성공",
         data: comments,
+      },
+      { status: 200 }
+    );
+  }),
+
+  //게시글 좋아요 GET 요청
+  http.get("/api/v1/board/like/:boardId", ({ params, request }) => {
+    const { boardId } = params;
+
+    //해당 사용자가 좋아요를 했는지 여부 추가할 시 로직 짜기
+    const url = new URL(request.url);
+    const loginId = url.searchParams.get("loginId");
+
+    if (!loginId) {
+      return HttpResponse.json(
+        {
+          code: 400,
+          message: "loginId가 제공되지 않았습니다.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const targetBoard = posts.find((board) => board.id === Number(boardId));
+    if (!targetBoard) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "해당 게시글이 존재하지 않습니다.",
+        },
+        { status: 404 }
+      );
+    }
+
+    // 좋아요 필터링
+    const filterLikes = boardLikes.filter(
+      (boardLike) => boardLike.boardId === Number(boardId)
+    );
+
+    // 해당 사용자가 좋아요를 눌렀는지 여부 확인
+    const onLike = filterLikes.some((like) => like.loginId === loginId);
+    const likeResult = Boolean(onLike);
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "데이터 조회 성공",
+        data: {
+          likesLength: filterLikes.length,
+          onLike: likeResult,
+        },
       },
       { status: 200 }
     );
@@ -677,6 +734,42 @@ export const handlers = [
         data: {
           password: randomPassword,
         },
+      },
+      { status: 200 }
+    );
+  }),
+
+  //게시글 좋아요 요청
+  http.post("/api/v1/board/like/:boardId", async ({ params, request }) => {
+    const { boardId } = params;
+    const { loginId } = (await request.json()) as Pick<User, "loginId">;
+
+    const targetBoard = posts.find((board) => board.id === Number(boardId));
+    if (!targetBoard) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "해당 게시글이 존재하지 않습니다.",
+        },
+        { status: 404 }
+      );
+    }
+
+    const likeIndex = boardLikes.findIndex(
+      (boardLike) =>
+        boardLike.boardId === Number(boardId) && boardLike.loginId === loginId
+    );
+    if (likeIndex !== -1) {
+      boardLikes.splice(likeIndex, 1);
+    } else {
+      const pushData: ILike = { boardId: +boardId, loginId };
+      boardLikes.push(pushData);
+    }
+
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "좋아요 요청에 성공했습니다.",
       },
       { status: 200 }
     );

@@ -1,4 +1,4 @@
-import { IBoardComment, Post } from "../api/boardApi";
+import { IBoardComment, ILike, Post } from "../api/boardApi";
 import { ICharacterComment } from "../api/cyphersApi";
 import { User } from "../api/userApi";
 
@@ -23,6 +23,16 @@ export const users: User[] = [
     birthDay: "1993-05-13",
     email: "rlaugs44@gmail.com",
     createdAt: "2024-02-03",
+  },
+  {
+    loginId: "loginId3",
+    nickname: "달콤한펭귄",
+    password: "rlaguswns123!!",
+    name: "한선화",
+    gender: "female",
+    birthDay: "1993-01-13",
+    email: "rlagus123@gmail.com",
+    createdAt: "2024-03-01",
   },
 ];
 
@@ -146,6 +156,13 @@ export const boardComments: IBoardComment[] = [
     userNickname: "행운의토끼",
     createdAt: "2024-01-10 13:00:00",
   },
+];
+
+//게시글 좋아요
+export const boardLikes: ILike[] = [
+  { boardId: 650857, loginId: "loginId1" },
+  { boardId: 650857, loginId: "loginId2" },
+  { boardId: 650856, loginId: "loginId3" },
 ];
 
 // 게시글 데이터

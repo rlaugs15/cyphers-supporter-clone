@@ -12,8 +12,11 @@ import {
   BoardDetailResult,
   getBoardComment,
   getBoardDetail,
+  GetBoardLikeResult,
+  getBoardLikes,
 } from "../../../../api/boardApi";
 import WriteComment from "./Component/WriteComment/WriteComment";
+import BoardLikeBtn from "./Component/BoardLikeBtn";
 
 function BoardDetail() {
   const { boardId } = useParams();
@@ -22,6 +25,12 @@ function BoardDetail() {
     useQuery<BoardDetailResult>(["boardDetail", boardId], () =>
       getBoardDetail(boardId + "")
     );
+
+  const { data: likeData, isLoading: likeLoading } =
+    useQuery<GetBoardLikeResult>(["boardLikes", +boardId!, user?.id], () =>
+      getBoardLikes(+boardId!, String(user?.id))
+    );
+  console.log("likeData", likeData);
 
   const { data: commentData, isLoading: commentLoading } =
     useQuery<BoardCommentResult>(["boardComment", boardId], () =>
@@ -49,7 +58,6 @@ function BoardDetail() {
     return resultComments;
   };
 
-  const onGoodClick = () => {};
   const onModifyClick = () => {};
   const onDeleteClick = () => {};
 
@@ -99,8 +107,12 @@ function BoardDetail() {
               <>추천: {likeData?.data.likesLength ?? 0}</>
             )}
           </div>
-          <div className="mb-4 space-x-3">
-            <StyledButton onClick={onGoodClick} color="orange" text="추천" />
+          <div className="mb-4 space-x-4">
+            <BoardLikeBtn
+              boardId={Number(boardId)}
+              userId={String(user?.id)}
+              onLike={Boolean(likeData?.data.onLike)}
+            />
             <StyledButton onClick={onModifyClick} color="blue" text="수정" />
             <StyledButton onClick={onDeleteClick} color="red" text="삭제" />
             {user?.nickname === postData?.data?.author ? (
