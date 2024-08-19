@@ -1,15 +1,15 @@
 import {
   deleteBoardParentComment,
   IBoardComment,
-} from "../../../../../api/boardApi";
-import StyledButton from "../../../../../components/Button/StyledButton";
-import useUser from "../../../../../hooks/useUser";
+} from "../../../../../../api/boardApi";
+import StyledButton from "../../../../../../components/Button/StyledButton";
+import useUser from "../../../../../../hooks/useUser";
 import BoardChildComment from "./BoardChildComment";
 import { useState } from "react";
 import WriteChildComment from "../WriteComment/WriteChildComment";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
-import { errorTextStyle } from "../../../../../libs/utils";
+import { errorTextStyle } from "../../../../../../libs/utils";
 
 export interface ModifyComment
   extends Omit<IBoardComment, "childrenCommentsIds"> {

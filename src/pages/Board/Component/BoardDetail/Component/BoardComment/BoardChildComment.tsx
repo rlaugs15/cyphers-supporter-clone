@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "react-query";
-import StyledButton from "../../../../../components/Button/StyledButton";
-import useUser from "../../../../../hooks/useUser";
+import StyledButton from "../../../../../../components/Button/StyledButton";
+import useUser from "../../../../../../hooks/useUser";
 import { ModifyComment } from "./BoardComment";
-import { deleteBoardChildComment } from "../../../../../api/boardApi";
+import { deleteBoardChildComment } from "../../../../../../api/boardApi";
 import { useParams } from "react-router-dom";
-import { errorTextStyle } from "../../../../../libs/utils";
+import { errorTextStyle } from "../../../../../../libs/utils";
 
 function BoardChildComment({
   id,

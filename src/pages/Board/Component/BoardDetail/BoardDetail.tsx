@@ -3,7 +3,9 @@ import { Link, useParams } from "react-router-dom";
 import { contentBoxStyle, contentBtnStyle } from "../../../../libs/utils";
 import useUser from "../../../../hooks/useUser";
 import StyledButton from "../../../../components/Button/StyledButton";
-import BoardComment, { ModifyComment } from "./BoardComment/BoardComment";
+import BoardComment, {
+  ModifyComment,
+} from "./Component/BoardComment/BoardComment";
 import Skeleton from "react-loading-skeleton";
 import {
   BoardCommentResult,
@@ -11,7 +13,7 @@ import {
   getBoardComment,
   getBoardDetail,
 } from "../../../../api/boardApi";
-import WriteComment from "./WriteComment/WriteComment";
+import WriteComment from "./Component/WriteComment/WriteComment";
 
 function BoardDetail() {
   const { boardId } = useParams();
@@ -91,7 +93,11 @@ function BoardDetail() {
             </div>
           </div>
           <div className="mb-1">
-            {postLoading ? <Skeleton width={50} height={20} /> : <>추천: 1</>}
+            {postLoading || likeLoading ? (
+              <Skeleton width={50} height={20} />
+            ) : (
+              <>추천: {likeData?.data.likesLength ?? 0}</>
+            )}
           </div>
           <div className="mb-4 space-x-3">
             <StyledButton onClick={onGoodClick} color="orange" text="추천" />
