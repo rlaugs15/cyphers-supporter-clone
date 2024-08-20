@@ -3,8 +3,8 @@ import {
   GetBoardLikeResult,
   postBoardLikes,
   PostBoardLikesProps,
-} from "../../../../../api/boardApi";
-import StyledButton from "../../../../../components/Button/StyledButton";
+} from "../../../../../../api/boardApi";
+import StyledButton from "../../../../../../components/Button/StyledButton";
 
 interface BoardLikeBtnProns {
   boardId: number;

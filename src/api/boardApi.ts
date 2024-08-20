@@ -57,7 +57,6 @@ export async function writeBoard(
 }
 
 //게시글 수정
-
 interface EditBoardProps {
   boardId: number;
   body: Pick<Post, "title" | "content">;
@@ -66,6 +65,13 @@ interface EditBoardProps {
 export async function editBoard({ boardId, body }: EditBoardProps) {
   return handleAxiosError<MutationResult>(
     axios.patch(`/api/v1/board/${boardId}`, body).then((res) => res.data)
+  );
+}
+
+//게시글 삭제
+export async function deleteBoard(boardId: number) {
+  return handleAxiosError<MutationResult>(
+    axios.delete(`/api/v1/board/${boardId}`).then((res) => res.data)
   );
 }
 

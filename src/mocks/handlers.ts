@@ -883,7 +883,28 @@ export const handlers = [
     );
   }),
 
-  //게시판 댓글 삭제 delete 요청
+  //게시글 삭제 delete 요청
+  http.delete("/api/v1/board/:boardId", async ({ params }) => {
+    const { boardId } = params;
+
+    const targetBoardIndex = posts.findIndex(
+      (board) => board.id === Number(boardId)
+    );
+    if (targetBoardIndex === -1) {
+      return HttpResponse.json(
+        { code: 404, message: "해당 게시글이 존재하지 않습니다." },
+        { status: 404 }
+      );
+    }
+
+    posts.splice(targetBoardIndex, 1);
+
+    return HttpResponse.json(
+      { code: 200, message: "게시글 삭제에 성공했습니다." },
+      { status: 200 }
+    );
+  }),
+  //게시글 댓글 삭제 delete 요청
   http.delete("/api/v1/comments/:commentId", async ({ request, params }) => {
     const { commentId } = params;
 
@@ -928,7 +949,7 @@ export const handlers = [
     );
   }),
 
-  //게시판 대댓글 삭제 delete 요청
+  //게시글 대댓글 삭제 delete 요청
   http.delete(
     "/api/v1/comments/reply/:commentId",
     async ({ request, params }) => {

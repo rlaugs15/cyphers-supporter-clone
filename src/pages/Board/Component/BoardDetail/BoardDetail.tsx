@@ -1,8 +1,7 @@
 import { useQueries } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { contentBoxStyle } from "../../../../libs/utils";
 import useUser from "../../../../hooks/useUser";
-import StyledButton from "../../../../components/Button/StyledButton";
 import BoardComment, {
   ModifyComment,
 } from "./Component/BoardComment/BoardComment";
@@ -16,6 +15,7 @@ import {
 import WriteComment from "./Component/WriteComment/WriteComment";
 import BoardLikeBtn from "./Component/ActionButtons/BoardLikeBtn";
 import BoardEditBtn from "./Component/ActionButtons/BoardEditBtn";
+import BoardDeleteBtn from "./Component/ActionButtons/BoardDeleteBtn";
 
 function BoardDetail() {
   const { boardId } = useParams();
@@ -60,8 +60,6 @@ function BoardDetail() {
     });
     return resultComments;
   };
-
-  const onDeleteClick = () => {};
 
   return (
     <>
@@ -124,7 +122,7 @@ function BoardDetail() {
                   content={postData?.data.content!}
                   loading={postLoading}
                 />
-                <StyledButton onClick={onDeleteClick} color="red" text="삭제" />
+                <BoardDeleteBtn boardId={+boardId!} />
               </>
             ) : null}
           </div>
