@@ -36,6 +36,7 @@ function InfiniteCharacterComments() {
           if (!morePagesExist) return undefined;
           return allPages.length; // 다음 페이지 번호를 반환
         },
+        cacheTime: 0, // 컴포넌트가 언마운트되면 캐시가 즉시 삭제되도록 설정
       }
     );
 

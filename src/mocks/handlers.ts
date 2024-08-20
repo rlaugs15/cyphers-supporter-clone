@@ -531,11 +531,12 @@ export const handlers = [
     const id = Math.floor(100000 + Math.random() * 900000);
     const createdAt = new CustomDateFormatter().getFormattedCurrentTime();
 
-    posts.push({
+    posts.unshift({
       id,
       title,
       content,
       author,
+      like: 0,
       createdAt,
       updatedAt: "",
     });
@@ -761,9 +762,11 @@ export const handlers = [
     );
     if (likeIndex !== -1) {
       boardLikes.splice(likeIndex, 1);
+      targetBoard.like -= 1;
     } else {
       const pushData: ILike = { boardId: +boardId, loginId };
       boardLikes.push(pushData);
+      targetBoard.like += 1;
     }
 
     return HttpResponse.json(

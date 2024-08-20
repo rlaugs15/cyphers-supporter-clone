@@ -99,7 +99,7 @@ function BoardList() {
               </td>
               <td className="px-6 py-3 text-center">{post.author}</td>
               <td className="px-6 py-3 text-center">{post.createdAt}</td>
-              <td className="px-6 py-3 text-center">0 좋아요 로직 작성할 것</td>
+              <td className="px-6 py-3 text-center">{post.like ?? 0}</td>
             </tr>
           ))}
         </tbody>

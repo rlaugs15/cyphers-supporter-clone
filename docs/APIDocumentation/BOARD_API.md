@@ -13,6 +13,7 @@
 | 대댓글 작성                  | /api/v1/comments/reply/:parentId  | POST        |
 | 댓글 삭제                    | /api/v1/comments/:commentId       | DELETE      |
 | 대댓글 삭제                  | /api/v1/comments/reply/:commentId | DELETE      |
+| 게시글 좋아요 조회           | /api/v1/board/like/:boardId       | GET         |
 | 게시글 좋아요 증가 또는 감소 | /api/v1/board/like/:boardId       | POST        |
 
 ## 게시글 작성

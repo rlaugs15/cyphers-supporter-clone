@@ -1,6 +1,6 @@
-import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
-import { contentBoxStyle, contentBtnStyle } from "../../../../libs/utils";
+import { useQueries, useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { contentBoxStyle } from "../../../../libs/utils";
 import useUser from "../../../../hooks/useUser";
 import StyledButton from "../../../../components/Button/StyledButton";
 import BoardComment, {
@@ -9,10 +9,8 @@ import BoardComment, {
 import Skeleton from "react-loading-skeleton";
 import {
   BoardCommentResult,
-  BoardDetailResult,
   getBoardComment,
   getBoardDetail,
-  GetBoardLikeResult,
   getBoardLikes,
 } from "../../../../api/boardApi";
 import WriteComment from "./Component/WriteComment/WriteComment";
@@ -21,21 +19,25 @@ import BoardLikeBtn from "./Component/BoardLikeBtn";
 function BoardDetail() {
   const { boardId } = useParams();
   const { user } = useUser();
-  const { data: postData, isLoading: postLoading } =
-    useQuery<BoardDetailResult>(["boardDetail", boardId], () =>
-      getBoardDetail(boardId + "")
-    );
 
-  const { data: likeData, isLoading: likeLoading } =
-    useQuery<GetBoardLikeResult>(["boardLikes", +boardId!, user?.id], () =>
-      getBoardLikes(+boardId!, String(user?.id))
-    );
-  console.log("likeData", likeData);
+  const [boardDetailQuery, boardLikesQuery, boardCommentQuery] = useQueries([
+    {
+      queryKey: ["boardDetail", boardId],
+      queryFn: () => getBoardDetail(boardId + ""),
+    },
+    {
+      queryKey: ["boardLikes", +boardId!, user?.id],
+      queryFn: () => getBoardLikes(+boardId!, String(user?.id)),
+    },
+    {
+      queryKey: ["boardComment", boardId],
+      queryFn: () => getBoardComment(boardId + ""),
+    },
+  ]);
 
-  const { data: commentData, isLoading: commentLoading } =
-    useQuery<BoardCommentResult>(["boardComment", boardId], () =>
-      getBoardComment(boardId + "")
-    );
+  const { data: postData, isLoading: postLoading } = boardDetailQuery;
+  const { data: likeData, isLoading: likeLoading } = boardLikesQuery;
+  const { data: commentData, isLoading: commentLoading } = boardCommentQuery;
 
   const pushDataToChidComments = (
     commentData: Pick<BoardCommentResult, "data">
@@ -113,31 +115,15 @@ function BoardDetail() {
               userId={String(user?.id)}
               onLike={Boolean(likeData?.data.onLike)}
             />
-            <StyledButton onClick={onModifyClick} color="blue" text="수정" />
-            <StyledButton onClick={onDeleteClick} color="red" text="삭제" />
+
             {user?.nickname === postData?.data?.author ? (
               <>
-                <Link
-                  to={`/board/modify/${boardId}`}
-                  state={{
-                    boardId,
-                    author: postData?.data?.author,
-                    title: postData?.data?.title,
-                    content: postData?.data?.content,
-                  }}
-                >
-                  <button
-                    className={`${contentBtnStyle} bg-green-500 ring-green-500`}
-                  >
-                    수정
-                  </button>
-                </Link>
-                <button
-                  onClick={onDeleteClick}
-                  className={`${contentBtnStyle} bg-red-500 ring-red-500`}
-                >
-                  삭제
-                </button>
+                <StyledButton
+                  onClick={onModifyClick}
+                  color="blue"
+                  text="수정"
+                />
+                <StyledButton onClick={onDeleteClick} color="red" text="삭제" />
               </>
             ) : null}
           </div>

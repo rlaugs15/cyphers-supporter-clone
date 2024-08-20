@@ -60,6 +60,7 @@ function BoardLikeBtn({ boardId, userId, onLike }: BoardLikeBtnProns) {
     onSettled: () => {
       // 성공, 실패 여부에 관계 없이 refetch(쿼리 무효화)
       queryClient.invalidateQueries(["boardLikes", boardId, userId]);
+      queryClient.invalidateQueries(["boardList"]);
     },
   });
 

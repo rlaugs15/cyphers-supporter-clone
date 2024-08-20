@@ -8,6 +8,7 @@ export interface Post {
   title: string;
   content: string;
   author: string;
+  like: number;
   createdAt: string;
   updatedAt: string;
   comments?: number[];
@@ -37,7 +38,7 @@ export async function getBoardList(page: number, size: number) {
 
 //게시글 상세 조회
 export interface BoardDetailResult extends MutationResult {
-  data: Post;
+  data: Omit<Post, "like">;
 }
 
 export async function getBoardDetail(boardId: string) {
