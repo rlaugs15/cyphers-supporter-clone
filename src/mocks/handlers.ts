@@ -779,6 +779,32 @@ export const handlers = [
   }),
 
   //---------------------PATCH 요청-------------------------------
+  //게시글 수정 put 요청
+  http.patch("/api/v1/board/:boardId", async ({ request, params }) => {
+    const { boardId } = params;
+    const { title, content } = (await request.json()) as Pick<
+      Post,
+      "title" | "content"
+    >;
+
+    const targetBoard = posts.find((board) => board.id === Number(boardId));
+    if (!targetBoard) {
+      return HttpResponse.json(
+        { code: 404, message: "게시글을 찾을 수 없습니다." },
+        { status: 404 }
+      );
+    }
+
+    targetBoard.title = title;
+    targetBoard.content = content;
+
+    return HttpResponse.json(
+      { code: 200, message: "게시글 수정에 성공했습니다." },
+      { status: 200 }
+    );
+  }),
+
+  //---------------------PATCH 요청-------------------------------
 
   //회원 정보 수정 patch 요청
   http.patch("/api/v1/me", async ({ request }) => {
