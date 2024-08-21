@@ -539,6 +539,7 @@ export const handlers = [
       like: 0,
       createdAt,
       updatedAt: "",
+      comments: [],
     });
 
     return HttpResponse.json(
