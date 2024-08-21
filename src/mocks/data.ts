@@ -174,7 +174,7 @@ export const posts: Post[] = [
     author: "송중기",
     like: 0,
     createdAt: "2024-07-11 07:00",
-    updatedAt: "2024-07-11 07:00",
+    updatedAt: "2024-07-24 12:32",
     comments: [],
   },
   {
@@ -184,7 +184,7 @@ export const posts: Post[] = [
     author: "조인성",
     like: 0,
     createdAt: "2024-07-10 06:00",
-    updatedAt: "2024-07-10 06:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -194,7 +194,7 @@ export const posts: Post[] = [
     author: "김태희",
     like: 0,
     createdAt: "2024-07-09 05:00",
-    updatedAt: "2024-07-09 05:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -204,7 +204,7 @@ export const posts: Post[] = [
     author: "유아인",
     like: 0,
     createdAt: "2024-07-08 04:00",
-    updatedAt: "2024-07-08 04:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -214,7 +214,7 @@ export const posts: Post[] = [
     author: "한지민",
     like: 0,
     createdAt: "2024-07-07 03:00",
-    updatedAt: "2024-07-07 03:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -224,7 +224,7 @@ export const posts: Post[] = [
     author: "전지현",
     like: 0,
     createdAt: "2024-07-06 02:00",
-    updatedAt: "2024-07-06 02:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -234,7 +234,7 @@ export const posts: Post[] = [
     author: "이승민",
     like: 0,
     createdAt: "2024-07-05 01:00",
-    updatedAt: "2024-07-05 01:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -244,7 +244,7 @@ export const posts: Post[] = [
     author: "윤정희",
     like: 0,
     createdAt: "2024-07-04 00:00",
-    updatedAt: "2024-07-04 00:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -254,7 +254,7 @@ export const posts: Post[] = [
     author: "김현우",
     like: 0,
     createdAt: "2024-07-03 23:00",
-    updatedAt: "2024-07-03 23:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -264,7 +264,7 @@ export const posts: Post[] = [
     author: "박지수",
     like: 0,
     createdAt: "2024-07-02 22:00",
-    updatedAt: "2024-07-02 22:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -274,7 +274,7 @@ export const posts: Post[] = [
     author: "이민재",
     like: 0,
     createdAt: "2024-07-01 21:00",
-    updatedAt: "2024-07-01 21:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -284,7 +284,7 @@ export const posts: Post[] = [
     author: "최지훈",
     like: 0,
     createdAt: "2024-06-30 20:00",
-    updatedAt: "2024-06-30 20:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -294,7 +294,7 @@ export const posts: Post[] = [
     author: "김수현",
     like: 0,
     createdAt: "2024-06-29 19:00",
-    updatedAt: "2024-06-29 19:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -304,7 +304,7 @@ export const posts: Post[] = [
     author: "정민경",
     like: 0,
     createdAt: "2024-06-28 18:00",
-    updatedAt: "2024-06-28 18:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -314,7 +314,7 @@ export const posts: Post[] = [
     author: "오수진",
     like: 0,
     createdAt: "2024-06-27 17:00",
-    updatedAt: "2024-06-27 17:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -324,7 +324,7 @@ export const posts: Post[] = [
     author: "강민호",
     like: 0,
     createdAt: "2024-06-26 16:00",
-    updatedAt: "2024-06-26 16:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -334,7 +334,7 @@ export const posts: Post[] = [
     author: "신미정",
     like: 0,
     createdAt: "2024-06-25 15:00",
-    updatedAt: "2024-06-25 15:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -344,7 +344,7 @@ export const posts: Post[] = [
     author: "김진우",
     like: 0,
     createdAt: "2024-06-24 14:00",
-    updatedAt: "2024-06-24 14:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -354,7 +354,7 @@ export const posts: Post[] = [
     author: "임지혜",
     like: 0,
     createdAt: "2024-06-23 13:00",
-    updatedAt: "2024-06-23 13:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -364,7 +364,7 @@ export const posts: Post[] = [
     author: "유지현",
     like: 0,
     createdAt: "2024-06-22 12:00",
-    updatedAt: "2024-06-22 12:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -374,7 +374,7 @@ export const posts: Post[] = [
     author: "최민수",
     like: 0,
     createdAt: "2024-06-21 11:00",
-    updatedAt: "2024-06-21 11:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -384,7 +384,7 @@ export const posts: Post[] = [
     author: "박영수",
     like: 0,
     createdAt: "2024-06-20 10:00",
-    updatedAt: "2024-06-20 10:00",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -394,7 +394,7 @@ export const posts: Post[] = [
     author: "이영희",
     like: 0,
     createdAt: "2024-06-15 18:13",
-    updatedAt: "2024-06-15 18:13",
+    updatedAt: "",
     comments: [],
   },
   {
@@ -404,7 +404,7 @@ export const posts: Post[] = [
     author: "김철수",
     like: 1,
     createdAt: "2024-05-20 18:13",
-    updatedAt: "2024-05-20 18:13",
+    updatedAt: "",
     comments: [6, 7, 8, 9, 10],
   },
   {
@@ -414,7 +414,7 @@ export const posts: Post[] = [
     author: "Bam",
     like: 2,
     createdAt: "2024-03-21 18:13",
-    updatedAt: "2024-03-21 18:13",
+    updatedAt: "2024-04-22 11:12",
     comments: [1, 2, 3, 4, 5],
   },
 ];

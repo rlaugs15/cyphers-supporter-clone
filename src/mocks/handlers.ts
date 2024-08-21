@@ -795,6 +795,8 @@ export const handlers = [
       );
     }
 
+    const updatedAt = new CustomDateFormatter().getFormattedCurrentTime();
+    targetBoard.updatedAt = updatedAt;
     targetBoard.title = title;
     targetBoard.content = content;
 

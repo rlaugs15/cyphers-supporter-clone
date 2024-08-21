@@ -81,23 +81,24 @@ function BoardDetail() {
           <div className="flex items-center justify-between mb-2">
             <div className="text-gray-600">
               {postLoading ? (
-                <>
-                  <Skeleton width={100} height={20} className="mr-2" />
-                  <Skeleton width={150} height={20} />
-                </>
+                <Skeleton width={150} height={20} />
               ) : (
-                <>
-                  <span className="mr-2">작성자: {postData?.data?.author}</span>
-                  <span>작성일: {postData?.data?.createdAt}</span>
-                </>
+                <span className="mr-2">작성자: {postData?.data?.author}</span>
               )}
             </div>
-            <div className="text-gray-500">
+            <div className="flex flex-col text-gray-500">
               {postLoading ? (
                 <Skeleton width={150} height={20} />
               ) : (
-                <span>수정일: {postData?.data?.updatedAt}</span>
+                <>
+                  <span>작성일: {postData?.data?.createdAt}</span>
+                </>
               )}
+              {postLoading ? (
+                <Skeleton width={150} height={20} />
+              ) : postData?.code === 200 && postData?.data.updatedAt ? (
+                <span>수정일: {postData?.data?.updatedAt}</span>
+              ) : null}
             </div>
           </div>
           <div className="mb-1">
