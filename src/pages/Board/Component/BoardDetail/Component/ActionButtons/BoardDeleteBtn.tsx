@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { deleteBoard } from "../../../../../../api/boardApi";
 import StyledButton from "../../../../../../components/Button/StyledButton";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface BoardDeleteBtnProps {
   boardId: number;
@@ -9,6 +10,8 @@ interface BoardDeleteBtnProps {
 
 function BoardDeleteBtn({ boardId }: BoardDeleteBtnProps) {
   const nav = useNavigate();
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleteStart, setDeleteStart] = useState(false);
   const queryClient = useQueryClient();
   const { mutate, isLoading, data } = useMutation(deleteBoard, {
     onSuccess: () => {
@@ -22,13 +25,28 @@ function BoardDeleteBtn({ boardId }: BoardDeleteBtnProps) {
 
   const onDeleteClick = () => {
     if (isLoading) return;
-    mutate(boardId);
+    setDeleteConfirm(true);
+    if (deleteStart) {
+      mutate(boardId);
+    }
   };
+
+  useEffect(() => {
+    if (deleteConfirm) {
+      setDeleteStart(true);
+    }
+  }, [setDeleteConfirm, mutate, deleteConfirm, setDeleteStart]);
   return (
     <StyledButton
       onClick={onDeleteClick}
       color="red"
-      text={data && data.code !== 200 ? "실패" : "삭제"}
+      text={
+        data && data.code !== 200
+          ? "실패"
+          : deleteConfirm
+          ? "정말 삭제하시겠습니까?"
+          : "삭제"
+      }
     />
   );
 }
