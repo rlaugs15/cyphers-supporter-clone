@@ -15,6 +15,7 @@ type IForm = Pick<IBoardComment, "content">;
 interface WriteChildCommentProps {
   boardId: number;
   userId: string;
+  userAvatar?: string;
   userNickname: string;
   parentCommentId: number;
 }
@@ -23,9 +24,10 @@ function WriteChildComment({
   boardId,
   userId,
   userNickname,
+  userAvatar,
   parentCommentId,
 }: WriteChildCommentProps) {
-  const { user } = useUser();
+  const {} = useUser();
   const {
     register,
     handleSubmit,
@@ -47,13 +49,23 @@ function WriteChildComment({
   const onSubmit = (data: IForm) => {
     if (!userId) return;
     if (isLoading) return;
-    mutate({
-      boardId,
-      body: data,
-      parentCommentId,
-      userId,
-      userNickname,
-    });
+    const payload = userAvatar
+      ? {
+          boardId,
+          body: data,
+          parentCommentId,
+          userId,
+          userAvatar,
+          userNickname,
+        }
+      : {
+          boardId,
+          body: data,
+          parentCommentId,
+          userId,
+          userNickname,
+        };
+    mutate(payload);
   };
 
   useEffect(() => {

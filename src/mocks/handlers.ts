@@ -157,6 +157,7 @@ export const handlers = [
         message: "Member information retrieved successfully",
         data: {
           id: user.loginId, // Assuming `loginId` is the user's ID
+          avatar: user?.avatar,
           email: user.email,
           nickname: user.nickname,
           profileImg: null,
@@ -417,16 +418,51 @@ export const handlers = [
     // 형식화된 문자열 생성
     const formattedDate = `${year}-${month}-${day}`;
 
-    const data = (await request.json()) as User;
-    data.createdAt = formattedDate;
-    users.push(data);
-    const joinResult = users.find((user) => user.loginId === data.loginId);
+    const formData = await request.formData();
+
+    const loginId = formData.get("loginId") as string;
+    const email = formData.get("email") as string;
+    const gender = formData.get("gender") as string;
+    const birthDay = formData.get("birthDay") as string;
+    const name = formData.get("name") as string;
+    const nickname = formData.get("nickname") as string;
+    const password = formData.get("password") as string;
+    const avatar = formData.get("avatar") as File | null;
+
+    if (avatar) {
+      const url = URL.createObjectURL(avatar); // 메모리 내 URL 생성
+      users.push({
+        loginId,
+        email,
+        gender,
+        birthDay,
+        name,
+        nickname,
+        password,
+        createdAt: formattedDate,
+        avatar: url,
+      });
+    } else {
+      users.push({
+        loginId,
+        email,
+        gender,
+        birthDay,
+        name,
+        nickname,
+        password,
+        createdAt: formattedDate,
+      });
+    }
+
+    const joinResult = users.find((user) => user.loginId === loginId);
     if (!joinResult) {
       return HttpResponse.json(
         { code: 500, message: "회원가입 실패" },
         { status: 500 }
       );
     }
+
     return HttpResponse.json(
       { code: 200, message: "회원가입 성공" },
       { status: 200 }
@@ -517,10 +553,11 @@ export const handlers = [
 
   //게시글 작성
   http.post("/api/v1/board", async ({ request }) => {
-    const { title, content, author } = (await request.json()) as Pick<
-      Post,
-      "title" | "content" | "author"
-    >;
+    const { title, content, author, userAvatar } =
+      (await request.json()) as Pick<
+        Post,
+        "title" | "content" | "author" | "userAvatar"
+      >;
     if (!title || !content || !author) {
       return HttpResponse.json(
         { code: 500, message: "게시글 작성에 실패했습니다." },
@@ -536,6 +573,7 @@ export const handlers = [
       title,
       content,
       author,
+      userAvatar,
       like: 0,
       createdAt,
       updatedAt: "",
@@ -558,6 +596,7 @@ export const handlers = [
     const url = new URL(request.url);
 
     const userId = url.searchParams.get("userId");
+    const userAvatar = url.searchParams.get("userAvatar");
     const userNickname = url.searchParams.get("userNickname");
 
     const { content } = (await request.json()) as Pick<
@@ -588,6 +627,7 @@ export const handlers = [
       childrenCommentsIds: [],
       content,
       userId: String(userId),
+      userAvatar: userAvatar! ?? null,
       userNickname: String(userNickname),
       createdAt: createdAt,
     });
@@ -609,6 +649,7 @@ export const handlers = [
 
       const url = new URL(request.url);
       const userId = url.searchParams.get("userId");
+      const userAvatar = url.searchParams.get("userAvatar");
       const parentCommentId = url.searchParams.get("parentCommentId");
       const userNickname = url.searchParams.get("userNickname");
 
@@ -654,6 +695,7 @@ export const handlers = [
         childrenCommentsIds: [],
         content,
         userId: String(userId),
+        userAvatar: userAvatar! ?? null,
         userNickname: String(userNickname),
         createdAt,
       };
@@ -811,11 +853,13 @@ export const handlers = [
 
   //회원 정보 수정 patch 요청
   http.patch("/api/v1/me", async ({ request }) => {
-    const { loginId, nickname } = (await request.json()) as Pick<
-      User,
-      "loginId" | "nickname"
-    >;
+    const formData = await request.formData();
 
+    const loginId = formData.get("loginId") as string;
+    const nickname = formData.get("nickname") as string;
+    const avatar = formData.get("avatar") as File | null;
+
+    // 사용자 ID로 사용자 조회
     const checkId = users.find((user) => user.loginId === loginId);
     if (!checkId) {
       return HttpResponse.json(
@@ -824,8 +868,10 @@ export const handlers = [
       );
     }
 
+    // 닉네임 중복 확인
     const checkNickname = users.find((user) => user.nickname === nickname);
-    if (checkNickname) {
+    const userLoginId = users.find((user) => user.loginId === loginId);
+    if (checkNickname && userLoginId?.nickname != nickname) {
       return HttpResponse.json(
         { code: 409, message: "존재하는 닉네임입니다." },
         { status: 409 }
@@ -834,8 +880,13 @@ export const handlers = [
 
     const targetIndex = users.findIndex((user) => user.loginId === loginId);
     users[targetIndex].nickname = nickname;
+    // Mock 환경에서는 메모리 내에 파일을 저장
+    if (avatar) {
+      const url = URL.createObjectURL(avatar); // 메모리 내 URL 생성
+      users[targetIndex].avatar = url;
+    }
     return HttpResponse.json(
-      { code: 200, message: "닉네임 수정에 성공했습니다." },
+      { code: 200, message: "회원정보 수정에 성공했습니다." },
       { status: 200 }
     );
   }),

@@ -10,6 +10,7 @@ import WriteChildComment from "../WriteComment/WriteChildComment";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { errorTextStyle } from "../../../../../../libs/utils";
+import AvatarImg from "../../../../../../components/images/AvatarImg";
 
 export interface ModifyComment
   extends Omit<IBoardComment, "childrenCommentsIds"> {
@@ -21,6 +22,7 @@ function BoardComment({
   content,
   createdAt,
   userId,
+  userAvatar,
   userNickname,
   childrenCommentsIds,
 }: ModifyComment) {
@@ -55,7 +57,7 @@ function BoardComment({
         )}
         <article className="flex items-center justify-between w-full space-x-2">
           <div className="flex items-center w-auto space-x-1">
-            <figure className="bg-red-300 rounded-full w-7 aspect-square" />
+            <AvatarImg userAvatar userAvatarUrl={userAvatar} size="8" />
             <figcaption className="font-semibold">{userNickname}</figcaption>
           </div>
           <div className="flex items-center space-x-4">
@@ -79,6 +81,7 @@ function BoardComment({
         <WriteChildComment
           boardId={+boardId!}
           userId={user?.id!}
+          userAvatar={user?.avatar}
           userNickname={user?.nickname!}
           parentCommentId={id}
         />
@@ -90,6 +93,7 @@ function BoardComment({
           id={comment.id}
           content={comment.content}
           userId={comment.userId}
+          userAvatar={comment.userAvatar}
           createdAt={comment.createdAt}
           parentCommentId={comment.parentCommentId}
           userNickname={comment.userNickname}

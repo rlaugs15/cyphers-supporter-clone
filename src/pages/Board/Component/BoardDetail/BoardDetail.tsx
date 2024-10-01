@@ -16,6 +16,7 @@ import WriteComment from "./Component/WriteComment/WriteComment";
 import BoardLikeBtn from "./Component/ActionButtons/BoardLikeBtn";
 import BoardEditBtn from "./Component/ActionButtons/BoardEditBtn";
 import BoardDeleteBtn from "./Component/ActionButtons/BoardDeleteBtn";
+import AvatarImg from "../../../../components/images/AvatarImg";
 
 function BoardDetail() {
   const { boardId } = useParams();
@@ -83,7 +84,14 @@ function BoardDetail() {
               {postLoading ? (
                 <Skeleton width={150} height={20} />
               ) : (
-                <span className="mr-2">작성자: {postData?.data?.author}</span>
+                <div className="flex items-center mr-2 space-x-1">
+                  작성자: <span>{postData?.data?.author}</span>
+                  <AvatarImg
+                    userAvatar
+                    userAvatarUrl={postData?.data.userAvatar!}
+                    size="8"
+                  />
+                </div>
               )}
             </div>
             <div className="flex flex-col text-gray-500">

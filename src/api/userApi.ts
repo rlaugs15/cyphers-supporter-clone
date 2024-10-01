@@ -8,6 +8,7 @@ export interface MutationResult {
 }
 
 export interface User {
+  avatar?: string;
   loginId: string;
   nickname: string;
   password: string;
@@ -45,8 +46,12 @@ export async function checkEmail(email: string) {
 }
 
 //회원가입
-export async function setJoin(body: User) {
-  const response = await axios.post("/api/v1/join", body);
+export async function setJoin(formData: FormData) {
+  const response = await axios.post("/api/v1/join", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response.data;
 }
 
@@ -69,12 +74,16 @@ export async function setLogout(body: {}) {
   return response.data;
 }
 
-//회원 정보 수정(닉네임)
-export async function patchUserProfile(
-  body: Pick<User, "loginId" | "nickname">
-) {
+//회원 정보 수정
+export async function patchUserProfile(formData: FormData) {
   return handleAxiosError<MutationResult>(
-    axios.patch("/api/v1/me", body).then((res) => res.data)
+    axios
+      .patch("/api/v1/me", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => res.data)
   );
 }
 

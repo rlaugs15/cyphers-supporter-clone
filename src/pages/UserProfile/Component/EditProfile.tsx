@@ -1,21 +1,68 @@
 import { useForm } from "react-hook-form";
 import StyledButton from "../../../components/Button/StyledButton";
-import { errorTextStyle } from "../../../libs/utils";
+import { contentBtnStyle, errorTextStyle } from "../../../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { MutationResult, patchUserProfile, User } from "../../../api/userApi";
+import { useEffect, useRef, useState } from "react";
+import { defaultAvatarImgUrl } from "../../../libs/userUtils";
+import useUser from "../../../hooks/useUser";
 
-type IForm = Pick<User, "loginId" | "nickname">;
+type PickUser = Pick<User, "loginId" | "nickname">;
+
+interface IForm extends PickUser {
+  avatar: FileList;
+}
 
 function EditProfile() {
   const nav = useNavigate();
+  const { user } = useUser();
 
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<IForm>();
+  } = useForm<IForm>({
+    defaultValues: {
+      loginId: user?.id,
+      nickname: user?.nickname,
+    },
+  });
+
+  //이미지 넣기
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+  const [imgFile, setImgFIle] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
+
+  const onAvatarUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImgFIle(file);
+    } else {
+      //이미지가 이미 있을 때 이미지를 새로 선택 안 할 경우 취소
+      URL.revokeObjectURL(imagePreview); // 메모리 해제
+      setImagePreview("");
+      setImgFIle(null);
+    }
+  };
+
+  //이미지 미리보기
+  useEffect(() => {
+    let url = "";
+    if (imgFile) {
+      const blob = new Blob([imgFile], { type: "image/*" });
+      const imageUrl = URL.createObjectURL(blob);
+      setImagePreview(imageUrl);
+      url = imageUrl;
+    }
+    // 미리보기가 있을 때만 클린업 함수로 메모리 해제
+    return () => {
+      if (imgFile) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [imgFile]);
 
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(patchUserProfile, {
@@ -35,7 +82,14 @@ function EditProfile() {
 
   const onEditSubmit = (data: IForm) => {
     if (isLoading) return;
-    mutate(data);
+    const formData = new FormData();
+    formData.append("loginId", data.loginId); // loginId 추가
+    formData.append("nickname", data.nickname); // nickname 추가
+
+    if (imgFile) {
+      formData.append("avatar", imgFile); // 파일이 있을 경우 avatar로 추가
+    }
+    mutate(formData); // FormData 객체를 서버로 전송
   };
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -44,6 +98,33 @@ function EditProfile() {
           회원정보 수정
         </h2>
         <form onSubmit={handleSubmit(onEditSubmit)}>
+          <div className="flex flex-col items-center">
+            <label
+              htmlFor="avatar"
+              className="flex items-center justify-center w-16 rounded-full aspect-square"
+            >
+              <img
+                className="object-cover w-16 rounded-full aspect-square"
+                src={imagePreview || defaultAvatarImgUrl}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                id="avatar"
+                onChange={onAvatarUploadClick}
+                ref={hiddenInputRef}
+                className="hidden"
+              />
+            </label>
+
+            <button
+              type="button"
+              className={`${contentBtnStyle}`}
+              onClick={() => hiddenInputRef.current?.click()}
+            >
+              이미지 변경하기
+            </button>
+          </div>
           <div className="mb-4">
             <label
               className="block mb-2 font-medium text-gray-700"
@@ -93,7 +174,7 @@ function EditProfile() {
               required
             />
           </div>
-          <StyledButton color="black" text="닉네임 변경" cssClass="w-full" />
+          <StyledButton color="black" text="수정하기" cssClass="w-full" />
         </form>
       </div>
     </div>

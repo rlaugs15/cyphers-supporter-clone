@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import Skeleton from "react-loading-skeleton";
 import StyledButton from "../../../components/Button/StyledButton";
 import { BoardListResult, getBoardList } from "../../../api/boardApi";
+import AvatarImg from "../../../components/images/AvatarImg";
 
 interface IForm {
   page: number;
@@ -97,8 +98,15 @@ function BoardList() {
                   {post.title}
                 </Link>
               </td>
-              <td className="px-6 py-3 text-center">{post.author}</td>
-              <td className="px-6 py-3 text-center">{post.createdAt}</td>
+              <td className="flex items-center justify-center px-6 py-3 space-x-2 text-center">
+                <AvatarImg
+                  userAvatar
+                  userAvatarUrl={post.userAvatar!}
+                  size="8"
+                />
+                <span>{post.author}</span>
+              </td>
+              <td className="px-6 py-3 text-center"></td>
               <td className="px-6 py-3 text-center">{post.like ?? 0}</td>
             </tr>
           ))}

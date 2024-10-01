@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { contentBtnStyle, today } from "../libs/utils";
 import {
@@ -11,12 +11,17 @@ import {
   setJoin,
   User,
 } from "../api/userApi";
+import { defaultAvatarImgUrl } from "../libs/userUtils";
+import useUser from "../hooks/useUser";
 
-interface IForm extends User {
+interface IForm extends Omit<User, "avatar"> {
+  avatar?: FileList;
   password2: string;
 }
 
 function Join() {
+  const {} = useUser("nonUserOnly");
+
   const {
     register,
     handleSubmit,
@@ -25,6 +30,39 @@ function Join() {
     clearErrors,
     formState: { errors },
   } = useForm<IForm>();
+
+  //이미지 넣기
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+  const [imgFile, setImgFIle] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
+
+  const onAvatarUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImgFIle(file);
+    } else {
+      URL.revokeObjectURL(imagePreview); // 메모리 해제
+      setImagePreview("");
+      setImgFIle(null);
+    }
+  };
+
+  //이미지 미리보기
+  useEffect(() => {
+    let url = "";
+    if (imgFile) {
+      const blob = new Blob([imgFile], { type: "image/*" });
+      const imageUrl = URL.createObjectURL(blob);
+      setImagePreview(imageUrl);
+      url = imageUrl;
+    }
+    // 클린업 함수로 메모리 해제
+    return () => {
+      if (imgFile) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [imgFile]);
 
   //로그인id 중복 체크
   const [idSate, setIdState] = useState("");
@@ -112,9 +150,7 @@ function Join() {
   const nav = useNavigate();
   const queryClient = useQueryClient();
   const { mutate: joinMutate, isLoading: joinLoading } = useMutation(setJoin, {
-    onSuccess: (data) => {
-      console.log(data);
-
+    onSuccess: () => {
       queryClient.invalidateQueries();
       nav("/login", { replace: true });
     },
@@ -123,12 +159,27 @@ function Join() {
       setJoinFail(true);
     },
   });
+
   const onJoinSubmit = (data: IForm) => {
     if (joinLoading) return;
+    const { loginId, email, gender, birthDay, name, nickname, password } = data;
     if (data.password !== data.password2) {
       setError("password", { message: "비밀번호 확인과 일치하지 않습니다" });
     }
-    joinMutate(data);
+    const formData = new FormData();
+    Object.entries({
+      loginId,
+      email,
+      gender,
+      birthDay,
+      name,
+      nickname,
+      password,
+    }).forEach(([key, value]) => formData.append(key, value));
+    if (imgFile) {
+      formData.append("avatar", imgFile);
+    }
+    joinMutate(formData);
   };
   useEffect(() => {
     if (joinFail) {
@@ -145,6 +196,36 @@ function Join() {
       <div className="relative w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
         <h2 className="mb-6 text-3xl font-semibold text-gray-800">회원가입</h2>
         <form onSubmit={handleSubmit(onJoinSubmit)} className="space-y-6">
+          <section className="flex">
+            <div className="flex flex-col items-center">
+              <label
+                htmlFor="avatar"
+                className="flex items-center justify-center w-16 rounded-full aspect-square"
+              >
+                <img
+                  className="object-cover w-16 rounded-full aspect-square"
+                  src={imagePreview || defaultAvatarImgUrl}
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="avatar"
+                  onChange={onAvatarUploadClick}
+                  ref={hiddenInputRef}
+                  className="hidden"
+                />
+              </label>
+
+              <button
+                type="button"
+                className={`${contentBtnStyle}`}
+                onClick={() => hiddenInputRef.current?.click()}
+              >
+                이미지 변경하기
+              </button>
+            </div>
+          </section>
+
           <div>
             <label
               htmlFor="loginId"

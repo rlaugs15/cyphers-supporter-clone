@@ -26,7 +26,7 @@ function WriteComment() {
   } = useForm<IForm>();
 
   const queryClient = useQueryClient();
-  const { mutate, isLoading, data } = useMutation(writeParentComment, {
+  const { mutate, isLoading } = useMutation(writeParentComment, {
     onSuccess: () => {
       // onSuccess: (data, variables) 이런 식으로 각각 응답받는 데이터, muate에 전달한 데이터를 사용할 수도 있다.
       // 데이터를 새로고침
@@ -40,7 +40,9 @@ function WriteComment() {
   const onCommentSubmit = (data: IForm) => {
     if (!user) return;
     if (isLoading) return;
+    const userAvatar = user.avatar && { avatar: user.avatar };
     mutate({
+      ...userAvatar,
       boardId: Number(boardId),
       body: data,
       userId: user?.id!,

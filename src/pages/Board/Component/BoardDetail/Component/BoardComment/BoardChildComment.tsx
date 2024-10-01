@@ -5,10 +5,12 @@ import { ModifyComment } from "./BoardComment";
 import { deleteBoardChildComment } from "../../../../../../api/boardApi";
 import { useParams } from "react-router-dom";
 import { errorTextStyle } from "../../../../../../libs/utils";
+import AvatarImg from "../../../../../../components/images/AvatarImg";
 
 function BoardChildComment({
   id,
   userId,
+  userAvatar,
   userNickname,
   content,
   createdAt,
@@ -42,7 +44,7 @@ function BoardChildComment({
       )}
       <article className="flex items-center justify-between w-full space-x-2">
         <div className="flex items-center w-auto space-x-1">
-          <figure className="bg-red-300 rounded-full w-7 aspect-square" />
+          <AvatarImg userAvatar userAvatarUrl={userAvatar} size="8" />
           <figcaption className="font-semibold">{userNickname}</figcaption>
         </div>
         <div className="flex items-center space-x-4">

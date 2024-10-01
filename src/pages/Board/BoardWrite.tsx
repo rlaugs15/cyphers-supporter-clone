@@ -15,7 +15,7 @@ function BoardWrite() {
   const [wirteFail, setWriteFail] = useState(false);
 
   const queryClient = useQueryClient();
-  const { mutate, data } = useMutation(writeBoard, {
+  const { mutate, data, isLoading } = useMutation(writeBoard, {
     onSuccess: () => {
       queryClient.invalidateQueries("boardList");
       nav("/board");
@@ -28,7 +28,9 @@ function BoardWrite() {
     formState: { errors },
   } = useForm<IForm>();
   const onWriteSubmit = ({ title, content }: IForm) => {
-    mutate({ title, content, author: user?.nickname! });
+    if (isLoading) return;
+    const userAvatar = user?.avatar && { userAvatar: user?.avatar };
+    mutate({ title, content, author: user?.nickname!, ...userAvatar });
   };
 
   useEffect(() => {
