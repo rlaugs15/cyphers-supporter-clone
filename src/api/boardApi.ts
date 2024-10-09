@@ -7,6 +7,7 @@ export interface Post {
   id: number;
   title: string;
   content: string;
+  userAvatar?: string | null;
   author: string;
   like: number;
   createdAt: string;
@@ -49,7 +50,7 @@ export async function getBoardDetail(boardId: string) {
 
 //게시글 작성
 export async function writeBoard(
-  body: Pick<Post, "title" | "content" | "author">
+  body: Pick<Post, "title" | "content" | "author" | "userAvatar">
 ) {
   return handleAxiosError<MutationResult>(
     axios.post("/api/v1/board", body).then((res) => res.data)
@@ -80,6 +81,7 @@ interface WriteParentCommentProps {
   boardId: number;
   body: Pick<IBoardComment, "content">;
   userId: string;
+  userAvatar?: string;
   userNickname: string;
 }
 
@@ -87,6 +89,7 @@ export async function writeParentComment({
   boardId,
   body,
   userId,
+  userAvatar,
   userNickname,
 }: WriteParentCommentProps) {
   return handleAxiosError<MutationResult>(
@@ -95,6 +98,7 @@ export async function writeParentComment({
         params: {
           userId,
           userNickname,
+          userAvatar,
         },
       })
       .then((res) => res.data)
@@ -110,6 +114,7 @@ export async function writechildrenComment({
   boardId,
   body,
   userId,
+  userAvatar,
   userNickname,
   parentCommentId,
 }: WritechildrenCommentProps) {
@@ -119,6 +124,7 @@ export async function writechildrenComment({
         params: {
           userId,
           userNickname,
+          userAvatar,
           parentCommentId,
         },
       })
@@ -130,6 +136,7 @@ export async function writechildrenComment({
 export interface IBoardComment {
   id: number;
   userId: string;
+  userAvatar?: string;
   userNickname: string;
   parentCommentId?: number | null;
   childrenCommentsIds?: number[];

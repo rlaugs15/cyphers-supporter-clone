@@ -4,10 +4,13 @@ import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { setLogin, User } from "../api/userApi";
+import useUser from "../hooks/useUser";
 
 type IForm = Pick<User, "loginId" | "password">;
 
 function Login() {
+  const {} = useUser("nonUserOnly");
+
   const {
     register,
     handleSubmit,

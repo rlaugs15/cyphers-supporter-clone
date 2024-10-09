@@ -28,18 +28,25 @@
 
 `POST`
 
+### 요청 헤더
+
+| 헤더 이름    | 값                  | 설명                              |
+| ------------ | ------------------- | --------------------------------- |
+| Content-Type | multipart/form-data | 데이터가 FormData로 전송됨을 명시 |
+
 ### 요청 파라미터
 
-| 파라미터 이름 | 타입   | 필수 여부 | 설명          |
-| ------------- | ------ | --------- | ------------- |
-| loginId       | String | 예        | 로그인 아이디 |
-| nickname      | String | 예        | 닉네임        |
-| password      | String | 예        | 비밀번호      |
-| name          | String | 예        | 이름          |
-| gender        | String | 예        | 성별          |
-| birthDay      | String | 예        | 생년월일      |
-| email         | String | 예        | 계정 이메일   |
-| createdAt     | String | 아니요    | 생성 일자     |
+| 파라미터 이름 | 타입   | 필수 여부 | 설명                 |
+| ------------- | ------ | --------- | -------------------- |
+| avatar        | File   | 아니요    | 프로필 이미지 (파일) |
+| loginId       | String | 예        | 로그인 아이디        |
+| nickname      | String | 예        | 닉네임               |
+| password      | String | 예        | 비밀번호             |
+| name          | String | 예        | 이름                 |
+| gender        | String | 예        | 성별                 |
+| birthDay      | String | 예        | 생년월일             |
+| email         | String | 예        | 계정 이메일          |
+| createdAt     | String | 아니요    | 생성 일자            |
 
 ### 응답 파라미터
 
@@ -101,7 +108,11 @@
 | profileImg    | String | 프로필 이미지 URL |
 | createdAt     | String | 생성일            |
 
-## 회원 정보 수정
+### 회원 정보 수정
+
+| 헤더 이름    | 값                  | 설명                              |
+| ------------ | ------------------- | --------------------------------- |
+| Content-Type | multipart/form-data | 데이터가 FormData로 전송됨을 명시 |
 
 ### 요청 경로
 
@@ -111,12 +122,15 @@
 
 `PATCH`
 
+###
+
 ### 요청 파라미터
 
-| 파라미터 이름 | 타입   | 필수 여부 | 설명     |
-| ------------- | ------ | --------- | -------- |
-| loginID       | string | 예        | 로그인ID |
-| nickname      | String | 아니요    | 닉네임   |
+| 파라미터 이름 | 타입   | 필수 여부 | 설명                 |
+| ------------- | ------ | --------- | -------------------- |
+| avatar        | File   | 아니요    | 프로필 이미지 (파일) |
+| loginID       | string | 예        | 로그인ID             |
+| nickname      | String | 아니요    | 닉네임               |
 
 ### 응답 파라미터
 

@@ -10,9 +10,9 @@ export interface MutationResult {
 
 export interface IUser {
   id: string;
+  avatar?: string;
   email: string;
   nickname: string;
-  profileImg?: string;
   createdAt?: string; // 생성일 (LocalDateTime은 ISO 문자열로 변환됨)
 }
 

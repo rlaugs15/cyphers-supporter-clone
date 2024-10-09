@@ -4,10 +4,12 @@ import { contentBoxStyle, contentBtnStyle } from "../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
 import StyledButton from "../components/Button/StyledButton";
 import { MutationResult, setLogout } from "../api/userApi";
+import AvatarImg from "../components/images/AvatarImg";
 
 function Aside() {
   const nav = useNavigate();
   const { user } = useUser();
+  console.log("AsideUser", user);
 
   const queryClient = useQueryClient();
 
@@ -49,7 +51,12 @@ function Aside() {
           <div className="grid grid-cols-2">
             <div className="flex flex-col items-start justify-center">
               <span className="text-sm">환영합니다</span>
-              <span className="text-lg font-semibold">{user?.nickname} 님</span>
+              <section className="flex items-center space-x-2">
+                <AvatarImg userAvatar userAvatarUrl={user.avatar} size="8" />
+                <span className="text-lg font-semibold">
+                  {user?.nickname} 님
+                </span>
+              </section>
             </div>
             <button onClick={onLogoutClick} className={`${contentBtnStyle}`}>
               로그아웃
