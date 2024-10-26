@@ -171,12 +171,16 @@
 
 ### 응답 파라미터
 
-| 파라미터 이름       | 타입     | 설명                |
-| ------------------- | -------- | ------------------- |
-| id                  | number   | 댓글 ID             |
-| parentCommentId     | number   | 부모 댓글 ID        |
-| childrenCommentsIds | number[] | 하위 댓글 ID 리스트 |
-| content             | String   | 댓글 내용           |
+| 파라미터 이름       | 타입     | 설명   |
+| ------------------- | -------- | ------ | ------------------- |
+| id                  | number   | 예     | 댓글 ID             |
+| userId              | String   | 예     | 로그인ID            |
+| userNickname        | String   | 예     | 닉네임              |
+| userAvatar          | String   | 아니오 | 프로필 이미지 (url) |
+| parentCommentId     | number   | 아니오 | 부모 댓글 ID        |
+| childrenCommentsIds | number[] | 아니오 | 하위 댓글 ID 리스트 |
+| content             | String   | 예     | 댓글 내용           |
+| createdAt           | String   | 예     | 작성일              |
 
 ## 댓글 작성
 
@@ -198,16 +202,18 @@
 
 #### 쿼리 스트링
 
-| 쿼리 스트링 이름 | 타입   | 필수 여부 | 설명     |
-| ---------------- | ------ | --------- | -------- |
-| userId           | String | 예        | 로그인ID |
-| userNickname     | String | 예        | 닉네임   |
+| 쿼리 스트링 이름 | 타입 | 필수 여부 | 설명                    |
+| ---------------- | ---- | --------- | ----------------------- |
+| N/A              | N/A  | N/A       | 필요한 쿼리 스트링 없음 |
 
 #### Body
 
-| 파라미터 이름 | 타입   | 필수 여부 | 설명      |
-| ------------- | ------ | --------- | --------- |
-| content       | String | 예        | 댓글 내용 |
+| 파라미터 이름 | 타입   | 필수 여부 | 설명                |
+| ------------- | ------ | --------- | ------------------- |
+| content       | String | 예        | 댓글 내용           |
+| userId        | String | 예        | 로그인ID            |
+| userNickname  | String | 예        | 닉네임              |
+| userAvatar    | String | 아니오    | 프로필 이미지 (url) |
 
 ### 응답 파라미터
 
@@ -219,7 +225,7 @@
 
 ### 요청 경로
 
-`POST /api/v1/board/comments/reply/:parentId`
+`POST /api/v1/board/comments/reply/:boardId`
 
 ### 요청 메서드
 
@@ -235,17 +241,18 @@
 
 #### 쿼리 스트링
 
-| 쿼리 스트링 이름 | 타입   | 필수 여부 | 설명       |
-| ---------------- | ------ | --------- | ---------- |
-| userId           | String | 예        | 로그인ID   |
-| parentCommentId  | String | 예        | 부모댓글ID |
-| userNickname     | String | 예        | 닉네임     |
+| 쿼리 스트링 이름 | 타입 | 필수 여부 | 설명 |
+| ---------------- | ---- | --------- | ---- |
 
 #### Body
 
-| 파라미터 이름 | 타입   | 필수 여부 | 설명      |
-| ------------- | ------ | --------- | --------- |
-| content       | String | 예        | 댓글 내용 |
+| 파라미터 이름   | 타입   | 필수 여부 | 설명                |
+| --------------- | ------ | --------- | ------------------- |
+| userId          | String | 예        | 로그인ID            |
+| parentCommentId | String | 예        | 부모댓글ID          |
+| userNickname    | String | 예        | 닉네임              |
+| userAvatar      | String | 아니오    | 프로필 이미지 (url) |
+| content         | String | 예        | 댓글 내용           |
 
 ### 응답 파라미터
 
