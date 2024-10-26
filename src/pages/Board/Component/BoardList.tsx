@@ -7,19 +7,21 @@ import Skeleton from "react-loading-skeleton";
 import StyledButton from "../../../components/Button/StyledButton";
 import { BoardListResult, getBoardList } from "../../../api/boardApi";
 import AvatarImg from "../../../components/images/AvatarImg";
+import useUser from "../../../hooks/useUser";
 
 interface IForm {
   page: number;
 }
 
 function BoardList() {
+  const { user } = useUser();
   const [page, setPage] = useState(0);
   const [size] = useState(10);
   const nav = useNavigate();
 
   const { data: boardListData, isLoading: boardListLoading } =
     useQuery<BoardListResult>(
-      ["boardList", page, size],
+      ["boardList", page, size, user?.avatar],
       () => getBoardList(page, size),
       {
         keepPreviousData: true, // 이전 데이터를 유지하여 페이지 전환 시 데이터 깜빡임 방지

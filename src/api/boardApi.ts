@@ -77,57 +77,43 @@ export async function deleteBoard(boardId: number) {
 }
 
 //게시글 댓글 작성
-interface WriteParentCommentProps {
+export interface WriteCommentProps {
   boardId: number;
-  body: Pick<IBoardComment, "content">;
-  userId: string;
-  userAvatar?: string;
-  userNickname: string;
+  data: {
+    content: string;
+    userId: string;
+    userAvatar?: string;
+    userNickname: string;
+  };
 }
 
-export async function writeParentComment({
-  boardId,
-  body,
-  userId,
-  userAvatar,
-  userNickname,
-}: WriteParentCommentProps) {
+export async function writeParentComment({ boardId, data }: WriteCommentProps) {
   return handleAxiosError<MutationResult>(
     axios
-      .post(`/api/v1/board/comments/${boardId}`, body, {
-        params: {
-          userId,
-          userNickname,
-          userAvatar,
-        },
-      })
+      .post(`/api/v1/board/comments/${boardId}`, data)
       .then((res) => res.data)
   );
 }
 
 //게시글 대댓글 작성
-export interface WritechildrenCommentProps extends WriteParentCommentProps {
-  parentCommentId: number;
+export interface WritechildrenCommentProps
+  extends Omit<WriteCommentProps, "data"> {
+  data: {
+    content: string;
+    userId: string;
+    userAvatar?: string;
+    userNickname: string;
+    parentCommentId: number;
+  };
 }
 
 export async function writechildrenComment({
   boardId,
-  body,
-  userId,
-  userAvatar,
-  userNickname,
-  parentCommentId,
+  data,
 }: WritechildrenCommentProps) {
   return handleAxiosError<MutationResult>(
     axios
-      .post(`/api/v1/board/comments/reply/${boardId}`, body, {
-        params: {
-          userId,
-          userNickname,
-          userAvatar,
-          parentCommentId,
-        },
-      })
+      .post(`/api/v1/board/comments/reply/${boardId}`, data)
       .then((res) => res.data)
   );
 }

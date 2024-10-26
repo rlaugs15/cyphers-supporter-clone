@@ -1,4 +1,4 @@
-import { useQueries } from "react-query";
+import { useQueries, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { contentBoxStyle } from "../../../../libs/utils";
 import useUser from "../../../../hooks/useUser";
@@ -22,6 +22,8 @@ function BoardDetail() {
   const { boardId } = useParams();
   const { user } = useUser();
 
+  const queryClient = useQueryClient();
+
   const [boardDetailQuery, boardLikesQuery, boardCommentQuery] = useQueries([
     {
       queryKey: ["boardDetail", boardId],
@@ -32,7 +34,7 @@ function BoardDetail() {
       queryFn: () => getBoardLikes(+boardId!, String(user?.id)),
     },
     {
-      queryKey: ["boardComment", boardId],
+      queryKey: ["boardComment", boardId, user?.avatar],
       queryFn: () => getBoardComment(boardId + ""),
     },
   ]);
@@ -51,7 +53,11 @@ function BoardDetail() {
     }
     const comments = commentData.data;
 
-    const resultComments = comments.map((comment) => {
+    const topLevelComments = comments.filter(
+      (comment) => !comment.parentCommentId
+    );
+
+    const resultComments = topLevelComments.map((comment) => {
       const childIds = comment.childrenCommentsIds;
       const childDatas = comments.filter((item) => childIds?.includes(item.id));
       return {

@@ -15,6 +15,7 @@ type IForm = Pick<IBoardComment, "content">;
 
 function WriteComment() {
   const { user } = useUser();
+
   const { boardId } = useParams();
 
   const {
@@ -37,17 +38,20 @@ function WriteComment() {
     },
   });
 
-  const onCommentSubmit = (data: IForm) => {
+  const onCommentSubmit = ({ content }: IForm) => {
     if (!user) return;
     if (isLoading) return;
-    const userAvatar = user.avatar && { avatar: user.avatar };
-    mutate({
-      ...userAvatar,
-      boardId: Number(boardId),
-      body: data,
-      userId: user?.id!,
-      userNickname: user?.nickname!,
-    });
+    const data: any = {
+      userId: user.id,
+      userNickname: user.nickname,
+      content,
+    };
+
+    if (user && user.avatar) {
+      data.userAvatar = user.avatar;
+    }
+
+    mutate({ boardId: +boardId!, data });
   };
 
   useEffect(() => {

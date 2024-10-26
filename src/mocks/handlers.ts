@@ -10,7 +10,13 @@ import {
 } from "./data";
 import { CustomDateFormatter } from "../libs/utils";
 import { IChangPass, User } from "../api/userApi";
-import { IBoardComment, ILike, Post } from "../api/boardApi";
+import {
+  IBoardComment,
+  ILike,
+  Post,
+  WritechildrenCommentProps,
+  WriteCommentProps,
+} from "../api/boardApi";
 import { ICharacterComment } from "../api/cyphersApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
@@ -593,16 +599,11 @@ export const handlers = [
   http.post("/api/v1/board/comments/:boardId", async ({ request, params }) => {
     const { boardId } = params;
 
-    const url = new URL(request.url);
-
-    const userId = url.searchParams.get("userId");
-    const userAvatar = url.searchParams.get("userAvatar");
-    const userNickname = url.searchParams.get("userNickname");
-
-    const { content } = (await request.json()) as Pick<
-      IBoardComment,
-      "content"
-    >;
+    const { userId, userAvatar, userNickname, content } =
+      (await request.json()) as Pick<
+        IBoardComment,
+        "userId" | "userAvatar" | "userNickname" | "content"
+      >;
 
     const targetBoard = posts.find((board) => board.id === Number(boardId));
 
@@ -621,16 +622,31 @@ export const handlers = [
 
     targetBoard.comments?.push(commentId);
 
-    boardComments.push({
-      id: commentId,
-      parentCommentId: null,
-      childrenCommentsIds: [],
-      content,
-      userId: String(userId),
-      userAvatar: userAvatar! ?? null,
-      userNickname: String(userNickname),
-      createdAt: createdAt,
-    });
+    if (userAvatar) {
+      /* const avatarUrl = URL.createObjectURL(avatar);
+      console.log("avatarUrl", avatarUrl); */
+
+      boardComments.push({
+        id: commentId,
+        parentCommentId: null,
+        childrenCommentsIds: [],
+        content,
+        userId,
+        userAvatar,
+        userNickname,
+        createdAt: createdAt,
+      });
+    } else {
+      boardComments.push({
+        id: commentId,
+        parentCommentId: null,
+        childrenCommentsIds: [],
+        content,
+        userId,
+        userNickname,
+        createdAt: createdAt,
+      });
+    }
 
     return HttpResponse.json(
       {
@@ -647,16 +663,15 @@ export const handlers = [
     async ({ request, params }) => {
       const { boardId } = params;
 
-      const url = new URL(request.url);
-      const userId = url.searchParams.get("userId");
-      const userAvatar = url.searchParams.get("userAvatar");
-      const parentCommentId = url.searchParams.get("parentCommentId");
-      const userNickname = url.searchParams.get("userNickname");
-
-      const { content } = (await request.json()) as Pick<
-        IBoardComment,
-        "content"
-      >;
+      const { userId, parentCommentId, userAvatar, userNickname, content } =
+        (await request.json()) as Pick<
+          IBoardComment,
+          | "userId"
+          | "userAvatar"
+          | "userNickname"
+          | "content"
+          | "parentCommentId"
+        >;
 
       const targetBoard = posts.find((board) => board.id === +boardId);
       if (!targetBoard) {
@@ -687,7 +702,7 @@ export const handlers = [
       const commentId = Date.now();
 
       targetBoard.comments?.push(commentId);
-      targetParent.childrenCommentsIds?.push?.(commentId);
+      targetParent.childrenCommentsIds?.push(commentId);
 
       const newChild: IBoardComment = {
         id: commentId,
@@ -878,13 +893,28 @@ export const handlers = [
       );
     }
 
-    const targetIndex = users.findIndex((user) => user.loginId === loginId);
-    users[targetIndex].nickname = nickname;
+    const targetUserIdx = users.findIndex((user) => user.loginId === loginId);
+    users[targetUserIdx].nickname = nickname;
     // Mock 환경에서는 메모리 내에 파일을 저장
+
     if (avatar) {
-      const url = URL.createObjectURL(avatar); // 메모리 내 URL 생성
-      users[targetIndex].avatar = url;
+      const avatarUrl = URL.createObjectURL(avatar); // 메모리 내 URL 생성
+      users[targetUserIdx].avatar = avatarUrl;
+      //작성한 게시글이 있을 경우
+      const checkBoards = posts.filter((post) => post.author === nickname);
+      if (checkBoards) {
+        checkBoards.forEach((board) => (board.userAvatar = avatarUrl));
+      }
+      //작성한 댓글이 있을 경우
+      const checkComments = boardComments.filter(
+        (comment) => comment.userId === loginId
+      );
+
+      if (checkComments) {
+        checkComments.forEach((comment) => (comment.userAvatar = avatarUrl));
+      }
     }
+
     return HttpResponse.json(
       { code: 200, message: "회원정보 수정에 성공했습니다." },
       { status: 200 }

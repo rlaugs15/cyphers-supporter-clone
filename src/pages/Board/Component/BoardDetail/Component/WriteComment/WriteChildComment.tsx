@@ -46,26 +46,20 @@ function WriteChildComment({
     },
   });
 
-  const onSubmit = (data: IForm) => {
+  const onSubmit = ({ content }: IForm) => {
     if (!userId) return;
     if (isLoading) return;
-    const payload = userAvatar
-      ? {
-          boardId,
-          body: data,
-          parentCommentId,
-          userId,
-          userAvatar,
-          userNickname,
-        }
-      : {
-          boardId,
-          body: data,
-          parentCommentId,
-          userId,
-          userNickname,
-        };
-    mutate(payload);
+    const data: any = {
+      userId,
+      userNickname,
+      content,
+      parentCommentId,
+    };
+
+    if (userAvatar) {
+      data.userAvatar = userAvatar;
+    }
+    mutate({ boardId, data });
   };
 
   useEffect(() => {

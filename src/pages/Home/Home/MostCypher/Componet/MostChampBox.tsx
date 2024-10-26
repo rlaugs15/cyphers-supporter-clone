@@ -22,7 +22,7 @@ function MostChampBox({
   let partyArray: partyInfo[] = [];
 
   matshingData?.matches?.rows.map((item) => {
-    if (item.playInfo.partyInfo.length === 0) {
+    if (item.playInfo.partyInfo?.length === 0) {
       partyArray = [
         ...partyArray,
         {
@@ -54,6 +54,14 @@ function MostChampBox({
       ...partyMatchingCount,
       { partyUser: name, partyCount: num },
     ];
+  }
+
+  if (!matshingLoading && !matshingData) {
+    return (
+      <main className="flex h-full grid-cols-3">
+        <span>전적이 존재하지 않습니다.</span>
+      </main>
+    );
   }
   return (
     <main className="grid h-full grid-cols-3">
