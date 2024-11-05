@@ -1,4 +1,4 @@
-import { useQueries, useQueryClient } from "react-query";
+import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 import { contentBoxStyle } from "../../../../libs/utils";
 import useUser from "../../../../hooks/useUser";
@@ -21,8 +21,6 @@ import AvatarImg from "../../../../components/images/AvatarImg";
 function BoardDetail() {
   const { boardId } = useParams();
   const { user } = useUser();
-
-  const queryClient = useQueryClient();
 
   const [boardDetailQuery, boardLikesQuery, boardCommentQuery] = useQueries([
     {

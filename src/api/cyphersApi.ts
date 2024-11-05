@@ -168,7 +168,7 @@ export async function getMatching(playerId: string, gameTypeId = false) {
     {
       params: {
         gameTypeId: gameTypeId ? "normal" : "rating",
-        startDate: dateFormatter.getOneMonthAgoTime(),
+        startDate: dateFormatter.getFormattedCurrentTime(),
         endDate: dateFormatter.getCurrentTime(),
         limit: 100,
       },

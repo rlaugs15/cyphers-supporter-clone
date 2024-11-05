@@ -10,10 +10,7 @@ interface CharacterCommentFormProps {
   onCommentSubmit: (data: IForm) => void;
 }
 
-function CharacterCommentForm({
-  user,
-  onCommentSubmit,
-}: CharacterCommentFormProps) {
+function CharacterCommentForm({ onCommentSubmit }: CharacterCommentFormProps) {
   const {
     register,
     handleSubmit,

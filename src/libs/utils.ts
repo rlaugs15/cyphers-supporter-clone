@@ -95,12 +95,12 @@ export function winningRate(
 //현재 시간과 한 달 전의 시간을 생성
 export class CustomDateFormatter {
   private now: Date;
-  private oneMonthAgo: Date;
+  private threeMonthsAgo: Date;
 
   constructor() {
     this.now = new Date();
-    this.oneMonthAgo = new Date(this.now);
-    this.oneMonthAgo.setMonth(this.now.getMonth() - 1);
+    this.threeMonthsAgo = new Date(this.now);
+    this.threeMonthsAgo.setMonth(this.now.getMonth() - 3);
   }
 
   private formatTime(date: Date): string {
@@ -118,9 +118,10 @@ export class CustomDateFormatter {
     return this.formatTime(this.now);
   }
 
-  public getOneMonthAgoTime(): string {
-    return this.formatTime(this.oneMonthAgo);
+  public getThreeMonthsAgoTime(): string {
+    return this.formatTime(this.threeMonthsAgo);
   }
+
   private formatDateTime(date: Date): string {
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);

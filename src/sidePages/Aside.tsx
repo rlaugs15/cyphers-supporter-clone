@@ -30,7 +30,7 @@ function Aside() {
       // 오류 발생 시 되돌리기 위해 이전 상태 반환
       return { previousLikes };
     },
-    onError: (err, _, context) => {
+    onError: (_err, _, context) => {
       // 오류 발생 시 이전 상태로 복원
       queryClient.setQueryData(["member"], context?.previousLikes);
     },

@@ -10,13 +10,7 @@ import {
 } from "./data";
 import { CustomDateFormatter } from "../libs/utils";
 import { IChangPass, User } from "../api/userApi";
-import {
-  IBoardComment,
-  ILike,
-  Post,
-  WritechildrenCommentProps,
-  WriteCommentProps,
-} from "../api/boardApi";
+import { IBoardComment, ILike, Post } from "../api/boardApi";
 import { ICharacterComment } from "../api/cyphersApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
@@ -526,7 +520,7 @@ export const handlers = [
   }),
 
   // 로그아웃 요청
-  http.post("/api/v1/logout", async ({ request }) => {
+  http.post("/api/v1/logout", async ({}) => {
     logout();
     return HttpResponse.json({ code: 200 }, { status: 200 });
   }),
