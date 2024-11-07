@@ -115,7 +115,10 @@ export class CustomDateFormatter {
   }
 
   public getCurrentTime(): string {
-    return this.formatTime(this.now);
+    const twoDaysAgo = new Date(this.now);
+    twoDaysAgo.setDate(this.now.getDate() - 2); // 오픈api 문제로 인한 이틀 전으로 설정
+    twoDaysAgo.setHours(0, 0, 0, 0); // 오픈api 문제로 인한 시간을 00:00:00으로 설정
+    return this.formatTime(twoDaysAgo);
   }
 
   public getThreeMonthsAgoTime(): string {
