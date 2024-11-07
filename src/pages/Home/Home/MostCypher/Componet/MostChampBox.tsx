@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
-import MostChamp from "./MostChamp";
 import { partyInfo, PlayerInfo } from "../../../../../api/cyphersApi";
+import MostChamp from "./MostChamp";
 
 interface IParty {
   partyUser: string;
@@ -17,28 +17,37 @@ function MostChampBox({
   matshingData,
   matshingLoading,
 }: IMostChampBox) {
-  //파티유저의 닉네임과 플레이 횟수를 담은 배열을 새로 생성, 파티유저가 없을 경우 솔로플레이
-  let namesArray: string[] = [];
-  let partyArray: partyInfo[] = [];
+  console.log("MostChampBox", matshingData);
 
-  matshingData?.matches?.rows.map((item) => {
-    if (item.playInfo.partyInfo?.length === 0) {
-      partyArray = [
-        ...partyArray,
-        {
+  if (!matshingLoading && !matshingData) {
+    return (
+      <main className="flex h-full grid-cols-3">
+        <span>전적이 존재하지 않습니다.</span>
+      </main>
+    );
+  }
+
+  //파티유저의 닉네임과 플레이 횟수를 담은 배열을 새로 생성, 파티유저가 없을 경우 솔로플레이
+  const { partyArray, namesArray } = (matshingData?.matches?.rows || []).reduce(
+    (acc, item) => {
+      if (!item.playInfo.partyInfo?.length) {
+        acc.partyArray.push({
           result: item.playInfo.result,
-          playerId: matshingData.playerId,
+          playerId: String(matshingData?.playerId),
           nickname: "솔로플레이",
           characterId: item.playInfo.characterId,
           characterName: item.playInfo.characterName,
-        },
-      ];
-    }
-    item.playInfo.partyInfo.map((item) => {
-      partyArray = [...partyArray, item];
-      namesArray = [...namesArray, item.nickname];
-    });
-  });
+        });
+      } else {
+        item.playInfo.partyInfo.forEach((partyItem) => {
+          acc.partyArray.push(partyItem);
+          acc.namesArray.add(partyItem.nickname); // Set으로 중복 제거
+        });
+      }
+      return acc;
+    },
+    { partyArray: [] as partyInfo[], namesArray: new Set<string>() }
+  );
 
   const nameArray = ["솔로플레이", ...new Set(namesArray)];
   let partyMatchingCount: IParty[] = [];
@@ -54,14 +63,6 @@ function MostChampBox({
       ...partyMatchingCount,
       { partyUser: name, partyCount: num },
     ];
-  }
-
-  if (!matshingLoading && !matshingData) {
-    return (
-      <main className="flex h-full grid-cols-3">
-        <span>전적이 존재하지 않습니다.</span>
-      </main>
-    );
   }
   return (
     <main className="grid h-full grid-cols-3">

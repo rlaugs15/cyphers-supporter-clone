@@ -12,7 +12,7 @@ function MostCyNomal() {
   return (
     <MostChampBox
       category="일반"
-      matshingData={matshingData!}
+      matshingData={matshingData}
       matshingLoading={matchingLoading}
     />
   );
