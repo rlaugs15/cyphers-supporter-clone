@@ -6,7 +6,8 @@ import { MutationResult } from "./userApi";
 const BASE_PATH =
   import.meta.env.MODE === "development"
     ? import.meta.env.VITE_LOCAL_API_BASE_URL
-    : import.meta.env.VITE_LOCAL_API_BASE_URL; //추후 배포 url로 변경할 것
+    : "/proxy"; //추후 배포 url로 변경할 것
+//"https://api.neople.co.kr"
 
 interface Row {
   playerId: string;

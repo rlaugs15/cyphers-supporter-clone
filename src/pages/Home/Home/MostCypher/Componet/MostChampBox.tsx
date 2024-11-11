@@ -1,6 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import { partyInfo, PlayerInfo } from "../../../../../api/cyphersApi";
 import MostChamp from "./MostChamp";
+import { contentTitleStyle } from "../../../../../libs/utils";
 
 interface IParty {
   partyUser: string;
@@ -17,12 +18,15 @@ function MostChampBox({
   matshingData,
   matshingLoading,
 }: IMostChampBox) {
-  console.log("MostChampBox", matshingData);
-
-  if (!matshingLoading && !matshingData) {
+  if (matshingData?.matches?.rows.length === 0) {
     return (
-      <main className="flex h-full grid-cols-3">
-        <span>전적이 존재하지 않습니다.</span>
+      <main className="flex items-center justify-center h-full">
+        <div className="flex flex-col items-center justify-center">
+          <span className={`${contentTitleStyle} font-semibold`}>
+            모스트 정보를 표시할 수 없습니다
+          </span>
+          <p>플레이 데이터가 부족합니다</p>
+        </div>
       </main>
     );
   }

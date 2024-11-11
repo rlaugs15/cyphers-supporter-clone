@@ -11,7 +11,7 @@ function MostCyRating() {
   return (
     <MostChampBox
       category="공식"
-      matshingData={matshingData}
+      matshingData={matshingData!}
       matshingLoading={matchingLoading}
     />
   );

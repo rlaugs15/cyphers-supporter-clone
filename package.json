@@ -43,6 +43,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   },
+  "proxy": "https://cyphers-supporter.netlify.app/",
   "msw": {
     "workerDirectory": [
       "public"
