@@ -3,11 +3,24 @@ import { CustomDateFormatter } from "../libs/utils";
 import { handleAxiosError } from "../libs/handleAxiosError";
 import { MutationResult } from "./userApi";
 
-const BASE_PATH =
+/* const BASE_PATH =
   import.meta.env.MODE === "development"
     ? import.meta.env.VITE_LOCAL_API_BASE_URL
     : "/proxy"; //추후 배포 url로 변경할 것
-//"https://api.neople.co.kr"
+//"https://api.neople.co.kr" */
+
+const BASE_PATH =
+  window.location.hostname === "localhost"
+    ? import.meta.env.VITE_LOCAL_API_BASE_URL
+    : "/proxy";
+
+const API_KEY = import.meta.env.VITE_API_KEY;
+
+// 배포 시 axios instance를 생성하여 API 키를 자동으로 추가
+const axiosInstance = axios.create({
+  baseURL: BASE_PATH,
+  params: window.location.hostname !== "localhost" ? { apikey: API_KEY } : {},
+});
 
 interface Row {
   playerId: string;
@@ -32,7 +45,7 @@ export interface IPlayer {
 } */
 
 export async function getPlayer(nickname: string) {
-  const response = await axios.get(`${BASE_PATH}/cy/players`, {
+  const response = await axiosInstance.get(`/cy/players`, {
     params: { nickname },
   });
   return response.data;
@@ -60,7 +73,7 @@ export interface IPlayerInfo {
 }
 
 export async function getPlayerInfo(playerId: string) {
-  const response = await axios.get(`${BASE_PATH}/cy/players/${playerId}`);
+  const response = await axiosInstance.get(`/cy/players/${playerId}`);
   return response.data;
 }
 
@@ -164,17 +177,14 @@ const dateFormatter = new CustomDateFormatter();
 //https:api.neople.co.kr/cy/players/00b7cc76104cd3d1dad04e227dc6d325/matches?gameTypeId=normal&&startDate=20240311T0623&endDate=20240411T0623&limit=100&apikey=AR5FRcTpheYlQiA8tMc3KMW6S15vzd71
 
 export async function getMatching(playerId: string, gameTypeId = false) {
-  const response = await axios.get(
-    `${BASE_PATH}/cy/players/${playerId}/matches`,
-    {
-      params: {
-        gameTypeId: gameTypeId ? "normal" : "rating",
-        startDate: dateFormatter.getThreeMonthsAgoTime(),
-        endDate: dateFormatter.getCurrentTime(),
-        limit: 100,
-      },
-    }
-  );
+  const response = await axiosInstance.get(`/cy/players/${playerId}/matches`, {
+    params: {
+      gameTypeId: gameTypeId ? "normal" : "rating",
+      startDate: dateFormatter.getThreeMonthsAgoTime(),
+      endDate: dateFormatter.getCurrentTime(),
+      limit: 100,
+    },
+  });
   return response.data;
 }
 
@@ -263,7 +273,7 @@ export interface DetailMatchData {
 }
 
 export async function getDetailMatching(matchId: string) {
-  const response = await axios.get(`${BASE_PATH}/cy/matches/${matchId}`);
+  const response = await axiosInstance.get(`/cy/matches/${matchId}`);
   return response.data;
 }
 
@@ -284,7 +294,7 @@ export interface DetailItem {
 
 //아이템 디테일 데이터
 export async function getDetailItem(itemId: string) {
-  const response = await axios.get(`${BASE_PATH}/cy/battleitems/${itemId}`);
+  const response = await axiosInstance.get(`/cy/battleitems/${itemId}`);
   return response.data;
 }
 
@@ -297,7 +307,7 @@ export interface ICharacters {
 }
 //캐릭터 정보 조회
 export async function getCharacters() {
-  const response = await axios.get(`${BASE_PATH}/cy/characters`);
+  const response = await axiosInstance.get(`/cy/characters`);
   return response.data;
 }
 
@@ -330,10 +340,10 @@ export async function getCharacterRanking(
   rankingType: IRankingType,
   playerId?: string,
   offset: string = "0",
-  limit: string = "1000" // 범위는 10~1000 이어야 한다.
+  limit: string = "1000" // 범위는 1~1000이어야 한다.
 ) {
-  const response = await axios.get(
-    `${BASE_PATH}/cy/ranking/characters/${characterId}/${rankingType}`,
+  const response = await axiosInstance.get(
+    `/cy/ranking/characters/${characterId}/${rankingType}`,
     {
       params: {
         playerId,

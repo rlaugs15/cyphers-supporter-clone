@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/proxy/*"
-  to = "https://cyphers-supporter.netlify.app/:splat"
-  status = 200
-  force = true
