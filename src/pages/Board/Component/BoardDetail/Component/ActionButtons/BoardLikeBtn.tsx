@@ -5,6 +5,7 @@ import {
   PostBoardLikesProps,
 } from "../../../../../../api/boardApi";
 import StyledButton from "../../../../../../components/Button/StyledButton";
+import useUser from "../../../../../../hooks/useUser";
 
 interface BoardLikeBtnProns {
   boardId: number;
@@ -13,6 +14,7 @@ interface BoardLikeBtnProns {
 }
 
 function BoardLikeBtn({ boardId, userId, onLike }: BoardLikeBtnProns) {
+  const { user } = useUser();
   const queryClient = useQueryClient();
   const { mutate: likeMutate } = useMutation({
     mutationFn: (likeMutateData: PostBoardLikesProps) =>
@@ -75,6 +77,7 @@ function BoardLikeBtn({ boardId, userId, onLike }: BoardLikeBtnProns) {
       onClick={onGoodClick}
       color="orange"
       text={onLike ? "추천취소" : "추천하기"}
+      title={user ? "" : "로그인을 해야합니다."}
     />
   );
 }

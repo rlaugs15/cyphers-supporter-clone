@@ -2,7 +2,7 @@ import Nav from "../components/Nav";
 import useNavigateToExternal from "../hooks/useNavigateToExternal";
 
 function Contents() {
-  const extLink = useNavigateToExternal("https://www.naver.com/");
+  const extLink = useNavigateToExternal("https://cyphers.nexon.com/");
   return (
     <div className="h-full bg-white w-96 drop-shadow-md min-w-56">
       <header className="py-2 text-3xl font-semibold text-center border-b border-slate-300">
