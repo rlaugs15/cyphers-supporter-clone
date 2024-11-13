@@ -1,6 +1,8 @@
 import Nav from "../components/Nav";
+import useNavigateToExternal from "../hooks/useNavigateToExternal";
 
 function Contents() {
+  const extLink = useNavigateToExternal("https://www.naver.com/");
   return (
     <div className="h-full bg-white w-96 drop-shadow-md min-w-56">
       <header className="py-2 text-3xl font-semibold text-center border-b border-slate-300">
@@ -78,6 +80,7 @@ function Contents() {
                 </svg>
               }
               text="모스트 사이퍼/포지션"
+              disabled
             />
           </aside>
         </article>
@@ -110,6 +113,7 @@ function Contents() {
                 </svg>
               }
               text="최근 캐릭터 코멘트"
+              disabled
             />
           </aside>
         </article>
@@ -153,6 +157,7 @@ function Contents() {
               </svg>
             }
             text="통계"
+            disabled
           />
           <aside className="ml-4 ">
             <Nav
@@ -167,6 +172,7 @@ function Contents() {
                 </svg>
               }
               text="승률 통계"
+              disabled
             />
             <Nav
               svg={
@@ -180,6 +186,7 @@ function Contents() {
                 </svg>
               }
               text="픽률 통계"
+              disabled
             />
             <Nav
               svg={
@@ -193,6 +200,7 @@ function Contents() {
                 </svg>
               }
               text="아이템 통계"
+              disabled
             />
             <Nav
               svg={
@@ -206,6 +214,7 @@ function Contents() {
                 </svg>
               }
               text="포지션 통계"
+              disabled
             />
             <Nav
               svg={
@@ -219,6 +228,7 @@ function Contents() {
                 </svg>
               }
               text="매치업 통계"
+              disabled
             />
             <Nav
               svg={
@@ -232,6 +242,7 @@ function Contents() {
                 </svg>
               }
               text="시너지 통계"
+              disabled
             />
           </aside>
         </article>
@@ -253,6 +264,7 @@ function Contents() {
               </svg>
             }
             text="랭킹 (공식전)"
+            disabled
           />
           <aside className="ml-4 ">
             <Nav
@@ -271,6 +283,7 @@ function Contents() {
                 </svg>
               }
               text="랭킹 (투신전 격)"
+              disabled
             />
             <Nav
               svg={
@@ -288,6 +301,7 @@ function Contents() {
                 </svg>
               }
               text="랭킹 (투신전 파)"
+              disabled
             />
           </aside>
         </article>
@@ -305,6 +319,7 @@ function Contents() {
               </svg>
             }
             text="특성"
+            disabled
           />
         </article>
 
@@ -321,6 +336,7 @@ function Contents() {
               </svg>
             }
             text="패치노트"
+            disabled
           />
         </article>
 
@@ -342,25 +358,27 @@ function Contents() {
               </svg>
             }
             text="포스트"
+            disabled
           />
         </article>
 
         <div className="mt-5 font-semibold">외부 링크</div>
         <article>
-          <Nav
-            svg={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-5 h-5"
-              >
-                <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-              </svg>
-            }
-            text="사이퍼즈 공식 홈페이지"
-          />
+          <button
+            onClick={extLink}
+            className="flex w-full p-2 space-x-2 hover:bg-slate-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-5 h-5"
+            >
+              <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+              <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+            </svg>
+            <span>사이퍼즈 공식 홈페이지</span>
+          </button>
         </article>
       </main>
     </div>
