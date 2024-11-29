@@ -32,7 +32,25 @@
   - axiosInstance 인스턴스를 이용하여 배포 환경에서 API 키 자동 추가 설정
     - 기존엔 api 키를 노드js 서버에서 처리했기 때문
 
-#### 페이지
+# 기능 상세
+| 메인 페이지                           | 전적비교 페이지                           |
+| ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ![](https://velog.velcdn.com/images/rlaugs15/post/da729bc1-3040-4c77-84eb-a0cdecb6a496/image.jpg) | ![](https://velog.velcdn.com/images/rlaugs15/post/d06fa52b-6ed8-4ffe-8304-40376e50dd9c/image.png)
+
+| 매칭정보 조회 페이지                                                                                              | 캐릭터 정보 조회 페이지                                                                                                |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| ![](https://velog.velcdn.com/images/rlaugs15/post/0d5b21fe-b9b2-4325-afa9-2066c9f1bcb0/image.jpg) | ![](https://velog.velcdn.com/images/rlaugs15/post/9144a35f-04e8-42f5-84fa-077391c9f305/image.gif) |
+
+| 회원가입 페이지                                                                                         | 로그인 페이지                                                                                                       |
+| ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| ![](https://velog.velcdn.com/images/rlaugs15/post/e5fef81d-557b-467f-bf98-92d39e467efa/image.png) | ![](https://velog.velcdn.com/images/rlaugs15/post/e44d770e-ff82-4bdf-b298-4022c269a974/image.png) |
+
+| 비밀번호 찾기                                                                                                        | 게시판                           |
+| ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| ![](https://velog.velcdn.com/images/rlaugs15/post/eeed44cf-9ddc-4869-a525-5f59ada73ead/image.png) | ![](https://velog.velcdn.com/images/rlaugs15/post/ffd27668-8976-4e30-afc6-d10b9a81c162/image.png) |
+| **게시글**                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------ |
+| ![](https://velog.velcdn.com/images/rlaugs15/post/f42fac2e-4f18-442b-8b35-dabc8f79cfc9/image.png) |
 
 - **메인 페이지**
   - 리코일을 이용하여 검색기록을 로컬스토리지에 넣어서 관리
@@ -91,45 +109,6 @@
 - **비용 절감:**
   서버 리소스를 아끼고, 클라이언트 측에서 처리함으로써 서버 비용을 절감할 수 있다.
 
-# [트러블 슈팅](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
-
-### [CORS 에러](./docs/TROUBLESHOOTING.md#cors-에러)
-
-### [테일윈드에서 클래스가 동적으로 적용되지 않는 문제](./docs/TROUBLESHOOTING.md#테일윈드에서-클래스가-동적으로-적용되지-않는-문제)
-
-### [페이지네이션 시에 화면 깜빡임 현상](./docs/TROUBLESHOOTING.md#페이지네이션-시에-화면-깜빡임-현상)
-
-### [PlayerBasicInfo 하위 컴포넌트 로딩현상 해결](./docs/TROUBLESHOOTING.md#playerbasicinfo-하위-컴포넌트-로딩현상-해결)
-
-### [CharWindAndPick 컴포넌트 버그 수정](./docs/TROUBLESHOOTING.md#charwindandpick-컴포넌트-버그-수정)
-
-- winRateList을 인자로 받는 calculateAverage 함수가 winRateList의 계산 과정을 기다리지 못 하고 인자로 받아가서 에러 발생
-
-### [리액트 라우터 경로 설정 문제(새로고침 시 경로 오류 발생)](./docs/TROUBLESHOOTING.md#리액트-라우터-경로-설정-문제새로고침-시-경로-오류-발생)
-
-### [Vite 환경에서 MSW 경로 설정으로 발생한 에러 해결](./docs/TROUBLESHOOTING.md#vite-환경에서-msw-경로-설정으로-발생한-에러-해결)
-
-### [승률 및 픽률 계산 오류 수정](./docs/TROUBLESHOOTING.md#승률-및-픽률-계산-오류-수정)
-
-- CharWindAndPick 컴포넌트에서 승률, 픽률 데이터 계산 시 중복된 값들이 업데이트
-
-### [AXIOS DELETE 요청 에러 수정(data 속성에 body 전달)](./docs/TROUBLESHOOTING.md#axios-delete-요청-에러-수정data-속성에-body-전달)
-
-- RESTful 관점에서 DELETE 요청은 데이터(payload)를 포함하는 것은 일반적이지 않지만 이번엔 포함해봤다.
-- 다른 방법으로는 URL 쿼리 파라미터를 사용하는 것도 있다.
-
-### [useEffect 내 조건문에서 undefined 처리로 인한 잘못된 라우팅 문제 해결](./docs/TROUBLESHOOTING.md#useeffect-내-조건문에서-undefined-처리로-인한-잘못된-라우팅-문제-해결)
-
-- if문 내에서의 data?.ok와 data && data.ok의 차이
-
-### [타입스크립트: 컴포넌트에서 동적으로 객체의 속성에 접근](./docs/TROUBLESHOOTING.md#컴포넌트에서-동적으로-객체의-속성에-접근)
-
-### [요소가 들어있는 자식태그의 크기보다 부모태그의 크기가 작아 일어나는 줄바꿈 현상](./docs/TROUBLESHOOTING.md#요소가-들어있는-자식태그의-크기보다-부모태그의-크기가-작아-일어나는-줄바꿈-현상)
-
-### [form 태그 내부의 id 중복검사를 위한 버튼 클릭 시 form 전체가 submit 되는 문제](./docs/TROUBLESHOOTING.md#form-태그-내부의-id-중복검사를-위한-버튼-클릭-시-form-전체가-submit-되는-문제)
-
-### [문자열 내의 `\n`로 인한 줄바꿈이 이루어지지 않는 현상](./docs/TROUBLESHOOTING.md#문자열-내의-n로-인한-줄바꿈이-이루어지지-않는-현상)
-
 # API 명세서
 
 ### API 응답 형식 예시
@@ -171,3 +150,42 @@
 ### [Member 기능 API 문서](./docs/APIDocumentation/MEMBER_API.md)
 
 ### [Board 기능 API 문서](./docs/APIDocumentation/BOARD_API.md)
+
+# [트러블 슈팅](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
+
+### [CORS 에러](./docs/TROUBLESHOOTING.md#cors-에러)
+
+### [테일윈드에서 클래스가 동적으로 적용되지 않는 문제](./docs/TROUBLESHOOTING.md#테일윈드에서-클래스가-동적으로-적용되지-않는-문제)
+
+### [페이지네이션 시에 화면 깜빡임 현상](./docs/TROUBLESHOOTING.md#페이지네이션-시에-화면-깜빡임-현상)
+
+### [PlayerBasicInfo 하위 컴포넌트 로딩현상 해결](./docs/TROUBLESHOOTING.md#playerbasicinfo-하위-컴포넌트-로딩현상-해결)
+
+### [CharWindAndPick 컴포넌트 버그 수정](./docs/TROUBLESHOOTING.md#charwindandpick-컴포넌트-버그-수정)
+
+- winRateList을 인자로 받는 calculateAverage 함수가 winRateList의 계산 과정을 기다리지 못 하고 인자로 받아가서 에러 발생
+
+### [리액트 라우터 경로 설정 문제(새로고침 시 경로 오류 발생)](./docs/TROUBLESHOOTING.md#리액트-라우터-경로-설정-문제새로고침-시-경로-오류-발생)
+
+### [Vite 환경에서 MSW 경로 설정으로 발생한 에러 해결](./docs/TROUBLESHOOTING.md#vite-환경에서-msw-경로-설정으로-발생한-에러-해결)
+
+### [승률 및 픽률 계산 오류 수정](./docs/TROUBLESHOOTING.md#승률-및-픽률-계산-오류-수정)
+
+- CharWindAndPick 컴포넌트에서 승률, 픽률 데이터 계산 시 중복된 값들이 업데이트
+
+### [AXIOS DELETE 요청 에러 수정(data 속성에 body 전달)](./docs/TROUBLESHOOTING.md#axios-delete-요청-에러-수정data-속성에-body-전달)
+
+- RESTful 관점에서 DELETE 요청은 데이터(payload)를 포함하는 것은 일반적이지 않지만 이번엔 포함해봤다.
+- 다른 방법으로는 URL 쿼리 파라미터를 사용하는 것도 있다.
+
+### [useEffect 내 조건문에서 undefined 처리로 인한 잘못된 라우팅 문제 해결](./docs/TROUBLESHOOTING.md#useeffect-내-조건문에서-undefined-처리로-인한-잘못된-라우팅-문제-해결)
+
+- if문 내에서의 data?.ok와 data && data.ok의 차이
+
+### [타입스크립트: 컴포넌트에서 동적으로 객체의 속성에 접근](./docs/TROUBLESHOOTING.md#컴포넌트에서-동적으로-객체의-속성에-접근)
+
+### [요소가 들어있는 자식태그의 크기보다 부모태그의 크기가 작아 일어나는 줄바꿈 현상](./docs/TROUBLESHOOTING.md#요소가-들어있는-자식태그의-크기보다-부모태그의-크기가-작아-일어나는-줄바꿈-현상)
+
+### [form 태그 내부의 id 중복검사를 위한 버튼 클릭 시 form 전체가 submit 되는 문제](./docs/TROUBLESHOOTING.md#form-태그-내부의-id-중복검사를-위한-버튼-클릭-시-form-전체가-submit-되는-문제)
+
+### [문자열 내의 `\n`로 인한 줄바꿈이 이루어지지 않는 현상](./docs/TROUBLESHOOTING.md#문자열-내의-n로-인한-줄바꿈이-이루어지지-않는-현상)
