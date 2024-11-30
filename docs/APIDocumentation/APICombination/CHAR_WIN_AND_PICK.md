@@ -91,6 +91,8 @@ export const charWindAndPickAtom = atom<IWinAndPickStat[]>({
 
 - **Characters 컴포넌트:** 캐릭터 목록을 가져와 CharWindAndPick 컴포넌트를 통해 승률과 픽률 데이터를 관리
 - **CharWindAndPick 컴포넌트:** 각 캐릭터의 승률과 픽률을 계산하여 Recoil Atom에 저장
+  - 해당 페이지 최상단에서 초기화하여 계산 시간 단축
+  - 유저 클릭 전까지 계산 완료하여 대기 시간 최소화
 - **WinAndPickSection 컴포넌트:** 각 캐릭터의 승률과 픽률을 계산하여 UI에 표시
 
 ## 계산 과정
