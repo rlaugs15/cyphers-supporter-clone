@@ -340,5 +340,5 @@ export function convertRank(rank: number, total: number) {
   const conversionFactor = 100 / total;
   // 현재 랭크를 변환된 랭크로 변환
   const newRank = rank * conversionFactor;
-  return newRank;
+  return parseFloat(newRank.toFixed(2));
 }
