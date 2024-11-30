@@ -34,11 +34,11 @@
 
 # 기능 상세
 
-| 메인 페이지                                                                                       | 전적비교 페이지                                                                                   |
+| 메인 페이지[(API 수정 과정)](./docs/APIDocumentation/APICombination/HOME.md)                      | 전적비교 페이지                                                                                   |
 | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | ![](https://velog.velcdn.com/images/rlaugs15/post/da729bc1-3040-4c77-84eb-a0cdecb6a496/image.jpg) | ![](https://velog.velcdn.com/images/rlaugs15/post/d06fa52b-6ed8-4ffe-8304-40376e50dd9c/image.png) |
 
-| 매칭정보 조회 페이지                                                                              | 캐릭터 조회 페이지                                                                                |
+| 매칭정보 조회 페이지[(API 수정 과정)](./docs/APIDocumentation/APICombination/PLAYERS.md)          | 캐릭터 조회 페이지[(API 수정 과정)](./docs/APIDocumentation/APICombination/CHAR_WIN_AND_PICK.md)  |
 | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | ![](https://velog.velcdn.com/images/rlaugs15/post/0d5b21fe-b9b2-4325-afa9-2066c9f1bcb0/image.jpg) | ![](https://velog.velcdn.com/images/rlaugs15/post/9144a35f-04e8-42f5-84fa-077391c9f305/image.gif) |
 
