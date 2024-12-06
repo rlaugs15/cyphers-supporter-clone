@@ -177,11 +177,12 @@ export const handlers = [
   http.get("/api/v1/auth/check-loginid/:loginId", ({ params }) => {
     const { loginId } = params;
     const user = users.find((user) => user.loginId === loginId);
+    console.log("user", user);
 
     if (user) {
       return HttpResponse.json(
         { code: 409, message: "존재하는 로그인ID입니다." },
-        { status: 409 }
+        { status: 200 }
       );
     }
     return HttpResponse.json(
@@ -198,7 +199,7 @@ export const handlers = [
     if (user) {
       return HttpResponse.json(
         { code: 409, message: "존재하는 닉네임입니다." },
-        { status: 409 }
+        { status: 200 }
       );
     }
     return HttpResponse.json(
@@ -215,7 +216,7 @@ export const handlers = [
     if (user) {
       return HttpResponse.json(
         { code: 409, message: "존재하는 이메일입니다." },
-        { status: 409 }
+        { status: 200 }
       );
     }
     return HttpResponse.json(
@@ -459,7 +460,7 @@ export const handlers = [
     if (!joinResult) {
       return HttpResponse.json(
         { code: 500, message: "회원가입 실패" },
-        { status: 500 }
+        { status: 200 }
       );
     }
 
@@ -485,7 +486,7 @@ export const handlers = [
           message: "아이디가 일치하지 않습니다.",
           data: null,
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
     const pwCeck = users.find((user) => user.password === password);
@@ -496,7 +497,7 @@ export const handlers = [
           message: "비밀번호가 일치하지 않습니다.",
           data: null,
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
     const user = idCeck;
@@ -535,7 +536,7 @@ export const handlers = [
       if (!characterId) {
         return HttpResponse.json(
           { code: 400, message: " 서버가 요청을 처리하지 못 했습니다." },
-          { status: 400 }
+          { status: 200 }
         );
       }
       characterComments.unshift({
@@ -561,7 +562,7 @@ export const handlers = [
     if (!title || !content || !author) {
       return HttpResponse.json(
         { code: 500, message: "게시글 작성에 실패했습니다." },
-        { status: 500 }
+        { status: 200 }
       );
     }
 
@@ -607,7 +608,7 @@ export const handlers = [
           code: 404,
           message: "해당 게시글 존재하지 않습니다.",
         },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -674,7 +675,7 @@ export const handlers = [
             code: 404,
             message: "해당 게시글이 존재하지 않습니다.",
           },
-          { status: 404 }
+          { status: 200 }
         );
       }
 
@@ -687,7 +688,7 @@ export const handlers = [
             code: 404,
             message: "해당 부모 댓글이 존재하지 않습니다.",
           },
-          { status: 404 }
+          { status: 200 }
         );
       }
 
@@ -740,7 +741,7 @@ export const handlers = [
           code: 404,
           message: "입력된 정보를 다시 확인해주세요.",
         },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -773,7 +774,7 @@ export const handlers = [
           code: 404,
           message: "입력된 정보를 다시 확인해주세요.",
         },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -804,7 +805,7 @@ export const handlers = [
           code: 404,
           message: "해당 게시글이 존재하지 않습니다.",
         },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -843,7 +844,7 @@ export const handlers = [
     if (!targetBoard) {
       return HttpResponse.json(
         { code: 404, message: "게시글을 찾을 수 없습니다." },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -873,7 +874,7 @@ export const handlers = [
     if (!checkId) {
       return HttpResponse.json(
         { code: 400, message: "id 조회에 실패했습니다." },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
@@ -883,7 +884,7 @@ export const handlers = [
     if (checkNickname && userLoginId?.nickname != nickname) {
       return HttpResponse.json(
         { code: 409, message: "존재하는 닉네임입니다." },
-        { status: 409 }
+        { status: 200 }
       );
     }
 
@@ -926,7 +927,7 @@ export const handlers = [
     if (checkCurrentPass) {
       return HttpResponse.json(
         { code: 401, message: "현재 비밀번호와 일치하지 않습니다." },
-        { status: 401 }
+        { status: 200 }
       );
     }
 
@@ -952,7 +953,7 @@ export const handlers = [
     if (!checkUser) {
       return HttpResponse.json(
         { code: 401, message: "비밀번호가 일치하지 않습니다." },
-        { status: 401 }
+        { status: 200 }
       );
     }
     return HttpResponse.json(
@@ -971,7 +972,7 @@ export const handlers = [
     if (targetBoardIndex === -1) {
       return HttpResponse.json(
         { code: 404, message: "해당 게시글이 존재하지 않습니다." },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -993,7 +994,7 @@ export const handlers = [
     if (!targetBoard) {
       return HttpResponse.json(
         { code: 404, message: "해당 게시글이 존재하지 않습니다." },
-        { status: 404 }
+        { status: 200 }
       );
     }
 
@@ -1041,7 +1042,7 @@ export const handlers = [
       if (!targetBoard) {
         return HttpResponse.json(
           { code: 404, message: "해당 게시글이 존재하지 않습니다." },
-          { status: 404 }
+          { status: 200 }
         );
       }
 
@@ -1051,7 +1052,7 @@ export const handlers = [
       if (!targetParent) {
         return HttpResponse.json(
           { code: 404, message: "해당 부모 댓글이 존재하지 않습니다." },
-          { status: 404 }
+          { status: 200 }
         );
       }
 
