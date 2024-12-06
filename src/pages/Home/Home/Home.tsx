@@ -16,12 +16,21 @@ function Home() {
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const onPlayerSubmit = ({ nickname }: IForm) => {
     setSearch((prev) => {
-      const existArray = [
-        ...prev,
-        { firstName: nickname.charAt(0), fullName: nickname },
-      ];
+      const newSearchItem = {
+        firstName: nickname.charAt(0),
+        fullName: nickname,
+      };
+      const updatedArray = [...prev, newSearchItem];
+      // 중복 제거 (fullName을 기준으로 중복 제거)
+      const uniqueArray = updatedArray.filter(
+        (item, index, self) =>
+          index ===
+          self.findIndex(
+            (t) => t.fullName.toLowerCase() === item.fullName.toLowerCase()
+          )
+      );
 
-      return [...new Set(existArray)];
+      return uniqueArray;
     });
     nav(`/${nickname}/mostcyall`);
     setValue("nickname", "");
@@ -37,7 +46,7 @@ function Home() {
         >
           <SearchInputBtn
             register={register("nickname", { required: true })}
-            text="검색할 플레이어의 닉네임을 입력하세요"
+            text="검색할 플레이어의 닉네임을 입력하세요. ex) 라팜"
             required
           />
         </form>

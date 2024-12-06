@@ -11,12 +11,13 @@ import useUser from "../../../hooks/useUser";
 type PickUser = Pick<User, "loginId" | "nickname">;
 
 interface IForm extends PickUser {
-  avatar: FileList;
+  avatar: FileList | null;
 }
 
 function EditProfile() {
   const nav = useNavigate();
   const { user } = useUser();
+  console.log("user.avar", user?.avatar);
 
   const {
     register,
@@ -25,7 +26,6 @@ function EditProfile() {
     formState: { errors },
   } = useForm<IForm>({
     defaultValues: {
-      loginId: user?.id,
       nickname: user?.nickname,
     },
   });
@@ -33,7 +33,7 @@ function EditProfile() {
   //이미지 넣기
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
   const [imgFile, setImgFIle] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [imagePreview, setImagePreview] = useState(user?.avatar || "");
 
   const onAvatarUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -142,7 +142,7 @@ function EditProfile() {
               type="text"
               id="loginId"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              placeholder="로그인ID를 입력해주세요."
+              placeholder="로그인ID를 입력해주세요. 모킹ID: login1"
               required
             />
           </div>

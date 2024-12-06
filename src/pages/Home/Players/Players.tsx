@@ -27,7 +27,7 @@ function Players() {
         >
           <SearchInputBtn
             register={register("nicknames", { required: true })}
-            text=",로 구분하여 플레이어의 닉네임을 입력하세요"
+            text=",로 구분하여 플레이어의 닉네임을 입력하세요 ex) 라팜,한모금"
             required
           />
         </form>

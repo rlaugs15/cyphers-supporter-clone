@@ -63,6 +63,7 @@ function Login() {
             <input
               type="text"
               id="loginId"
+              placeholder="모킹ID: loginId1"
               {...register("loginId", { required: "로그인ID는 필수입니다" })}
               className={`mt-1 block w-full border ${
                 errors.loginId ? "border-red-500" : "border-gray-300"
@@ -84,6 +85,7 @@ function Login() {
             <input
               type="password"
               id="password"
+              placeholder="모킹 pass: 김현준123!!"
               {...register("password", {
                 required: "비밀번호를 설정하세요.",
                 pattern: {

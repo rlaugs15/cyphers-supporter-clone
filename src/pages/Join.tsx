@@ -76,8 +76,8 @@ function Join() {
         cacheTime: 0,
       }
     );
-  const checkLoginIdClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+
+  const checkLoginIdClick = () => {
     const loginId = getValues("loginId");
     if (checkIdLoading) return;
     setIdState(loginId);
@@ -103,8 +103,8 @@ function Join() {
         cacheTime: 0,
       }
     );
-  const checkNicknameClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+
+  const checkNicknameClick = () => {
     const nickname = getValues("nickname");
     if (checkNicknameLoading) return;
     setNicknameState(nickname);
@@ -130,9 +130,16 @@ function Join() {
         cacheTime: 0,
       }
     );
-  const checkEmailClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+  const checkEmailClick = () => {
     const email = getValues("email");
+
+    // 이메일 형식 검증 (정규식 사용)
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(email)) {
+      setError("email", { message: "올바른 이메일 형식을 입력하세요" });
+      return;
+    }
+
     if (checkEmailLoading) return;
     setEmailState(email);
   };
@@ -236,6 +243,7 @@ function Join() {
             <input
               type="text"
               id="loginId"
+              placeholder="중복 ID: loginId1"
               {...register("loginId", { required: "로그인ID는 필수입니다" })}
               className={`mt-1 block w-full border ${
                 errors.loginId ? "border-red-500" : "border-gray-300"
@@ -269,6 +277,7 @@ function Join() {
             <input
               type="text"
               id="nickname"
+              placeholder="중복 닉네임: 울라리"
               {...register("nickname", {
                 required: "닉네임은 필수입니다",
                 maxLength: {
@@ -310,7 +319,14 @@ function Join() {
             <input
               type="email"
               id="email"
-              {...register("email", { required: "이메일은 필수입니다" })}
+              placeholder="중복 email: rlagus123@gmail.com"
+              {...register("email", {
+                required: "이메일은 필수입니다",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "올바른 이메일 형식을 입력하세요",
+                },
+              })}
               className={`mt-1 block w-full border ${
                 errors.email ? "border-red-500" : "border-gray-300"
               } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
