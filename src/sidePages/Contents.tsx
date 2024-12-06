@@ -143,7 +143,7 @@ function Contents() {
             text="게시판"
           />
           <Nav
-            movePage="/board/"
+            movePage="/video"
             svg={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
