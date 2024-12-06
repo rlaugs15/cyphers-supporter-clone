@@ -86,32 +86,34 @@ function BoardList() {
                 </td>
               </tr>
             ))}
-          {boardListData?.data.posts.map((post) => (
-            <tr
-              key={post.id}
-              className="border-b border-gray-200 hover:bg-gray-100"
-            >
-              <td className="px-6 py-3 text-center">{post.id}</td>
-              <td className="px-6 py-3 text-center">
-                <Link
-                  to={`/board/read/${post.id}`}
-                  className="text-blue-500 hover:underline"
+          {!boardListLoading && boardListData
+            ? boardListData?.data.posts.map((post) => (
+                <tr
+                  key={post.id}
+                  className="border-b border-gray-200 hover:bg-gray-100"
                 >
-                  {post.title}
-                </Link>
-              </td>
-              <td className="flex items-center justify-center px-6 py-3 space-x-2 text-center">
-                <AvatarImg
-                  userAvatar
-                  userAvatarUrl={post.userAvatar!}
-                  size="8"
-                />
-                <span>{post.author}</span>
-              </td>
-              <td className="px-6 py-3 text-center"></td>
-              <td className="px-6 py-3 text-center">{post.like ?? 0}</td>
-            </tr>
-          ))}
+                  <td className="px-6 py-3 text-center">{post.id}</td>
+                  <td className="px-6 py-3 text-center">
+                    <Link
+                      to={`/board/read/${post.id}`}
+                      className="text-blue-500 hover:underline"
+                    >
+                      {post.title}
+                    </Link>
+                  </td>
+                  <td className="flex items-center justify-center px-6 py-3 space-x-2 text-center">
+                    <AvatarImg
+                      userAvatar
+                      userAvatarUrl={post.userAvatar!}
+                      size="8"
+                    />
+                    <span>{post.author}</span>
+                  </td>
+                  <td className="px-6 py-3 text-center"></td>
+                  <td className="px-6 py-3 text-center">{post.like ?? 0}</td>
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
       <div className="flex justify-between mt-4">

@@ -31,7 +31,7 @@ function MostChamp({ data, loading, findSecond, secondColor }: IMostChamp) {
       setMostChampArray(() => [...newArray]);
       //setChampLoading(false);
     }
-  }, [loading, data, findSecond ? findSecondMostChamp : findMostChamp]);
+  }, [loading, data, findSecond]);
 
   if (loading) {
     return (
