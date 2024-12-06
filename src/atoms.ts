@@ -2,6 +2,18 @@ import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { PlayerInfo } from "./api/cyphersApi";
 
+//웹페이지 첫 방문 시 공지사항 출력
+const { persistAtom: noticePersistAtom } = recoilPersist({
+  key: "sessionStorage",
+  storage: sessionStorage,
+});
+
+export const noticeStateAtom = atom({
+  key: "noticeState",
+  default: true,
+  effects_UNSTABLE: [noticePersistAtom],
+});
+
 export const playerIdAtom = atom({
   key: "playerId",
   default: "",
