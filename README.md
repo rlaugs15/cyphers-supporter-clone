@@ -75,7 +75,7 @@
 
 ### 주요 개발 스택
 
-| Category         | Package Name           | Version |
+| Category         | Package Name           | Version | 
 | ---------------- | ---------------------- | ------- |
 | Bundler          | Vite                   | 5.2.0   |
 | Runtime          | Node.js                | 20.11.1 |
@@ -88,6 +88,10 @@
 | Form Handling    | React Hook Form        | 7.51.2  |
 | Styling          | TailwindCSS            | 3.4.3   |
 | Skeleton Screens | React Loading Skeleton | 3.4.0   |
+| UI Components | Shadcn | Latest   |
+
+#### Notes
+ - __Shadcn:__ 최근 추가된 UI 구성 요소 라이브러리. 동영상 콘텐츠부터 사용할 예정
 
 # 프로젝트 상세
 
