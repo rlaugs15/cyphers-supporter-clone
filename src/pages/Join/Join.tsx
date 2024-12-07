@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { contentBtnStyle, today } from "../libs/utils";
 import {
   checkEmail,
   checkLoginId,
@@ -10,9 +9,13 @@ import {
   MutationResult,
   setJoin,
   User,
-} from "../api/userApi";
-import { defaultAvatarImgUrl } from "../libs/userUtils";
-import useUser from "../hooks/useUser";
+} from "../../api/userApi";
+import useUser from "../../hooks/useUser";
+import useImagePreview from "@/hooks/useImagePreview";
+import AvatarUploader from "../../components/form/AvatarUploader";
+import DuplicateCheckButton from "./Component/DuplicateCheckButton";
+import FormField from "../../components/form/FormField";
+import ValidationMessage from "../../components/form/ValidationMessage";
 
 interface IForm extends Omit<User, "avatar"> {
   avatar?: FileList;
@@ -33,36 +36,7 @@ function Join() {
 
   //이미지 넣기
   const hiddenInputRef = useRef<HTMLInputElement | null>(null);
-  const [imgFile, setImgFIle] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState("");
-
-  const onAvatarUploadClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImgFIle(file);
-    } else {
-      URL.revokeObjectURL(imagePreview); // 메모리 해제
-      setImagePreview("");
-      setImgFIle(null);
-    }
-  };
-
-  //이미지 미리보기
-  useEffect(() => {
-    let url = "";
-    if (imgFile) {
-      const blob = new Blob([imgFile], { type: "image/*" });
-      const imageUrl = URL.createObjectURL(blob);
-      setImagePreview(imageUrl);
-      url = imageUrl;
-    }
-    // 클린업 함수로 메모리 해제
-    return () => {
-      if (imgFile) {
-        URL.revokeObjectURL(url);
-      }
-    };
-  }, [imgFile]);
+  const { imageFile, imagePreview, handleFileChange } = useImagePreview();
 
   //로그인id 중복 체크
   const [idSate, setIdState] = useState("");
@@ -183,8 +157,8 @@ function Join() {
       nickname,
       password,
     }).forEach(([key, value]) => formData.append(key, value));
-    if (imgFile) {
-      formData.append("avatar", imgFile);
+    if (imageFile) {
+      formData.append("avatar", imageFile);
     }
     joinMutate(formData);
   };
@@ -204,235 +178,135 @@ function Join() {
         <h2 className="mb-6 text-3xl font-semibold text-gray-800">회원가입</h2>
         <form onSubmit={handleSubmit(onJoinSubmit)} className="space-y-6">
           <section className="flex">
-            <div className="flex flex-col items-center">
-              <label
-                htmlFor="avatar"
-                className="flex items-center justify-center w-16 rounded-full aspect-square"
-              >
-                <img
-                  className="object-cover w-16 rounded-full aspect-square"
-                  src={imagePreview || defaultAvatarImgUrl}
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="avatar"
-                  onChange={onAvatarUploadClick}
-                  ref={hiddenInputRef}
-                  className="hidden"
-                />
-              </label>
-
-              <button
-                type="button"
-                className={`${contentBtnStyle}`}
-                onClick={() => hiddenInputRef.current?.click()}
-              >
-                이미지 변경하기
-              </button>
-            </div>
-          </section>
-
-          <div>
-            <label
-              htmlFor="loginId"
-              className="block text-sm font-medium text-gray-700"
-            >
-              로그인ID
-            </label>
-            <input
-              type="text"
-              id="loginId"
-              placeholder="중복 ID: loginId1"
-              {...register("loginId", { required: "로그인ID는 필수입니다" })}
-              className={`mt-1 block w-full border ${
-                errors.loginId ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+            <AvatarUploader
+              imagePreview={imagePreview}
+              hiddenInputRef={hiddenInputRef}
+              handleFileChange={handleFileChange}
             />
-            {errors.loginId && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.loginId.message}
-              </p>
-            )}
-            {checkIdData && checkIdData?.code === 200 && !errors.loginId && (
-              <p className="mt-1 text-sm text-blue-500">
-                {checkIdData?.message}
-              </p>
-            )}
-            <button
-              type="button"
+          </section>
+          <section>
+            <FormField
+              label="로그인ID"
+              id="loginId"
+              register={register}
+              validation={{ required: "로그인ID는 필수입니다" }}
+              errors={errors}
+              placeholder="중복 ID: loginId1"
+            />
+            <ValidationMessage
+              errorMessage={errors.loginId?.message}
+              successMessage={checkIdData?.message}
+            />
+            <DuplicateCheckButton
+              label="로그인ID 중복 확인"
               onClick={checkLoginIdClick}
-              className={`${contentBtnStyle}`}
-            >
-              로그인ID 중복 확인
-            </button>
-          </div>
-          <div>
-            <label
-              htmlFor="nickname"
-              className="block text-sm font-medium text-gray-700"
-            >
-              닉네임
-            </label>
-            <input
-              type="text"
+              isLoading={checkIdLoading}
+            />
+          </section>
+          <section>
+            <FormField
+              label="닉네임"
               id="nickname"
-              placeholder="중복 닉네임: 울라리"
-              {...register("nickname", {
+              register={register}
+              validation={{
                 required: "닉네임은 필수입니다",
                 maxLength: {
                   value: 5,
                   message: "닉네임은 최대 5글자까지 가능합니다",
                 },
-              })}
-              className={`mt-1 block w-full border ${
-                errors.nickname ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              }}
+              errors={errors}
+              placeholder="중복 닉네임: 울라리"
             />
-            {errors.nickname && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.nickname.message}
-              </p>
-            )}
-            {checkNickNameData &&
-              checkNickNameData?.code === 200 &&
-              !errors.nickname && (
-                <p className="mt-1 text-sm text-blue-500">
-                  {checkNickNameData?.message}
-                </p>
-              )}
-            <button
-              type="button"
+            <ValidationMessage
+              errorMessage={errors.nickname?.message}
+              successMessage={checkNickNameData?.message}
+            />
+            <DuplicateCheckButton
+              label="닉네임 중복 확인"
               onClick={checkNicknameClick}
-              className={`${contentBtnStyle}`}
-            >
-              닉네임 중복 확인
-            </button>
-          </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              이메일
-            </label>
-            <input
+              isLoading={checkNicknameLoading}
+            />
+          </section>
+          <section>
+            <FormField
+              label="이메일"
               type="email"
               id="email"
-              placeholder="중복 email: rlagus123@gmail.com"
-              {...register("email", {
+              register={register}
+              validation={{
                 required: "이메일은 필수입니다",
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                   message: "올바른 이메일 형식을 입력하세요",
                 },
-              })}
-              className={`mt-1 block w-full border ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              }}
+              errors={errors}
+              placeholder="중복 email: rlagus123@gmail.com"
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.email.message}
-              </p>
-            )}
-            {checkEmailData &&
-              checkEmailData?.code === 200 &&
-              !errors.email && (
-                <p className="mt-1 text-sm text-blue-500">
-                  {checkEmailData?.message}
-                </p>
-              )}
-            <button
-              type="button"
+            <ValidationMessage
+              errorMessage={errors.nickname?.message}
+              successMessage={checkEmailData?.message}
+            />
+            <DuplicateCheckButton
+              label="이메일 중복 확인"
               onClick={checkEmailClick}
-              className={`${contentBtnStyle}`}
-            >
-              이메일 중복 확인
-            </button>
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              비밀번호
-            </label>
-            <input
+              isLoading={checkEmailLoading}
+            />
+          </section>
+          <section>
+            <FormField
+              label="비밀번호"
               type="password"
               id="password"
-              {...register("password", {
+              register={register}
+              validation={{
                 required: "비밀번호를 설정하세요.",
                 pattern: {
                   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,20}$/,
                   message:
                     "비밀번호는 8-20자 이내여야 하며, 영문자, 숫자, 특수문자를 포함해야 합니다.",
                 },
-              })}
-              className={`mt-1 block w-full border ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              }}
+              errors={errors}
             />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="password2"
-              className="block text-sm font-medium text-gray-700"
-            >
-              비밀번호 확인
-            </label>
-            <input
+            <ValidationMessage errorMessage={errors.password?.message} />
+          </section>
+          <section>
+            <FormField
+              label="비밀번호 확인"
               type="password"
               id="password2"
-              {...register("password2", {
+              register={register}
+              validation={{
                 required: "비밀번호를 설정하세요.",
                 pattern: {
                   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,20}$/,
                   message:
                     "비밀번호는 8-20자 이내여야 하며, 영문자, 숫자, 특수문자를 포함해야 합니다.",
                 },
-              })}
-              className={`mt-1 block w-full border ${
-                errors.password2 ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              }}
+              errors={errors}
             />
-            {errors.password2 && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.password2.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              이름
-            </label>
-            <input
-              type="text"
+            <ValidationMessage errorMessage={errors.password2?.message} />
+          </section>
+          <section>
+            <FormField
+              label="이름"
               id="name"
-              {...register("name", {
+              register={register}
+              validation={{
                 required: "이름은 필수입니다",
                 maxLength: {
                   value: 20,
                   message: "이름은 최대 20글자까지 가능합니다",
                 },
-              })}
-              className={`mt-1 block w-full border ${
-                errors.name ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              }}
+              errors={errors}
             />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-            )}
-          </div>
-          <div>
+            <ValidationMessage errorMessage={errors.name?.message} />
+          </section>
+          <section>
             <label
               htmlFor="gender"
               className="block text-sm font-medium text-gray-700"
@@ -449,35 +323,19 @@ function Join() {
               <option value="male">남자</option>
               <option value="female">여자</option>
             </select>
-            {errors.gender && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.gender.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="birthDay"
-              className="block text-sm font-medium text-gray-700"
-            >
-              생년월일
-            </label>
-            <input
+            <ValidationMessage errorMessage={errors.gender?.message} />
+          </section>
+          <section>
+            <FormField
+              label="생년월일"
               type="date"
               id="birthDay"
-              max={today}
-              {...register("birthDay", { required: "생일은 필수입니다" })}
-              className={`mt-1 block w-full border ${
-                errors.birthDay ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              register={register}
+              validation={{ required: "생일은 필수입니다" }}
+              errors={errors}
             />
-            {errors.birthDay && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.birthDay.message}
-              </p>
-            )}
-          </div>
-
+            <ValidationMessage errorMessage={errors.birthDay?.message} />
+          </section>
           <div className="flex flex-col items-center justify-center">
             <button
               type="submit"
