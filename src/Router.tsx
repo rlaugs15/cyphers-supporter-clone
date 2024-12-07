@@ -10,7 +10,7 @@ import PlayersComparison from "./pages/Home/Players/PlayersComparison/PlayersCom
 import Matches from "./pages/Home/Players/Matchs/Matches";
 import CharacterInfo from "./pages/Characters/CharacterInfo/CharacterInfo";
 import Players from "./pages/Home/Players/Players";
-import Join from "./pages/Join";
+import Join from "./pages/Join/Join";
 import Login from "./pages/Login";
 import Board from "./pages/Board/Board";
 import BoardDetail from "./pages/Board/Component/BoardDetail/BoardDetail";

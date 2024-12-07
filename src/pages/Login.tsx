@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { setLogin, User } from "../api/userApi";
 import useUser from "../hooks/useUser";
+import FormField from "@/components/form/FormField";
+import ValidationMessage from "../components/form/ValidationMessage";
 
 type IForm = Pick<User, "loginId" | "password">;
 
@@ -53,58 +55,36 @@ function Login() {
       <div className="relative w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
         <h2 className="mb-6 text-3xl font-semibold text-gray-800">로그인</h2>
         <form onSubmit={handleSubmit(onLoginSubmit)} className="space-y-6">
-          <div>
-            <label
-              htmlFor="loginId"
-              className="block text-sm font-medium text-gray-700"
-            >
-              로그인ID
-            </label>
-            <input
-              type="text"
+          <section>
+            <FormField
+              label="로그인ID"
               id="loginId"
+              register={register}
+              validation={{ required: "로그인ID는 필수입니다" }}
+              errors={errors}
               placeholder="모킹ID: loginId1"
-              {...register("loginId", { required: "로그인ID는 필수입니다" })}
-              className={`mt-1 block w-full border ${
-                errors.loginId ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
             />
-            {errors.loginId && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.loginId.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              비밀번호
-            </label>
-            <input
+            <ValidationMessage errorMessage={errors.loginId?.message} />
+          </section>
+          <section>
+            <FormField
+              label="비밀번호"
               type="password"
               id="password"
-              placeholder="모킹 pass: 김현준123!!"
-              {...register("password", {
+              register={register}
+              validation={{
                 required: "비밀번호를 설정하세요.",
                 pattern: {
                   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,20}$/,
                   message:
                     "비밀번호는 8-20자 이내여야 하며, 영문자, 숫자, 특수문자를 포함해야 합니다.",
                 },
-              })}
-              className={`mt-1 block w-full border ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              } rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500`}
+              }}
+              errors={errors}
+              placeholder="모킹 pass: 김현준123!!"
             />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
+            <ValidationMessage errorMessage={errors.password?.message} />
+          </section>
           <div className="flex flex-col items-center justify-center">
             <button className={`${contentBtnStyle}`}>로그인</button>
           </div>
