@@ -27,6 +27,8 @@ import FindPassword from "./pages/FindUserProfile/Component/FindPassword";
 import BoardEdit from "./pages/Board/Component/BoardDetail/Component/BoardEdit";
 import ErrorPage from "./components/ErrorPage";
 import Video from "./pages/Video/Video";
+import VideoList from "./pages/Video/VideoList/VideoList";
+import VideoDetail from "./pages/Video/VideoDetail";
 
 //배포된 환경에 문제가 없도록 로컬 환경에서만 설정
 const isLocalhost = window.location.hostname === "localhost";
@@ -157,6 +159,16 @@ export const router = createBrowserRouter(
         {
           path: "video",
           element: <Video />,
+          children: [
+            {
+              path: "",
+              element: <VideoList />,
+            },
+            {
+              path: ":videoId",
+              element: <VideoDetail />,
+            },
+          ],
         },
       ],
     },
