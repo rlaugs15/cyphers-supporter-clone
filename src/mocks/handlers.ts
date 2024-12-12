@@ -1,17 +1,14 @@
 import { http, HttpResponse } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
-import {
-  boardComments,
-  boardLikes,
-  characterComments,
-  posts,
-  users,
-} from "./data";
 import { CustomDateFormatter } from "../libs/utils";
 import { IChangPass, User } from "../api/userApi";
 import { IBoardComment, ILike, Post } from "../api/boardApi";
 import { ICharacterComment } from "../api/cyphersApi";
+import { users } from "./data/userData";
+import { characterComments } from "./data/cyphersData";
+import { boardComments, boardLikes, posts } from "./data/boardData";
+import { videos } from "./data/videoData";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -400,6 +397,30 @@ export const handlers = [
           likesLength: filterLikes.length,
           onLike: likeResult,
         },
+      },
+      { status: 200 }
+    );
+  }),
+
+  //비디오 목록 get 요청
+  http.get("/api/v1/video", () => {
+    const videoList = videos;
+
+    if (!videoList) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "데이터 조회 실패",
+          data: videoList,
+        },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "데이터 조회 성공",
+        data: videoList,
       },
       { status: 200 }
     );

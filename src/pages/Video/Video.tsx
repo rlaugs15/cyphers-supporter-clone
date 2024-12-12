@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { contentBoxStyle } from "@/libs/utils";
+import { Outlet } from "react-router-dom";
 
 function Video() {
   return (
@@ -26,6 +27,11 @@ function Video() {
         </CardContent>
       </Card>
     </div>
+    <>
+      <div className={`${contentBoxStyle}`}>
+        <Outlet />
+      </div>
+    </>
   );
 }
 
