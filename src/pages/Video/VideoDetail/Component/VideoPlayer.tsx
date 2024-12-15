@@ -35,7 +35,6 @@ function VideoPlayer({
   const params = useParams();
 
   const [playing, setPlaying] = useState(false);
-  const [buffer, setBuffer] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -120,14 +119,11 @@ function VideoPlayer({
           url={url}
           width="100%"
           height="100%"
-          played={0.12}
           playing={playing}
-          onPlay={() => setBuffer(false)}
-          onBuffer={() => setBuffer(true)}
           controls
           onReady={() => setPlaying(true)}
         />
-        {isLoading || buffer ? <Spinner /> : null}
+        {isLoading ? <Spinner /> : null}
       </CardContent>
       <CardFooter className="flex flex-col items-start justify-start gap-4 p-4">
         <CardTitle className="text-2xl">{title}</CardTitle>
