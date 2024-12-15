@@ -55,8 +55,6 @@ function VideoCard({
         videoId: id,
         authorId,
         title,
-        url,
-        thumbnail,
         author,
         views,
         uploadedAt,

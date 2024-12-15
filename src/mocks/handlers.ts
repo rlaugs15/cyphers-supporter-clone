@@ -411,7 +411,7 @@ export const handlers = [
         {
           code: 404,
           message: "데이터 조회 실패",
-          data: videoList,
+          data: null,
         },
         { status: 404 }
       );
@@ -421,6 +421,32 @@ export const handlers = [
         code: 200,
         message: "데이터 조회 성공",
         data: videoList,
+      },
+      { status: 200 }
+    );
+  }),
+
+  //비디오 get 요청
+  http.get("/api/v1/video/:videoId", ({ params }) => {
+    const { videoId } = params;
+
+    const findVideo = videos.find((video) => video.id === Number(videoId));
+
+    if (!findVideo) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "데이터 조회 실패",
+          data: null,
+        },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "데이터 조회 성공",
+        data: findVideo,
       },
       { status: 200 }
     );
@@ -955,6 +981,27 @@ export const handlers = [
     users[targetIndex].password = newPassword;
     return HttpResponse.json(
       { code: 200, message: "비밀번호 변경에 성공했습니다." },
+      { status: 200 }
+    );
+  }),
+
+  //영상 조회수 patch 요청
+  http.patch("/api/v1/video/:videoId/views", async ({ params, request }) => {
+    const { videoId } = params;
+    const {} = (await request.json()) as any;
+
+    const targetVideo = videos.find((video) => video.id === Number(videoId));
+
+    if (!targetVideo) {
+      return HttpResponse.json(
+        { code: 404, message: "영상이 존재하지 않습니다." },
+        { status: 404 }
+      );
+    }
+
+    targetVideo.views += 1;
+    return HttpResponse.json(
+      { code: 200, message: "조회수가 올랐습니다." },
       { status: 200 }
     );
   }),
