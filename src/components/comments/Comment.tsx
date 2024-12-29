@@ -1,23 +1,20 @@
-import {
-  deleteBoardParentComment,
-  IBoardComment,
-} from "../../../../../../api/boardApi";
-import StyledButton from "../../../../../../components/Button/StyledButton";
-import useUser from "../../../../../../hooks/useUser";
-import BoardChildComment from "./BoardChildComment";
+import { deleteBoardParentComment, IBoardComment } from "../../api/boardApi";
+import StyledButton from "../Button/StyledButton";
+import useUser from "../../hooks/useUser";
+import BoardChildComment from "./ChildComment";
 import { useState } from "react";
-import WriteChildComment from "../WriteComment/WriteChildComment";
+import WriteChildComment from "./WriteChildComment";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
-import { errorTextStyle } from "../../../../../../libs/utils";
-import AvatarImg from "../../../../../../components/images/AvatarImg";
+import { errorTextStyle } from "../../libs/utils";
+import AvatarImg from "../images/AvatarImg";
 
 export interface ModifyComment
   extends Omit<IBoardComment, "childrenCommentsIds"> {
   childrenCommentsIds?: ModifyComment[];
 }
 
-function BoardComment({
+function Comment({
   id,
   content,
   createdAt,
@@ -103,4 +100,4 @@ function BoardComment({
   );
 }
 
-export default BoardComment;
+export default Comment;

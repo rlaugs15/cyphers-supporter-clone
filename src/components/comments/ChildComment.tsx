@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "react-query";
-import StyledButton from "../../../../../../components/Button/StyledButton";
-import useUser from "../../../../../../hooks/useUser";
-import { ModifyComment } from "./BoardComment";
-import { deleteBoardChildComment } from "../../../../../../api/boardApi";
+import StyledButton from "../Button/StyledButton";
+import useUser from "../../hooks/useUser";
+import { ModifyComment } from "./Comment";
+import { deleteBoardChildComment } from "../../api/boardApi";
 import { useParams } from "react-router-dom";
-import { errorTextStyle } from "../../../../../../libs/utils";
-import AvatarImg from "../../../../../../components/images/AvatarImg";
+import { errorTextStyle } from "../../libs/utils";
+import AvatarImg from "../images/AvatarImg";
 
-function BoardChildComment({
+function ChildComment({
   id,
   userId,
   userAvatar,
@@ -59,4 +59,4 @@ function BoardChildComment({
   );
 }
 
-export default BoardChildComment;
+export default ChildComment;

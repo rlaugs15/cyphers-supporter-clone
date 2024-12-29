@@ -17,25 +17,27 @@ function VideoDetail() {
     );
 
   return (
-    <div className="flex bg-red-300">
-      {videoLoading ? (
-        <VideoPlayerSkeleton />
-      ) : (
-        <>
-          <VideoPlayer
-            isLoading={videoLoading}
-            id={videoId || videoData?.data.id}
-            authorId={authorId || videoData?.data.authorId}
-            author={author || videoData?.data.author}
-            title={title || videoData?.data.title}
-            url={String(videoData?.data.url)}
-            views={views || videoData?.data.views}
-            uploadedAt={uploadedAt || videoData?.data.uploadedAt}
-          />
+    <div className="grid grid-cols-4 bg-red-300">
+      <section className="col-span-3">
+        {videoLoading ? (
+          <VideoPlayerSkeleton />
+        ) : (
+          <>
+            <VideoPlayer
+              isLoading={videoLoading}
+              id={videoId || videoData?.data.id}
+              authorId={authorId || videoData?.data.authorId}
+              author={author || videoData?.data.author}
+              title={title || videoData?.data.title}
+              url={String(videoData?.data.url)}
+              views={views || videoData?.data.views}
+              uploadedAt={uploadedAt || videoData?.data.uploadedAt}
+            />
+          </>
+        )}
+      </section>
 
-          <section>side bar</section>
-        </>
-      )}
+      <section className="">side bar</section>
     </div>
   );
 }

@@ -1,15 +1,12 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-  IBoardComment,
-  writeParentComment,
-} from "../../../../../../api/boardApi";
-import { errorTextStyle } from "../../../../../../libs/utils";
+import { IBoardComment, writeParentComment } from "../../api/boardApi";
+import { errorTextStyle } from "../../libs/utils";
 import { useMutation, useQueryClient } from "react-query";
-import useUser from "../../../../../../hooks/useUser";
+import useUser from "../../hooks/useUser";
 import { useParams } from "react-router-dom";
-import Textarea from "../../../../../../components/Textarea";
-import { MutationResult } from "../../../../../../api/userApi";
+import Textarea from "../Textarea";
+import { MutationResult } from "../../api/userApi";
 
 type IForm = Pick<IBoardComment, "content">;
 

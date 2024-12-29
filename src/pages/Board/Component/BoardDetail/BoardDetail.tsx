@@ -4,7 +4,7 @@ import { contentBoxStyle } from "../../../../libs/utils";
 import useUser from "../../../../hooks/useUser";
 import BoardComment, {
   ModifyComment,
-} from "./Component/BoardComment/BoardComment";
+} from "../../../../components/comments/Comment";
 import Skeleton from "react-loading-skeleton";
 import {
   BoardCommentResult,
@@ -12,7 +12,7 @@ import {
   getBoardDetail,
   getBoardLikes,
 } from "../../../../api/boardApi";
-import WriteComment from "./Component/WriteComment/WriteComment";
+import WriteComment from "../../../../components/comments/WriteComment";
 import BoardLikeBtn from "./Component/ActionButtons/BoardLikeBtn";
 import BoardEditBtn from "./Component/ActionButtons/BoardEditBtn";
 import BoardDeleteBtn from "./Component/ActionButtons/BoardDeleteBtn";
