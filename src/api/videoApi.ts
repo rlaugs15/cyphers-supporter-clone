@@ -25,7 +25,7 @@ export async function getVideoList() {
   const response = await axios.get("/api/v1/video");
   response.data.data.forEach((video: Video) => {
     const prevUrl = video.url;
-    video.url = PUBLIC_URL + prevUrl;
+    video.url = `${PUBLIC_URL}videos/${prevUrl}`;
     return video;
   });
   return response.data;
@@ -38,7 +38,7 @@ export interface VideoDetailResult extends MutationResult {
 export async function getVideoDetail(videoId: number) {
   const response = await axios.get(`/api/v1/video/${videoId}`);
   const prevUrl = response.data.data.url;
-  response.data.data.url = PUBLIC_URL + prevUrl;
+  response.data.data.url = `${PUBLIC_URL}videos/${prevUrl}`;
   return response.data;
 }
 

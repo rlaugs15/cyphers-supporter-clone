@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, passthrough } from "msw";
 import { SignJWT, jwtVerify } from "jose";
 import { logout } from "../tokenInstance";
 import { CustomDateFormatter } from "../libs/utils";
@@ -9,6 +9,7 @@ import { users } from "./data/userData";
 import { characterComments } from "./data/cyphersData";
 import { boardComments, boardLikes, posts } from "./data/boardData";
 import { videos } from "./data/videoData";
+import { PUBLIC_URL } from "@/api/videoApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -425,8 +426,8 @@ export const handlers = [
       { status: 200 }
     );
   }),
-
   //비디오 get 요청
+  // (1) 기존 메타데이터 API
   http.get("/api/v1/video/:videoId", ({ params }) => {
     const { videoId } = params;
 
@@ -450,6 +451,11 @@ export const handlers = [
       },
       { status: 200 }
     );
+  }),
+
+  // 모든 비디오 파일 요청을 passthrough
+  http.get("/.*.mp4$/", ({ request }) => {
+    return passthrough();
   }),
 
   //---------------------POST 요청-------------------------------
