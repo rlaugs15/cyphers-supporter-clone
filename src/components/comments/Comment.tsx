@@ -1,13 +1,13 @@
 import { deleteBoardParentComment, IBoardComment } from "../../api/boardApi";
 import StyledButton from "../Button/StyledButton";
 import useUser from "../../hooks/useUser";
-import BoardChildComment from "./ChildComment";
 import { useState } from "react";
 import WriteChildComment from "./WriteChildComment";
 import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import { errorTextStyle } from "../../libs/utils";
 import AvatarImg from "../images/AvatarImg";
+import ChildComment from "./ChildComment";
 
 export interface ModifyComment
   extends Omit<IBoardComment, "childrenCommentsIds"> {
@@ -85,7 +85,7 @@ function Comment({
       ) : null}
 
       {childrenCommentsIds?.map((comment) => (
-        <BoardChildComment
+        <ChildComment
           key={comment.id}
           id={comment.id}
           content={comment.content}

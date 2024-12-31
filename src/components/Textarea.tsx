@@ -34,7 +34,7 @@ function Textarea({
       {...register}
       required
       placeholder={user ? "코멘트 작성" : "로그인을 해야 작성할 수 있습니다."}
-      className="p-3 border rounded-sm resize-none"
+      className="w-full p-3 border rounded-sm resize-none"
       rows={4}
       disabled={!user}
       onKeyDown={handleKeyDown}
