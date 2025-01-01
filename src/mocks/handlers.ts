@@ -8,8 +8,8 @@ import { ICharacterComment } from "../api/cyphersApi";
 import { users } from "./data/userData";
 import { characterComments } from "./data/cyphersData";
 import { boardComments, boardLikes, posts } from "./data/boardData";
-import { videos } from "./data/videoData";
-import { PUBLIC_URL } from "@/api/videoApi";
+import { videoComments, videos } from "./data/videoData";
+import { PUBLIC_URL, VideoComment } from "@/api/videoApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -458,6 +458,33 @@ export const handlers = [
     return passthrough();
   }),
 
+  //비디오 댓글 get 요청
+  http.get("/api/v1/video/:videoId/comments", ({ params }) => {
+    const { videoId } = params;
+
+    const findComments = videoComments.filter(
+      (comment) => comment.videoId === Number(videoId)
+    );
+
+    if (!findComments) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "댓글 목록이 존재하지 않습니다.",
+          data: null,
+        },
+        { status: 404 }
+      );
+    }
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "댓글 목록 조회 성공",
+        data: findComments,
+      },
+      { status: 200 }
+    );
+  }),
   //---------------------POST 요청-------------------------------
 
   // 회원가입 요청
@@ -934,7 +961,7 @@ export const handlers = [
     // 닉네임 중복 확인
     const checkNickname = users.find((user) => user.nickname === nickname);
     const userLoginId = users.find((user) => user.loginId === loginId);
-    if (checkNickname || userLoginId?.nickname != nickname) {
+    if (checkNickname && userLoginId?.nickname !== nickname) {
       return HttpResponse.json(
         { code: 409, message: "존재하는 닉네임입니다." },
         { status: 409 }

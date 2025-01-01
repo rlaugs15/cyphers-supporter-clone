@@ -13,6 +13,7 @@ export interface Video {
   thumbnail?: string;
   title: string;
   author: string;
+  authorAvatar?: string;
   views: number;
   uploadedAt: Date;
 }
@@ -44,5 +45,25 @@ export async function getVideoDetail(videoId: number) {
 
 export async function addVideoViews(videoId: number) {
   const response = await axios.patch(`/api/v1/video/${videoId}/views`, {});
+  return response.data;
+}
+
+export interface VideoComment {
+  id: number;
+  videoId: number;
+  authorId: string;
+  parentCommId?: number;
+  authorAvatar?: string;
+  nickname: string;
+  comment: string;
+  createdAt: string;
+}
+
+export interface VideoCommentListResult extends MutationResult {
+  data: VideoComment[];
+}
+
+export async function getVideoCommentList(videoId: number) {
+  const response = await axios.get(`/api/v1/video/${videoId}/comments`);
   return response.data;
 }

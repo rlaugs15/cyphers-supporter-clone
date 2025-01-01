@@ -5,6 +5,7 @@ import VideoPlayer from "./Component/VideoPlayer";
 import VideoPlayerSkeleton from "./Component/VideoPlayerSkeleton";
 import useUser from "@/hooks/useUser";
 import VideoWriteComment from "./Component/VideoWriteComment";
+import VideoComment from "./Component/VideoComment/VideoComment";
 
 function VideoDetail() {
   const params = useParams();
@@ -18,7 +19,7 @@ function VideoDetail() {
     );
 
   return (
-    <div className="grid grid-cols-4 bg-red-300">
+    <div className="grid grid-cols-4">
       <section className="col-span-3">
         {videoLoading ? (
           <VideoPlayerSkeleton />
@@ -34,8 +35,11 @@ function VideoDetail() {
             uploadedAt={uploadedAt || videoData?.data.uploadedAt}
           />
         )}
-        <section className="flex flex-col bg-green-400">
+        <section className="flex flex-col">
           <VideoWriteComment user={user} />
+          <div className="flex flex-col w-full p-2">
+            <VideoComment videoId={videoId} />
+          </div>
         </section>
       </section>
 
