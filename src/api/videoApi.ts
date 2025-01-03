@@ -52,11 +52,11 @@ export interface VideoComment {
   id: number;
   videoId: number;
   authorId: string;
-  parentCommId?: number;
   authorAvatar?: string;
   nickname: string;
   comment: string;
   createdAt: string;
+  replies: number[];
 }
 
 export interface VideoCommentListResult extends MutationResult {
@@ -65,5 +65,22 @@ export interface VideoCommentListResult extends MutationResult {
 
 export async function getVideoCommentList(videoId: number) {
   const response = await axios.get(`/api/v1/video/${videoId}/comments`);
+  return response.data;
+}
+
+export interface VideoReplyComment extends Omit<VideoComment, "replies"> {
+  parentCommId: number;
+}
+export interface VideoReplyCommentResult extends MutationResult {
+  data: VideoReplyComment[];
+}
+
+export async function getVideoReplyCommentList(
+  videoId: number,
+  parentCommId: number
+) {
+  const response = await axios.get(
+    `/api/v1/video/${videoId}/comments/${parentCommId}/reply`
+  );
   return response.data;
 }

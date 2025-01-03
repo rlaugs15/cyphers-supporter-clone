@@ -1,4 +1,4 @@
-import { Video, VideoComment } from "@/api/videoApi";
+import { Video, VideoComment, VideoReplyComment } from "@/api/videoApi";
 
 export const videos: Video[] = [
   {
@@ -40,7 +40,6 @@ export const videos: Video[] = [
 ];
 
 export const videoComments: VideoComment[] = [
-  // --- 영상 1 (videoId = 1), 댓글 6개 (id: 1 ~ 6) ---
   {
     id: 1,
     videoId: 1,
@@ -48,6 +47,7 @@ export const videoComments: VideoComment[] = [
     nickname: "별빛소녀",
     comment: "첫 소절부터 분위기 사로잡는 노래네요!",
     createdAt: "2024-02-11",
+    replies: [],
   },
   {
     id: 2,
@@ -56,6 +56,7 @@ export const videoComments: VideoComment[] = [
     nickname: "히리",
     comment: "계속 흥얼거리게 되는 마법...",
     createdAt: "2024-02-12",
+    replies: [27], // 대댓글 id 추가
   },
   {
     id: 3,
@@ -64,6 +65,7 @@ export const videoComments: VideoComment[] = [
     nickname: "레몬나무",
     comment: "오랫동안 듣고 싶어지는 곡이에요.",
     createdAt: "2024-02-13",
+    replies: [],
   },
   {
     id: 4,
@@ -72,6 +74,7 @@ export const videoComments: VideoComment[] = [
     nickname: "하얀별",
     comment: "퇴근 길에 들으니 딱이네요.",
     createdAt: "2024-02-14",
+    replies: [],
   },
   {
     id: 5,
@@ -80,6 +83,7 @@ export const videoComments: VideoComment[] = [
     nickname: "울라리",
     comment: "오늘 처음 들어봤는데 벌써 중독됨!",
     createdAt: "2024-02-15",
+    replies: [28], // 대댓글 id 추가
   },
   {
     id: 6,
@@ -88,9 +92,10 @@ export const videoComments: VideoComment[] = [
     nickname: "달콤한펭귄",
     comment: "제목 그대로 고민이 사라지는 느낌!",
     createdAt: "2024-02-16",
+    replies: [],
   },
 
-  // --- 영상 2 (videoId = 2), 댓글 8개 (id: 7 ~ 14) ---
+  // --- 영상 2 (videoId = 2), 댓글 8개 ---
   {
     id: 7,
     videoId: 2,
@@ -98,6 +103,7 @@ export const videoComments: VideoComment[] = [
     nickname: "울라리",
     comment: "아파트 제목이라 뭔가 했는데 듣고 반함!",
     createdAt: "2024-12-02",
+    replies: [],
   },
   {
     id: 8,
@@ -106,6 +112,7 @@ export const videoComments: VideoComment[] = [
     nickname: "푸른밤",
     comment: "기존 버전보다 템포가 살짝 빠른 듯?",
     createdAt: "2024-12-03",
+    replies: [29], // 대댓글 id 추가
   },
   {
     id: 9,
@@ -114,6 +121,7 @@ export const videoComments: VideoComment[] = [
     nickname: "바닐라버튼",
     comment: "반복해서 들어도 질리지가 않아요.",
     createdAt: "2024-12-04",
+    replies: [],
   },
   {
     id: 10,
@@ -122,6 +130,7 @@ export const videoComments: VideoComment[] = [
     nickname: "히리",
     comment: "밤에 들어도, 아침에 들어도 느낌 좋네요.",
     createdAt: "2024-12-05",
+    replies: [],
   },
   {
     id: 11,
@@ -130,6 +139,7 @@ export const videoComments: VideoComment[] = [
     nickname: "하얀별",
     comment: "칵테일 한 잔 하면서 듣고 싶은 노래.",
     createdAt: "2024-12-06",
+    replies: [30], // 대댓글 id 추가
   },
   {
     id: 12,
@@ -138,6 +148,7 @@ export const videoComments: VideoComment[] = [
     nickname: "레몬나무",
     comment: "줄곧 밥 할 때마다 틀고 있어요!",
     createdAt: "2024-12-07",
+    replies: [],
   },
   {
     id: 13,
@@ -146,6 +157,7 @@ export const videoComments: VideoComment[] = [
     nickname: "별빛소녀",
     comment: "라이브 무대도 멋있을 것 같아요.",
     createdAt: "2024-12-08",
+    replies: [],
   },
   {
     id: 14,
@@ -154,9 +166,10 @@ export const videoComments: VideoComment[] = [
     nickname: "달콤한펭귄",
     comment: "업무 스트레스 날려주는 느낌!",
     createdAt: "2024-12-09",
+    replies: [],
   },
 
-  // --- 영상 3 (videoId = 3), 댓글 5개 (id: 15 ~ 19) ---
+  // --- 영상 3 (videoId = 3), 댓글 5개 ---
   {
     id: 15,
     videoId: 3,
@@ -164,6 +177,7 @@ export const videoComments: VideoComment[] = [
     nickname: "히리",
     comment: "IU 팔레트는 언제 들어도 레전드.",
     createdAt: "2024-05-11",
+    replies: [],
   },
   {
     id: 16,
@@ -172,6 +186,7 @@ export const videoComments: VideoComment[] = [
     nickname: "푸른밤",
     comment: "창가에 앉아 듣기 딱 좋아요.",
     createdAt: "2024-05-12",
+    replies: [],
   },
   {
     id: 17,
@@ -180,6 +195,7 @@ export const videoComments: VideoComment[] = [
     nickname: "바닐라버튼",
     comment: "잔잔한 느낌이 아침부터 힐링을 주네요!",
     createdAt: "2024-05-13",
+    replies: [],
   },
   {
     id: 18,
@@ -188,6 +204,7 @@ export const videoComments: VideoComment[] = [
     nickname: "울라리",
     comment: "연말 무대 영상도 찾아보는 중이에요.",
     createdAt: "2024-05-14",
+    replies: [],
   },
   {
     id: 19,
@@ -196,9 +213,10 @@ export const videoComments: VideoComment[] = [
     nickname: "하얀별",
     comment: "계절 상관없이 듣고 싶은 곡.",
     createdAt: "2024-05-15",
+    replies: [],
   },
 
-  // --- 영상 4 (videoId = 4), 댓글 7개 (id: 20 ~ 26) ---
+  // --- 영상 4 (videoId = 4), 댓글 7개 ---
   {
     id: 20,
     videoId: 4,
@@ -206,6 +224,7 @@ export const videoComments: VideoComment[] = [
     nickname: "별빛소녀",
     comment: "라스트크리스마스 듣는 순간 연말이 온 기분!",
     createdAt: "2024-07-11",
+    replies: [],
   },
   {
     id: 21,
@@ -214,6 +233,7 @@ export const videoComments: VideoComment[] = [
     nickname: "바닐라버튼",
     comment: "이 버전도 색다른 매력이 있네요.",
     createdAt: "2024-07-12",
+    replies: [31], // 대댓글 id 추가
   },
   {
     id: 22,
@@ -222,6 +242,7 @@ export const videoComments: VideoComment[] = [
     nickname: "달콤한펭귄",
     comment: "어쿠스틱 버전도 있으면 좋을 것 같아요.",
     createdAt: "2024-07-13",
+    replies: [],
   },
   {
     id: 23,
@@ -230,6 +251,7 @@ export const videoComments: VideoComment[] = [
     nickname: "레몬나무",
     comment: "덕분에 크리스마스 파티가 기다려집니다!",
     createdAt: "2024-07-14",
+    replies: [],
   },
   {
     id: 24,
@@ -238,6 +260,7 @@ export const videoComments: VideoComment[] = [
     nickname: "울라리",
     comment: "중독성 쩌네요, 벌써 몇 번을 들었는지 몰라요.",
     createdAt: "2024-07-15",
+    replies: [],
   },
   {
     id: 25,
@@ -246,6 +269,7 @@ export const videoComments: VideoComment[] = [
     nickname: "푸른밤",
     comment: "최근 날씨랑도 잘 어울리는 듯!",
     createdAt: "2024-07-16",
+    replies: [],
   },
   {
     id: 26,
@@ -254,5 +278,54 @@ export const videoComments: VideoComment[] = [
     nickname: "히리",
     comment: "겨울이 아니어도 듣고 싶은 명곡!",
     createdAt: "2024-07-17",
+    replies: [],
+  },
+];
+
+export const videoReplyComments: VideoReplyComment[] = [
+  {
+    id: 27,
+    videoId: 1,
+    authorId: "loginId3",
+    nickname: "달콤한펭귄",
+    comment: "저도 계속 흥얼거리고 있어요 ㅎㅎ",
+    createdAt: "2024-02-13",
+    parentCommId: 2,
+  },
+  {
+    id: 28,
+    videoId: 1,
+    authorId: "loginId7",
+    nickname: "바닐라버튼",
+    comment: "저도 이 노래 처음 듣고 완전 빠졌어요!",
+    createdAt: "2024-02-16",
+    parentCommId: 5,
+  },
+  {
+    id: 29,
+    videoId: 2,
+    authorId: "loginId6",
+    nickname: "하얀별",
+    comment: "저도 빠른 템포가 더 좋아요!",
+    createdAt: "2024-12-04",
+    parentCommId: 8,
+  },
+  {
+    id: 30,
+    videoId: 2,
+    authorId: "loginId3",
+    nickname: "달콤한펭귄",
+    comment: "칵테일이랑 정말 잘 어울리겠네요!",
+    createdAt: "2024-12-07",
+    parentCommId: 11,
+  },
+  {
+    id: 31,
+    videoId: 4,
+    authorId: "loginId8",
+    nickname: "레몬나무",
+    comment: "정말 색다르죠! 원곡이랑 비교해도 좋아요.",
+    createdAt: "2024-07-13",
+    parentCommId: 21,
   },
 ];

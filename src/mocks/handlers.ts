@@ -8,8 +8,8 @@ import { ICharacterComment } from "../api/cyphersApi";
 import { users } from "./data/userData";
 import { characterComments } from "./data/cyphersData";
 import { boardComments, boardLikes, posts } from "./data/boardData";
-import { videoComments, videos } from "./data/videoData";
-import { PUBLIC_URL, VideoComment } from "@/api/videoApi";
+import { videoComments, videoReplyComments, videos } from "./data/videoData";
+import { VideoComment, VideoReplyComment } from "@/api/videoApi";
 
 const secretKey = new TextEncoder().encode("your-secret-key");
 
@@ -462,6 +462,18 @@ export const handlers = [
   http.get("/api/v1/video/:videoId/comments", ({ params }) => {
     const { videoId } = params;
 
+    const findVideo = videos.find((video) => video.id === Number(videoId));
+    if (!findVideo) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "영상이 존재하지 않습니다.",
+          data: null,
+        },
+        { status: 404 }
+      );
+    }
+
     const findComments = videoComments.filter(
       (comment) => comment.videoId === Number(videoId)
     );
@@ -476,6 +488,7 @@ export const handlers = [
         { status: 404 }
       );
     }
+
     return HttpResponse.json(
       {
         code: 200,
@@ -485,6 +498,65 @@ export const handlers = [
       { status: 200 }
     );
   }),
+
+  //비디오 대댓글 get 요청
+  http.get(
+    "/api/v1/video/:videoId/comments/:parentCommId/reply",
+    ({ params }) => {
+      const { videoId, parentCommId } = params;
+
+      const findVideo = videos.find((video) => video.id === Number(videoId));
+      if (!findVideo) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "영상이 존재하지 않습니다.",
+            data: null,
+          },
+          { status: 404 }
+        );
+      }
+
+      const findParentComm = videoComments.find(
+        (comm) => comm.id === Number(parentCommId)
+      );
+      if (!findParentComm) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "댓글이 존재하지 않습니다.",
+            data: null,
+          },
+          { status: 404 }
+        );
+      }
+
+      const replyCommIdList = findParentComm.replies;
+      const filterReplyComm = videoReplyComments.filter((comm) =>
+        replyCommIdList.includes(comm.id)
+      );
+      if (!filterReplyComm) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "대댓글이 존재하지 않습니다.",
+            data: null,
+          },
+          { status: 404 }
+        );
+      }
+
+      return HttpResponse.json(
+        {
+          code: 200,
+          message: "댓글 목록 조회 성공",
+          data: filterReplyComm,
+        },
+        { status: 200 }
+      );
+    }
+  ),
+
   //---------------------POST 요청-------------------------------
 
   // 회원가입 요청
@@ -984,9 +1056,32 @@ export const handlers = [
       const checkComments = boardComments.filter(
         (comment) => comment.userId === loginId
       );
-
       if (checkComments) {
         checkComments.forEach((comment) => (comment.userAvatar = avatarUrl));
+      }
+      //올린 영상이 있을 경우
+      const checkVideos = videos.filter((video) => video.authorId === loginId);
+      if (checkVideos) {
+        checkVideos.forEach((video) => (video.authorAvatar = avatarUrl));
+      }
+      //영상에 댓글을 달았을 경우
+      const checkVideoComments = videoComments.filter(
+        (comment) => comment.authorId === loginId
+      );
+      if (checkVideoComments) {
+        checkVideoComments.forEach(
+          (comment) => (comment.authorAvatar = avatarUrl)
+        );
+      }
+
+      //영상에 대댓글을 달았을 경우
+      const checkVideoReplyCpmment = videoReplyComments.filter(
+        (comm) => comm.authorId === loginId
+      );
+      if (checkVideoReplyCpmment) {
+        checkVideoReplyCpmment.forEach(
+          (comm) => (comm.authorAvatar = avatarUrl)
+        );
       }
     }
 
