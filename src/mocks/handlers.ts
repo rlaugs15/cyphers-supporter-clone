@@ -1310,4 +1310,47 @@ export const handlers = [
       );
     }
   ),
+
+  //비디오 대댓글 삭제 delete 요청
+  http.delete(
+    "/api/videos/:videoId/comments/:parentCommId/replies/:replyCommId",
+    async ({ params }) => {
+      const { videoId, parentCommId, replyCommId } = params;
+
+      const findVideo = videos.find((video) => video.id === Number(videoId));
+      if (!findVideo) {
+        return HttpResponse.json(
+          { code: 404, message: "영상이 존재하지 않습니다." },
+          { status: 404 }
+        );
+      }
+
+      const findParentComment = videoComments.find(
+        (comm) => comm.id === Number(parentCommId)
+      );
+      if (!findParentComment) {
+        return HttpResponse.json(
+          { code: 404, message: "댓글이 존재하지 않습니다." },
+          { status: 404 }
+        );
+      }
+
+      const findreplyComment = videoReplyComments.findIndex(
+        (comm) => comm.id === Number(replyCommId)
+      );
+      if (!findreplyComment) {
+        return HttpResponse.json(
+          { code: 404, message: "대댓글이 존재하지 않습니다." },
+          { status: 404 }
+        );
+      }
+
+      videoReplyComments.splice(findreplyComment, 1);
+
+      return HttpResponse.json(
+        { code: 200, message: "댓글 삭제에 성공했습니다." },
+        { status: 200 }
+      );
+    }
+  ),
 ];

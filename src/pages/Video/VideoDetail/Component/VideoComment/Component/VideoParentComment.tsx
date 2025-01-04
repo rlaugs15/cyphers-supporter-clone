@@ -16,8 +16,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import VideoReplyCommentList from "./VideoReplyCommentList";
-import VideoDeleteBtn from "./Component/VideoDeleteBtn";
+import VideoReplyCommentList from "./Component/VideoReplyCommentList/VideoReplyCommentList";
+import VideoCommDeleteBtn from "./Component/VideoCommDeleteBtn";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  videoCommentSchema,
+  videoCommentSchemaForm,
+} from "@/libs/zod/video-schema";
+import { useState } from "react";
+import WriteVideoComment from "./Component/WriteVideoComment";
 
 type VideoParentCommentProps = Omit<VideoComment, "parentCommId">;
 
@@ -32,6 +41,16 @@ function VideoParentComment({
   replies,
 }: VideoParentCommentProps) {
   const { user } = useUser();
+  const nav = useNavigate();
+  const [openComm, setOpenComm] = useState(false);
+
+  const onCommentClick = () => {
+    if (!user) {
+      nav("/login");
+    } else {
+      setOpenComm((prev) => !prev);
+    }
+  };
 
   return (
     <div className="border-b-2 border-slate-300 last:border-b-0">
@@ -66,17 +85,32 @@ function VideoParentComment({
             <DropdownMenuGroup>
               {user?.id === authorId ? (
                 <>
-                  <VideoDeleteBtn videoId={videoId} commentId={id} />
+                  <VideoCommDeleteBtn videoId={videoId} commentId={id} />
                   <DropdownMenuSeparator />
                 </>
               ) : null}
-              <DropdownMenuItem>
-                <span>답글 달기</span>
+              <DropdownMenuItem onClick={onCommentClick}>
+                <span>{openComm ? "답글창 닫기" : "답글 달기"}</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </section>
+      {openComm ? (
+        <section className="">
+          <WriteVideoComment videoId={videoId} parentId={id} user={user!} />
+        </section>
+      ) : null}
+      <Accordion type="single" collapsible className="ml-12">
+        {replies.length > 0 ? (
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="text-sm text-slate-400">
+              답글 1개
+            </AccordionTrigger>
+            <VideoReplyCommentList videoId={videoId} parentCommId={id} />
+          </AccordionItem>
+        ) : null}
+      </Accordion>
     </div>
   );
 }

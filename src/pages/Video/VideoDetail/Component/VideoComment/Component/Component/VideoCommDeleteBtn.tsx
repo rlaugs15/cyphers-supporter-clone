@@ -1,4 +1,4 @@
-import { deleteVideoCommentList, VideoCommentListResult } from "@/api/videoApi";
+import { deleteVideoComment, VideoCommentListResult } from "@/api/videoApi";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -7,16 +7,16 @@ interface DeleteCommentProps {
   commentId: number;
 }
 
-interface VideoDeleteBtnProps {
+interface VideoCommDeleteBtnProps {
   videoId: number;
   commentId: number;
 }
 
-function VideoDeleteBtn({ videoId, commentId }: VideoDeleteBtnProps) {
+function VideoCommDeleteBtn({ videoId, commentId }: VideoCommDeleteBtnProps) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({ videoId, commentId }: DeleteCommentProps) =>
-      deleteVideoCommentList({ videoId, commentId }),
+      deleteVideoComment({ videoId, commentId }),
     onMutate: async ({ videoId, commentId }: DeleteCommentProps) => {
       await queryClient.cancelQueries(["videoCommentList", videoId]);
 
@@ -54,4 +54,4 @@ function VideoDeleteBtn({ videoId, commentId }: VideoDeleteBtnProps) {
     </DropdownMenuItem>
   );
 }
-export default VideoDeleteBtn;
+export default VideoCommDeleteBtn;
