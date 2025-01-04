@@ -84,3 +84,16 @@ export async function getVideoReplyCommentList(
   );
   return response.data;
 }
+interface deleteVideoCommentListProps {
+  videoId: number;
+  commentId: number;
+}
+export async function deleteVideoCommentList({
+  videoId,
+  commentId,
+}: deleteVideoCommentListProps) {
+  const response = await axios.delete(
+    `/api/videos/${videoId}/comments/${commentId}`
+  );
+  return response.data;
+}

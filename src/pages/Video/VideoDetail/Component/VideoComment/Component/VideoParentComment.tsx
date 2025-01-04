@@ -17,6 +17,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import VideoReplyCommentList from "./VideoReplyCommentList";
+import VideoDeleteBtn from "./Component/VideoDeleteBtn";
 
 type VideoParentCommentProps = Omit<VideoComment, "parentCommId">;
 
@@ -63,11 +64,9 @@ function VideoParentComment({
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuGroup>
-              {user ? (
+              {user?.id === authorId ? (
                 <>
-                  <DropdownMenuItem>
-                    <span>댓글 삭제</span>
-                  </DropdownMenuItem>
+                  <VideoDeleteBtn videoId={videoId} commentId={id} />
                   <DropdownMenuSeparator />
                 </>
               ) : null}
