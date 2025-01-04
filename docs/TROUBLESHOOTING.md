@@ -425,3 +425,39 @@ msw를 활성화하면 하얀 페이지만 뜨는 현상 발생
       </React.Fragment>
     ));
   ```
+
+## React Query 낙관적 업데이트 시 slice 대신 filter를 사용한 이유
+
+**문제 상황**
+
+- 댓글 삭제 기능 구현 중 slice를 사용하여 배열에서 삭제할 댓글을 제외하는 방식으로 낙관적 업데이트를 적용했으나, 정상적으로 동작하지 않음.
+- slice 방식에서는 삭제할 댓글의 ${\textsf{\color{#4174D9}인덱스(findIndex)가 -1}}$이 반환될 경우 문제가 발생함.  
+  → ${\textsf{\color{#4174D9}-1은 배열 경계값을 벗어나기 때문에 잘못된 배열이 만들어질 수 있음.}}$
+
+**해결 방법**
+
+- filter를 사용하여 삭제할 댓글의 ID와 ${\textsf{\color{#4174D9}일치하지 않는 요소만 남기도록}}$ 변경.
+- filter는 조건에 맞는 요소만 남기기 때문에, 댓글이 없거나 삭제할 댓글 ID가 잘못된 경우에도 문제가 발생하지 않음.
+
+**코드 비교**
+
+**기존 slice 방식**
+
+```typescript
+const findCommIdx = old?.data.findIndex((comm) => comm.id === commentId);
+const prevComm = old?.data.slice(0, findCommIdx);
+const nextComm = old?.data.slice(findCommIdx! + 1);
+return { ...old, data: [...prevComm!, ...nextComm!] };
+```
+
+**개선된 filter 방식**
+
+```typescript
+return { ...old, data: old!.data.filter((comm) => comm.id !== commentId) };
+```
+
+**핵심 요약**
+
+- **slice:** 배열의 인덱스를 기반으로 동작하기 때문에 삭제할 댓글이 없거나 인덱스가 잘못 계산될 경우 문제가 발생할 수 있음.
+- **filter:** 조건에 맞는 요소만 남기므로 삭제할 댓글이 없더라도 안전하게 동작함.
+  댓글 삭제 기능처럼 ID 기반으로 특정 요소를 제거할 때는 filter가 더 적합함
