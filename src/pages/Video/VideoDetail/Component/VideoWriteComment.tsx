@@ -15,12 +15,72 @@ import {
   videoCommentSchemaForm,
 } from "@/libs/zod/video-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "react-query";
+import {
+  PostVideoComment,
+  postVideoComment,
+  VideoCommentListResult,
+} from "@/api/videoApi";
+
+type INewComment = PostVideoComment;
 
 interface VideoWriteCommentProps {
   user?: IUser;
+  videoId: number;
 }
 
-function VideoWriteComment({ user }: VideoWriteCommentProps) {
+function VideoWriteComment({ user, videoId }: VideoWriteCommentProps) {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (newComment: INewComment) => postVideoComment(newComment),
+    onMutate: async ({
+      videoId,
+      body: { authorId, authorAvatar, nickname, comment },
+    }: INewComment) => {
+      await queryClient.cancelQueries(["videoCommentList", videoId]);
+
+      const previousComment = queryClient.getQueryData<VideoCommentListResult>([
+        "videoCommentList",
+        videoId,
+      ]);
+
+      queryClient.setQueryData<VideoCommentListResult>(
+        ["videoCommentList", videoId],
+        (old) => {
+          const value = {
+            id: new Date(),
+            videoId,
+            authorId,
+            nickname,
+            authorAvatar,
+            comment,
+            createdAt: "방금 전",
+            replies: [],
+          };
+          return {
+            ...old,
+            data: [
+              {
+                ...value,
+              },
+              ...(old?.data || []),
+            ],
+          } as VideoCommentListResult;
+        }
+      );
+      return { previousComment };
+    },
+    onError: (_error, _, context) => {
+      queryClient.setQueryData(
+        ["videoCommentList", videoId],
+        context?.previousComment
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["videoCommentList", videoId]);
+    },
+  });
+
   const form = useForm<videoCommentSchemaForm>({
     resolver: zodResolver(videoCommentSchema),
     defaultValues: {
@@ -29,8 +89,17 @@ function VideoWriteComment({ user }: VideoWriteCommentProps) {
   });
 
   const onSubmit = ({ comment }: videoCommentSchemaForm) => {
-    console.log("comment", comment);
     form.reset({ comment: "" });
+    if (!user) return;
+    mutate({
+      videoId,
+      body: {
+        authorId: user?.id,
+        authorAvatar: user?.avatar,
+        nickname: user?.nickname,
+        comment,
+      },
+    });
   };
   return (
     <div className={`${contentBoxStyle}`}>

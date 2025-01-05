@@ -36,7 +36,7 @@ function VideoDetail() {
           />
         )}
         <section className="flex flex-col">
-          <VideoWriteComment user={user} />
+          <VideoWriteComment user={user} videoId={videoId} />
           <div className="flex flex-col w-full p-2">
             <VideoComment videoId={videoId} />
           </div>

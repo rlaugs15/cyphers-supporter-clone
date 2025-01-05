@@ -19,14 +19,8 @@ import {
 import VideoReplyCommentList from "./Component/VideoReplyCommentList/VideoReplyCommentList";
 import VideoCommDeleteBtn from "./Component/VideoCommDeleteBtn";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  videoCommentSchema,
-  videoCommentSchemaForm,
-} from "@/libs/zod/video-schema";
 import { useState } from "react";
-import WriteVideoComment from "./Component/WriteVideoComment";
+import WriteVideoReplyComment from "./Component/WriteVideoReplyComment";
 
 type VideoParentCommentProps = Omit<VideoComment, "parentCommId">;
 
@@ -98,14 +92,18 @@ function VideoParentComment({
       </section>
       {openComm ? (
         <section className="">
-          <WriteVideoComment videoId={videoId} parentId={id} user={user!} />
+          <WriteVideoReplyComment
+            videoId={videoId}
+            parentId={id}
+            user={user!}
+          />
         </section>
       ) : null}
       <Accordion type="single" collapsible className="ml-12">
         {replies.length > 0 ? (
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-sm text-slate-400">
-              답글 1개
+              답글 보기
             </AccordionTrigger>
             <VideoReplyCommentList videoId={videoId} parentCommId={id} />
           </AccordionItem>

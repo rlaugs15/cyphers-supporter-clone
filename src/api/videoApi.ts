@@ -84,7 +84,38 @@ export async function getVideoReplyCommentList(
   );
   return response.data;
 }
-interface deleteVideoCommentListProps {
+
+export interface PostVideoComment {
+  videoId: number;
+  body: Pick<
+    VideoComment,
+    "authorAvatar" | "comment" | "nickname" | "authorId"
+  >;
+}
+
+export async function postVideoComment({ videoId, body }: PostVideoComment) {
+  const response = await axios.post(`/api/v1/video/${videoId}/comments`, body);
+  return response.data;
+}
+
+export interface PostVideoCommentReply {
+  videoId: number;
+  body: Pick<
+    VideoReplyComment,
+    "authorAvatar" | "comment" | "nickname" | "authorId"
+  >;
+}
+export async function postVideoCommentReply({
+  videoId,
+  body,
+}: PostVideoCommentReply) {
+  const response = await axios.post(
+    `/api/v1/video/${videoId}/comments/reply`,
+    body
+  );
+  return response.data;
+}
+
 interface DeleteVideoCommentListProps {
   videoId: number;
   commentId: number;

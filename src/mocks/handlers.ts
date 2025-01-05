@@ -983,6 +983,103 @@ export const handlers = [
     );
   }),
 
+  //비디오 댓글 post 요청
+  http.post("/api/v1/video/:videoId/comments", async ({ params, request }) => {
+    const { videoId } = params;
+    const { authorAvatar, comment, nickname, authorId } =
+      (await request.json()) as Pick<
+        VideoComment,
+        "authorAvatar" | "comment" | "nickname" | "authorId"
+      >;
+
+    if (!videoId) {
+      return HttpResponse.json(
+        {
+          code: 404,
+          message: "해당 게시글이 존재하지 않습니다.",
+        },
+        { status: 404 }
+      );
+    }
+    const createdAt = new CustomDateFormatter().getFormattedCurrentTime();
+    const id = Date.now();
+    const data: VideoComment = {
+      id,
+      videoId: +videoId,
+      authorAvatar,
+      authorId,
+      nickname,
+      comment,
+      createdAt,
+      replies: [],
+    };
+    videoComments.unshift(data);
+    return HttpResponse.json(
+      {
+        code: 200,
+        message: "댓글 작성에 성공했습니다.",
+      },
+      { status: 200 }
+    );
+  }),
+
+  //비디오 대댓글 post 요청
+  http.post(
+    "/api/v1/video/:videoId/comments/:parentCommId/reply",
+    async ({ params, request }) => {
+      const { videoId, parentCommId } = params;
+      const { authorAvatar, comment, nickname, authorId } =
+        (await request.json()) as Omit<
+          VideoReplyComment,
+          "videoId" | "parentCommId"
+        >;
+
+      const findVideo = videos.find((video) => video.id === Number(videoId));
+      if (!findVideo) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "해당 게시글이 존재하지 않습니다.",
+          },
+          { status: 404 }
+        );
+      }
+      const findParentComment = videoComments.find(
+        (comm) => comm.id == Number(parentCommId)
+      );
+      if (!findParentComment) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: "해당 부모댓글이 존재하지 않습니다.",
+          },
+          { status: 404 }
+        );
+      }
+
+      const createdAt = new CustomDateFormatter().getFormattedCurrentTime();
+      const id = Date.now();
+      const data = {
+        id,
+        videoId: +videoId,
+        authorAvatar,
+        parentCommId: +parentCommId,
+        authorId,
+        nickname,
+        comment,
+        createdAt,
+      };
+      videoReplyComments.unshift(data);
+      return HttpResponse.json(
+        {
+          code: 200,
+          message: "댓글 작성에 성공했습니다.",
+        },
+        { status: 200 }
+      );
+    }
+  ),
+
   //---------------------PATCH 요청-------------------------------
   //게시글 수정 put 요청
   http.patch("/api/v1/board/:boardId", async ({ request, params }) => {
