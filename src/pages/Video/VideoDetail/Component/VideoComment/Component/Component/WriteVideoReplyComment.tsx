@@ -39,16 +39,36 @@ function WriteVideoReplyComment({
   const { mutate } = useMutation({
     mutationFn: (newComment: INewComment) => postVideoCommentReply(newComment),
     onMutate: async (newComment: INewComment) => {
+      await queryClient.cancelQueries(["videoCommentList", videoId]);
       await queryClient.cancelQueries([
         "videoReplyCommentList",
         videoId,
         parentId,
       ]);
 
+      const previousParentComment =
+        queryClient.getQueryData<VideoCommentListResult>([
+          "videoCommentList",
+          videoId,
+        ]);
       const previousComment = queryClient.getQueryData<VideoReplyCommentResult>(
         ["videoReplyCommentList", videoId, parentId]
       );
 
+      queryClient.setQueryData<VideoCommentListResult>(
+        ["videoCommentList", videoId],
+        (old) => {
+          const filterParent = old?.data.filter((comm) => comm.id !== parentId);
+          const targetParent = old?.data.filter((comm) => comm.id === parentId);
+          if (targetParent) {
+            targetParent[0].replies = [1];
+          }
+          return {
+            ...old,
+            data: [...targetParent!, ...filterParent!],
+          } as VideoCommentListResult;
+        }
+      );
       queryClient.setQueryData<VideoReplyCommentResult>(
         ["videoReplyCommentList", videoId, parentId],
         (old) => {
@@ -72,15 +92,20 @@ function WriteVideoReplyComment({
           } as VideoReplyCommentResult;
         }
       );
-      return { previousComment };
+      return { previousParentComment, previousComment };
     },
     onError: (_error, _, context) => {
+      queryClient.setQueryData(
+        ["videoCommentList", videoId],
+        context?.previousParentComment
+      );
       queryClient.setQueryData(
         ["videoReplyCommentList", videoId, parentId],
         context?.previousComment
       );
     },
     onSettled: () => {
+      queryClient.invalidateQueries(["videoCommentList", videoId]);
       queryClient.invalidateQueries([
         "videoReplyCommentList",
         videoId,

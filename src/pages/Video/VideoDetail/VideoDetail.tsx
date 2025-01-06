@@ -19,31 +19,27 @@ function VideoDetail() {
     );
 
   return (
-    <div className="grid grid-cols-4">
-      <section className="col-span-3">
-        {videoLoading ? (
-          <VideoPlayerSkeleton />
-        ) : (
-          <VideoPlayer
-            isLoading={videoLoading}
-            id={videoId || videoData?.data.id}
-            authorId={authorId || videoData?.data.authorId}
-            author={author || videoData?.data.author}
-            title={title || videoData?.data.title}
-            url={String(videoData?.data.url)}
-            views={views || videoData?.data.views}
-            uploadedAt={uploadedAt || videoData?.data.uploadedAt}
-          />
-        )}
-        <section className="flex flex-col">
-          <VideoWriteComment user={user} videoId={videoId} />
-          <div className="flex flex-col w-full p-2">
-            <VideoComment videoId={videoId} />
-          </div>
-        </section>
+    <div className="p-4">
+      {videoLoading ? (
+        <VideoPlayerSkeleton />
+      ) : (
+        <VideoPlayer
+          isLoading={videoLoading}
+          id={videoId || videoData?.data.id}
+          authorId={authorId || videoData?.data.authorId}
+          author={author || videoData?.data.author}
+          title={title || videoData?.data.title}
+          url={String(videoData?.data.url)}
+          views={views || videoData?.data.views}
+          uploadedAt={uploadedAt || videoData?.data.uploadedAt}
+        />
+      )}
+      <section className="flex flex-col">
+        <VideoWriteComment user={user} videoId={videoId} />
+        <div className="flex flex-col w-full p-2">
+          <VideoComment videoId={videoId} />
+        </div>
       </section>
-
-      <section className="">side bar</section>
     </div>
   );
 }
