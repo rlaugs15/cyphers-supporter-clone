@@ -149,7 +149,7 @@
 
 ### [Board 기능 API 문서](./docs/APIDocumentation/BOARD_API.md)
 
-# [트러블 슈팅](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
+# [버그 해결](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
 
 ### [CORS 에러](./docs/TROUBLESHOOTING.md#cors-에러)
 
