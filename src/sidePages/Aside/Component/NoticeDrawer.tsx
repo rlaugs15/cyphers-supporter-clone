@@ -44,13 +44,8 @@ function NoticeDrawer() {
           <div className="flex flex-col gap-4">
             <DrawerTitle>매칭 데이터 관련(일반) 오류</DrawerTitle>
             <DrawerDescription>
-              사이퍼즈 오픈 API의 매칭 데이터(일반)API 응답 모델이 변경되어 현재
-              수정 중입니다.
+              사이퍼즈 오픈 API의 매칭 데이터(일반)API 응답 모델이 변경되어 현재 수정 중입니다.
               <br /> 일부 기능의 이용이 제한될 수 있습니다.
-            </DrawerDescription>
-            <DrawerTitle>동영상 컨텐츠 준비 중</DrawerTitle>
-            <DrawerDescription>
-              현재 해당 컨텐츠가 준비 중입니다. 조금만 기다려 주세요.
             </DrawerDescription>
           </div>
 
