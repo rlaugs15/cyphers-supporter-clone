@@ -65,8 +65,8 @@
 - **로그인 페이지**
   - 가입한 ID와 비밀번호를 이용하여 로그인
 - **회원정보 수정 페이지**
-  - URL.createObjectURL()은 업로드된 파일을 임시 URL로 만들어 빠르게 이미지 미리보기를 구현
-  - URL.revokeObjectURL()은 사용된 URL을 해제하여 브라우저 메모리 누수를 방지
+  - URL.createObjectURL()로 빠른 미리보기 제공, URL.revokeObjectURL()로 메모리 누수 방지
+  - 기존 프로필 이미지 유지 및 변경 시 즉시 반영
 - **게시판 페이지**
   - 한 페이지마다 게시글 최대 10개 조회
   - 버튼 클릭으로 페이지를 이동할 경우 첫페이지 혹은 마지막 페이지에 도달할 시 버튼 비활성화
@@ -89,9 +89,6 @@
 | Styling          | TailwindCSS            | 3.4.3   |
 | Skeleton Screens | React Loading Skeleton | 3.4.0   |
 | UI Components | Shadcn | Latest   |
-
-#### Notes
- - __Shadcn:__ 최근 추가된 UI 구성 요소 라이브러리. 동영상 콘텐츠부터 사용할 예정
 
 # 프로젝트 상세
 
@@ -152,7 +149,7 @@
 
 ### [Board 기능 API 문서](./docs/APIDocumentation/BOARD_API.md)
 
-# [트러블 슈팅](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
+# [버그 해결](https://github.com/rlaugs15/cyphers-supporter-clone/blob/main/docs/TROUBLESHOOTING.md)
 
 ### [CORS 에러](./docs/TROUBLESHOOTING.md#cors-에러)
 
