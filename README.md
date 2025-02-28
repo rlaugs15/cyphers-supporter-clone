@@ -90,9 +90,6 @@
 | Skeleton Screens | React Loading Skeleton | 3.4.0   |
 | UI Components | Shadcn | Latest   |
 
-#### Notes
- - __Shadcn:__ 최근 추가된 UI 구성 요소 라이브러리. 동영상 콘텐츠부터 사용할 예정
-
 # 프로젝트 상세
 
 ### 클론 사이트를 선택한 이유
